@@ -18,8 +18,8 @@ ví dụ: git checkout -b dangtranchinh
 
 # đẩy lên git
 
-git add .
-git commit -m 'ghi commit'
-git push https://github.com/dangtranchinh1107/DATN-WD7-Spring2024.git (branch name)
+- git add .
+- git commit -m 'ghi commit'
+- git push https://github.com/dangtranchinh1107/DATN-WD7-Spring2024.git (branch name)
 
 ví dụ git push https://github.com/dangtranchinh1107/DATN-WD7-Spring2024.git dangtranchinh
