@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-[1440px] relative bg-white">
+      <div
+        class="left-[135px]  absolute text-black text-base font-medium leading-normal"
+      >
+        Manage My Account
+      </div>
+      <div
+        class="left-[135px] top-[150px] absolute text-black text-base font-medium leading-normal"
+      >
+        My Orders
+      </div>
+      <div
+        class="w-[93px] h-[23px] left-[135px] top-[300px] absolute text-black text-base font-medium leading-normal"
+      >
+        My WishList
+      </div>
+      <div
+        class="left-[170px] top-[40px] absolute flex-col justify-start items-start gap-2 inline-flex"
+      >
+        <a class="text-red-500 text-base font-normal leading-normal" href=""
+          >My Profile</a
+        >
+        <a
+          class="opacity-50 text-black text-base font-normal leading-normal"
+          href=""
+          >Address Book</a
+        >
+        <a
+          class="opacity-50 text-black text-base font-normal leading-normal"
+          href=""
+        >
+          My Payment Options
+        </a>
+      </div>
+      <div
+        class="left-[170px] top-[200px] absolute flex-col justify-start items-start gap-2 inline-flex"
+      >
+        <a
+          class="opacity-50 text-black text-base font-normal leading-normal"
+          href=""
+        >
+          My Returns
+        </a>
+        <a
+          class="opacity-50 text-black text-base font-normal leading-normal"
+          href=""
+        >
+          My Cancellations
+        </a>
+      </div>
+
+      <div
+        class="w-[870px] h-[630px] left-[435px]  absolute bg-white rounded shadow p-10"
+      >
+        <form>
+          <div class="space-y-12">
+            <div class="pb-12">
+              <div class="text-red-500 text-xl font-medium leading-7">
+                Edit Your Profile
+              </div>
+              <div>
+                <span class="text-black text-sm font-normal leading-[21px]"
+                  >Welcome! </span
+                ><span class="text-red-500 text-sm font-normal leading-[21px]"
+                  >Md Rimel</span
+                >
+              </div>
+              <div
+                class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+              >
+                <div class="sm:col-span-3">
+                  <label
+                    for="first-name"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >First name</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      placeholder="First name"
+                      type="text"
+                      name="first-name"
+                      id="first-name"
+                      autocomplete="given-name"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-5"
+                    />
+                  </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                  <label
+                    for="last-name"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Last name</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      placeholder="Rimel"
+                      type="text"
+                      name="last-name"
+                      id="last-name"
+                      autocomplete="family-name"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div class="sm:col-span-3">
+                  <label
+                    for="first-name"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Email</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      type="email"
+                      placeholder="rimel1111@gmail.com"
+                      name="first-name"
+                      id="first-name"
+                      autocomplete="given-name"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                  <label
+                    for="last-name"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Address</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      name="last-name"
+                      placeholder="Kingston, 5236, United State"
+                      id="last-name"
+                      autocomplete="family-name"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-span-full">
+                  <label
+                    for="street-address"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Password Changes</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      placeholder="Current Passwod"
+                      name="street-address"
+                      id="street-address"
+                      autocomplete="street-address"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      placeholder="New Passwod"
+                      name="street-address"
+                      id="street-address"
+                      autocomplete="street-address"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <input
+                      type="text"
+                      placeholder="Confirm New Passwod"
+                      name="street-address"
+                      id="street-address"
+                      autocomplete="street-address"
+                      class="pl-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button
+              type="button"
+              class="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="text-white px-12 py-4 bg-red-500 rounded justify-center items-center gap-2.5 flex"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

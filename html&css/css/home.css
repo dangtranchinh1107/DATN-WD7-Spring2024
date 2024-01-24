@@ -137,13 +137,18 @@ a {
 }
 .like {
   color: black;
-  margin-left: 160px;
   background-color: white;
   border-radius: 100%;
   padding: 5px;
 }
 .like1 {
-  margin-top: 10px;
+  margin-top: -20px;
+  margin-right: -30px;
+}
+.item7{
+  margin-top: 0;
+  display: flex;
+
 }
 .sale2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -206,6 +211,9 @@ a {
   display: flex;
   margin-top: 50px;
   color: white;
+}
+.viewallproducts:hover {
+  background-color: #ba0000;
 }
 .bi-laptop {
   color: black;
