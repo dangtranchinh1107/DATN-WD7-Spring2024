@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import express from "express";
+import errorMiddlewares from "./middlewares/errors.js";
+
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
@@ -10,6 +12,8 @@ app.use(express.json());
 import productRoutes from "./routes/products.js";
 
 app.use("/api/v1", productRoutes);
+
+app.use(errorMiddlewares);
 
 // Kết nối Db
 const connectDB = async () => {
