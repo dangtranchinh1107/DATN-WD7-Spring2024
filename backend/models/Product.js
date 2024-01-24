@@ -45,6 +45,31 @@ const productSchema = new mongoose.Schema(
       required: [true, "Vui lòng nhập danh sách sản phẩm"],
       maxLength: [200, "Danh sách sản phẩm không quá 200 ký tự"],
     },
+    color: {
+      type: String,
+      required: [true, "Vui lòng nhập màu sản phẩm"],
+      maxLength: [200, "Màu sản phẩm không quá 200 ký tự"],
+    },
+    hardDisk: {
+      type: String,
+      required: [true, "Vui lòng nhập ổ cứng sản phẩm"],
+      maxLength: [200, "Ổ cứng sản phẩm không quá 200 ký tự"],
+    },
+    cpu: {
+      type: String,
+      required: [true, "Vui lòng nhập cpu sản phẩm"],
+      maxLength: [200, "Cpu sản phẩm không quá 200 ký tự"],
+    },
+    ram: {
+      type: String,
+      required: [true, "Vui lòng nhập ram sản phẩm"],
+      maxLength: [200, "Ram sản phẩm không quá 200 ký tự"],
+    },
+    graphicCard: {
+      type: String,
+      required: [true, "Vui lòng nhập graphic card sản phẩm"],
+      maxLength: [200, "Graphic card sản phẩm không quá 200 ký tự"],
+    },
     numOfReviews: {
       type: Number,
       default: 0,
