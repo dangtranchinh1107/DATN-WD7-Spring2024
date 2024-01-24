@@ -9,6 +9,8 @@ import productRoutes from "./routes/products.js";
 
 app.use("/api/v1", productRoutes);
 
+app.use(express.json);
+
 // Kết nối Db
 const connectDB = async () => {
   try {
