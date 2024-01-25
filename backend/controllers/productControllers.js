@@ -1,12 +1,29 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Product from "../models/Product.js";
+import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Lấy tất cả sản phẩm => /api/v1/products
 export const getProducts = catchAsyncErrors(async (req, res, next) => {
-  const products = await Product.find();
+  // Get All Pro
+  // const products = await Product.find();
+
+  const resPerPage = 4;
+
+  // Search Pro
+  const apiFilters = new APIFilters(Product, req.query).search().filters();
+  const productsFilters = await apiFilters.query;
+  const productsFiltersCount = productsFilters.length;
+
+  // Pagination
+  apiFilters.pagination(resPerPage);
+  const products = await apiFilters.query.clone();
+
   res.status(200).json({
     message: "Lấy danh sách sản phẩm thành công",
+    resPerPage,
+    productsFiltersCount,
+    // productsFilters,
     products,
   });
 });
