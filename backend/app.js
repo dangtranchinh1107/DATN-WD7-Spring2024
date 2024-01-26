@@ -10,8 +10,10 @@ const { PORT, mongoDB } = process.env;
 app.use(express.json());
 
 import productRoutes from "./routes/products.js";
+import categoryRoutes from "./routes/categories.js";
 
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", categoryRoutes);
 
 app.use(errorMiddlewares);
 

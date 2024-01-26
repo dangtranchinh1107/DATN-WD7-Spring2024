@@ -4,16 +4,19 @@ const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
-      unique: true, //duy nhất
-      defaultValue: "Uncategorized",
+      required: [true, "Vui lòng nhập tên sản phẩm"],
+      maxLength: [200, "Tên sản phẩm không quá 200 ký tự"],
     },
     slug: {
       type: String,
-      require: true,
-      unique: true,
-      defaultValue: "Uncategoried",
+      required: [true, "Vui lòng nhập slug"],
     },
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   {
     timestamps: true,

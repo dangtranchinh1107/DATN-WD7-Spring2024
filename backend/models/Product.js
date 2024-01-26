@@ -40,11 +40,13 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    category: {
-      type: String,
-      required: [true, "Vui lòng nhập danh sách sản phẩm"],
-      maxLength: [200, "Danh sách sản phẩm không quá 200 ký tự"],
-    },
+    category: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: [true, "Vui lòng nhập tên danh mục"],
+      },
+    ],
     color: {
       type: String,
       required: [true, "Vui lòng nhập màu sản phẩm"],
