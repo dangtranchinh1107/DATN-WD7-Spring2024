@@ -1,6 +1,11 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Category from "../models/Category.js";
+import Color from "../models/Color.js";
+import Cpu from "../models/Cpu.js";
+import GraphicCard from "../models/GraphicCard.js";
+import HardDisk from "../models/HardDisk.js";
 import Product from "../models/Product.js";
+import Ram from "../models/Ram.js";
 import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
@@ -16,10 +21,31 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
   // Search Pro
   const apiFilters = new APIFilters(
-    Product.find().populate({
-      path: "category",
-      select: "-_id name",
-    }),
+    Product.find()
+      .populate({
+        path: "category",
+        select: "-_id name",
+      })
+      .populate({
+        path: "color",
+        select: "-_id name",
+      })
+      .populate({
+        path: "ram",
+        select: "-_id type",
+      })
+      .populate({
+        path: "cpu",
+        select: "-_id type",
+      })
+      .populate({
+        path: "hardDisk",
+        select: "-_id type",
+      })
+      .populate({
+        path: "graphicCard",
+        select: "-_id type",
+      }),
     req.query
   )
     .search()
@@ -43,10 +69,31 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
 // Lấy 1 sản phẩm => /api/v1/products/:id
 export const getProductDetail = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req?.params?.id).populate({
-    path: "category",
-    select: "-_id name",
-  });
+  const product = await Product.findById(req?.params?.id)
+    .populate({
+      path: "category",
+      select: "-_id name",
+    })
+    .populate({
+      path: "color",
+      select: "-_id name",
+    })
+    .populate({
+      path: "ram",
+      select: "-_id type",
+    })
+    .populate({
+      path: "cpu",
+      select: "-_id type",
+    })
+    .populate({
+      path: "hardDisk",
+      select: "-_id type",
+    })
+    .populate({
+      path: "graphicCard",
+      select: "-_id type",
+    });
   if (!product) {
     return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
   }
@@ -68,6 +115,64 @@ export const newProduct = catchAsyncErrors(async (req, res) => {
   if (!updateCategory) {
     return res.status(404).json({
       message: "Sản phẩm chưa được chọn danh sách",
+    });
+  }
+  // Thêm màu
+  const updateColor = await Color.findByIdAndUpdate(product.color, {
+    $addToSet: {
+      products: product._id,
+    },
+  });
+  if (!updateColor) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn màu",
+    });
+  }
+  // Thêm ram
+  const updateRam = await Ram.findByIdAndUpdate(product.ram, {
+    $addToSet: {
+      products: product._id,
+    },
+  });
+  if (!updateRam) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Ram",
+    });
+  }
+  // Thêm cpu
+  const updateCpu = await Cpu.findByIdAndUpdate(product.cpu, {
+    $addToSet: {
+      products: product._id,
+    },
+  });
+  if (!updateCpu) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Cpu",
+    });
+  }
+  // Thêm hardDisk
+  const updateHardDisk = await HardDisk.findByIdAndUpdate(product.hardDisk, {
+    $addToSet: {
+      products: product._id,
+    },
+  });
+  if (!updateHardDisk) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Hard Disk",
+    });
+  }
+  // Thêm graphicCard
+  const updateGraphicCard = await GraphicCard.findByIdAndUpdate(
+    product.graphicCard,
+    {
+      $addToSet: {
+        products: product._id,
+      },
+    }
+  );
+  if (!updateGraphicCard) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Graphic Card",
     });
   }
   res.status(200).json({
@@ -96,6 +201,64 @@ export const updateProduct = catchAsyncErrors(async (req, res) => {
   if (!updateCategory) {
     return res.status(404).json({
       message: "Sản phẩm chưa được chọn danh sách",
+    });
+  }
+  // Thêm màu
+  const updateColor = await Color.findByIdAndUpdate(product.color, {
+    $addToSet: {
+      color: product._id,
+    },
+  });
+  if (!updateColor) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn màu",
+    });
+  }
+  // Thêm ram
+  const updateRam = await Ram.findByIdAndUpdate(product.ram, {
+    $addToSet: {
+      ram: product._id,
+    },
+  });
+  if (!updateRam) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Ram",
+    });
+  }
+  // Thêm cpu
+  const updateCpu = await Cpu.findByIdAndUpdate(product.cpu, {
+    $addToSet: {
+      cpu: product._id,
+    },
+  });
+  if (!updateCpu) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Cpu",
+    });
+  }
+  // Thêm hardDisk
+  const updateHardDisk = await HardDisk.findByIdAndUpdate(product.hardDisk, {
+    $addToSet: {
+      hardDisk: product._id,
+    },
+  });
+  if (!updateHardDisk) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Hard Disk",
+    });
+  }
+  // Thêm graphicCard
+  const updateGraphicCard = await GraphicCard.findByIdAndUpdate(
+    product.graphicCard,
+    {
+      $addToSet: {
+        graphicCard: product._id,
+      },
+    }
+  );
+  if (!updateGraphicCard) {
+    return res.status(404).json({
+      message: "Sản phẩm chưa được chọn Graphic Card",
     });
   }
   res.status(200).json({

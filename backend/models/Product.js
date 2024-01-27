@@ -44,34 +44,44 @@ const productSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
-        required: [true, "Vui lòng nhập tên danh mục"],
+        required: ["Vui lòng nhập tên danh mục"],
       },
     ],
-    color: {
-      type: String,
-      required: [true, "Vui lòng nhập màu sản phẩm"],
-      maxLength: [200, "Màu sản phẩm không quá 200 ký tự"],
-    },
-    hardDisk: {
-      type: String,
-      required: [true, "Vui lòng nhập ổ cứng sản phẩm"],
-      maxLength: [200, "Ổ cứng sản phẩm không quá 200 ký tự"],
-    },
-    cpu: {
-      type: String,
-      required: [true, "Vui lòng nhập cpu sản phẩm"],
-      maxLength: [200, "Cpu sản phẩm không quá 200 ký tự"],
-    },
-    ram: {
-      type: String,
-      required: [true, "Vui lòng nhập ram sản phẩm"],
-      maxLength: [200, "Ram sản phẩm không quá 200 ký tự"],
-    },
-    graphicCard: {
-      type: String,
-      required: [true, "Vui lòng nhập graphic card sản phẩm"],
-      maxLength: [200, "Graphic card sản phẩm không quá 200 ký tự"],
-    },
+    color: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Color",
+        required: [true, "Vui lòng nhập màu"],
+      },
+    ],
+    cpu: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cpu",
+        required: [true, "Vui lòng nhập Cpu"],
+      },
+    ],
+    hardDisk: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "HardDisk",
+        required: [true, "Vui lòng nhập Hard Disk"],
+      },
+    ],
+    ram: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Ram",
+        required: [true, "Vui lòng nhập Ram"],
+      },
+    ],
+    graphicCard: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "GraphicCard",
+        required: [true, "Vui lòng nhập Graphic Card"],
+      },
+    ],
     numOfReviews: {
       type: Number,
       default: 0,
