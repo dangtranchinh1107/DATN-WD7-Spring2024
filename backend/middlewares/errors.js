@@ -1,3 +1,4 @@
+
 import ErrorHandler from "../utils/errorHandler";
 
 export default (err, req, res, next) => {
@@ -17,3 +18,13 @@ export default (err, req, res, next) => {
         message: error.message,
     });
 };
+export default (err, req, res, next) => {
+  const error = {
+    statusCode: err?.statusCode || 500,
+    message: err?.message || "Internal Server Error",
+  };
+  res.status(error.statusCode).json({
+    message: error.message,
+  });
+};
+
