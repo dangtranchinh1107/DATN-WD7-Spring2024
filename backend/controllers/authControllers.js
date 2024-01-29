@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
+
 import User from '../models/user'
-import { getResetPasswordTemPlates } from "../utils/emailTemplates";
+import { getResetPasswordTemplates } from "../utils/emailTemplates";
 import ErrorHandler from "../utils/errorHandler";
 import sendEmail from "../utils/sendEmail";
 import sendToken from "../utils/sendToken";
@@ -76,7 +77,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
     const resetUrl = `${process.env.FRONTEND_URL}/api/v1/password/reset/${resetToken}`;
 
-    const message = getResetPasswordTemPlates(user?.name, resetUrl);
+    const message = getResetPasswordTemplates(user?.name, resetUrl);
     try {
         await sendEmail({
             email: user.email,
@@ -129,7 +130,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     }
 
     if (req.body.password !== req.body.confirmPassword) {
-        return next(new ErrorHandler("mật khẩu không đúng", 400));
+        return next(new ErrorHandler("mật khẩu không khớp", 400));
     }
 
     // đặtlại mk mới
@@ -141,4 +142,70 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save();
 
     sendToken(user, 200, res)
+})
+
+
+//nhận hồ sô người dùng => /api/v1/me
+export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req?.user?._id);
+    res.status(200).json({
+        user,
+    })
+})
+
+
+
+//cập nhật mk => /api/v1/password/update
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req?.user?._id).select("+password");
+    // Kiểm tra mật khẩu người dùng trước đó
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler('Mật khẩu cũ không đúng', 400))
+    }
+
+    user.password = req.body.password;
+    user.save();
+    res.status(200).json({
+        success: true,
+    })
+})
+
+
+//cập nhật thông tin người dùng => /api/v1/me/update
+export const updateProfile = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+    }
+
+    const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
+        new: true,
+    })
+    res.status(200).json({
+        user,
+    })
+})
+
+// Nhận tất cả người dùng - ADMIN  =>  /api/v1/admin/users
+export const allUsers = catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find();
+    res.status(200).json({
+        users,
+    })
+})
+
+// Nhận thông tin chi tiết người dùng - ADMIN  =>  /api/v1/admin/users/:id
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return next(
+            new ErrorHandler(`User not found with id: ${req.params.id}`, 400)
+        )
+    }
+    res.status(200).json({
+        user,
+    })
 })
