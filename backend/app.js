@@ -1,13 +1,32 @@
 import mongoose from "mongoose";
 import express from "express";
+import errorMiddlewares from "./middlewares/errors.js";
+
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 const { PORT, mongoDB } = process.env;
 
+app.use(express.json());
+
+//Routesr
 import productRoutes from "./routes/products.js";
+import categoryRoutes from "./routes/categories.js";
+import colorRoutes from "./routes/colors.js";
+import cpuRoutes from "./routes/cpus.js";
+import ramRoutes from "./routes/ram.js";
+import hardDiskRoutes from "./routes/hardDisk.js";
+import graphicCardRoutes from "./routes/graphicCard.js";
 
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", categoryRoutes);
+app.use("/api/v1", colorRoutes);
+app.use("/api/v1", cpuRoutes);
+app.use("/api/v1", ramRoutes);
+app.use("/api/v1", hardDiskRoutes);
+app.use("/api/v1", graphicCardRoutes);
+
+app.use(errorMiddlewares);
 
 app.use(express.json());
 
