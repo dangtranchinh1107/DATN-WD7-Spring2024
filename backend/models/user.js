@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs'
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import crypto from "crypto"
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,6 +29,7 @@ const userSchema = new mongoose.Schema({
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+
 }, { timestamps: true })
 
 
@@ -54,6 +56,22 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcryptjs.compare(enteredPassword, this.password)
 }
 
+
+
+//Tạo mã thông báo đặt lại mật khẩu
+userSchema.methods.getResetPasswordToken = function () {
+    //Tạo mã thông báo
+    const resetToken = crypto.randomBytes(20).toString('hex')
+    //đặt lại mã thông báo mật khẩu
+    this.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest('hex')
+    //Đặt thời gian hết hạn mã thông báo
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000
+    return resetToken;
+
+}
 export default mongoose.model('User', userSchema)
 
 

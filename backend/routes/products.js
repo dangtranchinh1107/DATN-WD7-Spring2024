@@ -5,4 +5,5 @@ const router = express.Router();
 
 router.route("/products").get(isAuthenticatedUser, getProducts);
 
+
 export default router;
