@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import express from "express";
+
 import cookieParser from 'cookie-parser'
+
+import errorMiddlewares from "./middlewares/errors.js";
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -9,12 +13,34 @@ import dotenv from "dotenv";
 dotenv.config();
 const { PORT, mongoDB } = process.env;
 
+app.use(express.json());
+
+//Routesr
 import productRoutes from "./routes/products.js";
+
 import authRoutes from "./routes/auth.js";
 
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
+
+import categoryRoutes from "./routes/categories.js";
+import colorRoutes from "./routes/colors.js";
+import cpuRoutes from "./routes/cpus.js";
+import ramRoutes from "./routes/ram.js";
+import hardDiskRoutes from "./routes/hardDisk.js";
+import graphicCardRoutes from "./routes/graphicCard.js";
+
+app.use("/api/v1", productRoutes);
+app.use("/api/v1", categoryRoutes);
+app.use("/api/v1", colorRoutes);
+app.use("/api/v1", cpuRoutes);
+app.use("/api/v1", ramRoutes);
+app.use("/api/v1", hardDiskRoutes);
+app.use("/api/v1", graphicCardRoutes);
+
+app.use(errorMiddlewares);
+
 
 
 // Kết nối Db
