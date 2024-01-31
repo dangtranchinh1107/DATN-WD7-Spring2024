@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 // kiểm tra ng dùng có xác thực k
 export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
-
   if (!token) {
     return next(new ErrorHandler("đăng nhập trước khi thay đổi", 401));
   }
@@ -19,6 +18,7 @@ export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
 // role user
 export const authorizeRoles = (...roles) => {
+  console.log(roles);
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
