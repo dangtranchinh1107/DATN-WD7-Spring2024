@@ -16,7 +16,13 @@ router.route("/product/:id").get(getProductDetail);
 router
   .route("/admin/product")
   .post(isAuthenticatedUser, authorizeRoles("admin"), newProduct);
-router.route("/admin/product/:id").put(updateProduct);
-router.route("/admin/product/:id").delete(deleteProduct);
+
+router
+  .route("/admin/product/:id")
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct);
+
+router
+  .route("/admin/product/:id")
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 
 export default router;
