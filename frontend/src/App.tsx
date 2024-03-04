@@ -1,16 +1,30 @@
 import "./App.css";
 import "./index.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import HomePage from "./components/page/HomePage";
+import { Toaster } from "react-hot-toast";
+import ProductDetails from "./components/product/ProductDetails";
 
 function App() {
   return (
-    <>
-      <Header />
-      <h1 className="text-3xl font-bold underline ">Hello TechLap!</h1>
+    <Router>
+      <div className="App">
+        <Toaster position="top-center" />
+        <Header />
+        <h1 className="text-3xl font-bold underline ">Hello TechLap!</h1>
 
-      <Footer />
-    </>
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+          </Routes>
+        </div>
+
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
