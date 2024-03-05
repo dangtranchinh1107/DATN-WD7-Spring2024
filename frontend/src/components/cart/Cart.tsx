@@ -1,12 +1,13 @@
 import React from "react";
 import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setCartItem, removeCartItem } from "../../redux/features/cartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
   const increseQty = (item, quantity) => {
@@ -38,7 +39,9 @@ const Cart = () => {
   const removeCartItemHandler = (id) => {
     dispatch(removeCartItem(id));
   };
-
+  const checkoutHandler = () => {
+    navigate("/shipping");
+  };
   return (
     <>
       <MetaData title={"Giỏ hàng của bạn"} />
@@ -135,6 +138,7 @@ const Cart = () => {
                 <button
                   id="checkout_btn"
                   className="btn bg-danger text-white w-100 font-medium text-base py-4 px-12 rounded w-fit mx-auto"
+                  onClick={checkoutHandler}
                 >
                   Check out
                 </button>
