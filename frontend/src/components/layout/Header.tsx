@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 const Header = () => {
+  const { cartItems } = useSelector((state) => state.cart);
   return (
     <nav className="navbar row">
       <div className="col-12 col-md-3 ps-5">
@@ -33,7 +36,7 @@ const Header = () => {
             Cart{" "}
           </span>
           <span className="ms-1" id="cart_count">
-            0
+            {cartItems?.length}
           </span>
         </a>
 
