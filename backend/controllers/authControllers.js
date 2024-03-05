@@ -129,3 +129,11 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   sendToken(user, 200, res);
 });
+
+//nhận hồ sô người dùng => /api/v1/me
+export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req?.user?._id);
+  res.status(200).json({
+    user,
+  });
+});
