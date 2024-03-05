@@ -151,7 +151,7 @@ const ProductDetails = () => {
               id="stock_status"
               className={product?.stock > 0 ? "greenColor" : "redColor"}
             >
-              {product?.stock > 0 ? "In Stock" : "out of Stock"}
+              {product?.stock > 0 ? "Còn hàng" : "Hết hàng"}
             </span>
           </p>
 

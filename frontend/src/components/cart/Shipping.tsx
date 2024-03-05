@@ -8,7 +8,7 @@ import CheckoutSteps from "./CheckoutSteps";
 const Shipping = () => {
   const countriesList = Object.values(countries);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
@@ -27,19 +27,19 @@ const Shipping = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingInfo({ address, city, phoneNo, zipCode, country }));
-    navigate("/confirm_order")
+    navigate("/confirm_order");
   };
 
   return (
     <>
-    <MetaData title={"Shipping Info"}/>
+      <MetaData title={"Shipping Info"} />
 
-    <CheckoutSteps shipping />
+      <CheckoutSteps shipping />
       <div className="row wrapper mb-5">
         <div className="col-10 col-lg-5">
           <form
             className="shadow rounded bg-body"
-            onSubmit={{ submitHandler }}    
+            onSubmit={{ submitHandler }}
             action="your_submit_url_here"
             method="post"
           >
@@ -81,7 +81,7 @@ const Shipping = () => {
               <input
                 type="tel"
                 id="phone_field"
-                className="for  m-control"
+                className="form-control"
                 name="phoneNo"
                 value={phoneNo}
                 onChange={(e) => setPhoneNo(e.target.value)}

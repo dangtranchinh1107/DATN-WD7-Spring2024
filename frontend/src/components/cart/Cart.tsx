@@ -138,7 +138,7 @@ const Cart = () => {
                 <button
                   id="checkout_btn"
                   className="btn bg-danger text-white w-100 font-medium text-base py-4 px-12 rounded w-fit mx-auto"
-                  onClick={checkoutHandler}
+                  // onClick={checkoutHandler}
                 >
                   Check out
                 </button>
