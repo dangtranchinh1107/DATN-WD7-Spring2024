@@ -49,8 +49,7 @@ const Cart = () => {
           <h2 className="mt-5">
             Your Cart: <b>{cartItems?.length} items</b>
           </h2>
-
-          <div className="row d-flex justify-content-between">
+          <div className="flex justify-between w-full gap-[120px] ">
             <div className="col-12 col-lg-8">
               {cartItems?.map((item) => (
                 <>
@@ -112,29 +111,31 @@ const Cart = () => {
               ))}
             </div>
 
-            <div className="col-12 col-lg-3 my-4">
-              <div id="order_summary">
-                <h4>Order Summary</h4>
-                <hr />
-                <p>
-                  Units:{" "}
-                  <span className="order-summary-values">
+            <div className="w-1/2 flex justify-end">
+              <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px]">
+                <h2 className="text-xl font-normal mb-6">Cart Total</h2>
+                <div className="flex justify-between items-center mb-4 pb-4 border-b border-b-gray-400">
+                  <p className="text-base">Số lượng:</p>
+                  <p className="text-base">
                     {cartItems?.reduce((acc, item) => acc + item?.quantity, 0)}{" "}
-                    (Units)
-                  </span>
-                </p>
-                <p>
-                  Est. total:{" "}
-                  <span className="order-summary-values">
+                  </p>
+                </div>
+
+                <div className="flex justify-between items-center mb-4 pb-4">
+                  <p className="text-base">Total:</p>
+                  <p className="text-base">
                     $
                     {cartItems?.reduce(
                       (acc, item) => acc + item?.quantity * item.price,
                       0
                     )}
-                  </span>
-                </p>
-                <hr />
-                <button id="checkout_btn" className="btn btn-primary w-100">
+                  </p>
+                </div>
+
+                <button
+                  id="checkout_btn"
+                  className="btn bg-danger text-white w-100 font-medium text-base py-4 px-12 rounded w-fit mx-auto"
+                >
                   Check out
                 </button>
               </div>

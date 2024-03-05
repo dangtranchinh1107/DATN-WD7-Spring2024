@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import "../../assets/css/home.css";
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   return (
@@ -7,18 +7,18 @@ const Header = () => {
       <div className="col-12 col-md-3 ps-5">
         <div className="navbar-brand">
           <a href="/">
-            <img src="./images/shopit_logo.png" alt="ShopIT Logo" />
+            <img className="logo" src="src/assets/logo.png" alt="ShopIT Logo" />
           </a>
         </div>
       </div>
-      <div className="col-12 col-md-6 mt-2 mt-md-0">
+      <div className="col-12 col-md-6 pt-2 mt-md-0 d-inline-flex">
         <form action="your_search_action_url_here" method="get">
-          <div className="input-group">
+          <div className="input-group ">
             <input
               type="text"
               id="search_field"
               aria-describedby="search_btn"
-              className="form-control"
+              className="form-control "
               placeholder="Enter Product Name ..."
               name="keyword"
               value=""
@@ -42,7 +42,7 @@ const Header = () => {
 
         <div className="ms-4 dropdown">
           <button
-            className="btn dropdown-toggle text-white"
+            className="btn dropdown-toggle text-white d-flex"
             type="button"
             id="dropDownMenuButton"
             data-bs-toggle="dropdown"

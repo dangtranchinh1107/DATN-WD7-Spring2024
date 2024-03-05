@@ -14,7 +14,6 @@ function App() {
       <div className="App">
         <Toaster position="top-center" />
         <Header />
-        <h1 className="text-3xl font-bold underline ">Hello TechLap!</h1>
 
         <div className="container">
           <Routes>
