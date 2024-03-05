@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <nav className="navbar row">
@@ -80,10 +81,10 @@ const Header = () => {
           </div>
         </div>
 
-        <a href="/login" className="btn ms-4" id="login_btn">
+        <Link to="/login" className="btn ms-4" id="login_btn">
           {" "}
           Login{" "}
-        </a>
+        </Link>
       </div>
     </nav>
   );
