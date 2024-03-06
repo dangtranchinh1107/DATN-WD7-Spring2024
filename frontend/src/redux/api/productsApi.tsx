@@ -7,7 +7,15 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (params) => "/products",
+      query: (params) => ({
+        url: "/products",
+        params: {
+          page: params.page,
+          keyword: params.keyword,
+          "price[gte]": params.min,
+          "price[lte]": params.max,
+        },
+      }),
     }),
     getProductsDetails: builder.query({
       query: (id) => `/product/${id}`,

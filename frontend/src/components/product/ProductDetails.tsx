@@ -12,6 +12,7 @@ const ProductDetails = () => {
     params?.id
   );
   const product = data?.product;
+  console.log(product);
 
   const [activeImg, setActiveImg] = useState("");
 
@@ -65,12 +66,12 @@ const ProductDetails = () => {
 
       <div className="col-12 col-lg-5 mt-5">
         <h3>{product?.name}</h3>
-        <p id="product_id">Product # {product?._id}</p>
+        <p id="product_id">Sản phẩm # {product?._id}</p>
 
         <hr />
 
-        <div className="d-flex">
-          <div className="star-ratings">
+        <div className="">
+          <div className="star-ratings  mb-3">
             <StarRatings
               rating={product?.rating}
               starRatedColor="#ffb829"
@@ -104,28 +105,37 @@ const ProductDetails = () => {
           className="btn btn-primary d-inline ms-4"
           disabled
         >
-          Add to Cart
+          Thêm vào giỏ hàng
         </button>
 
         <hr />
 
         <p>
-          Status:{" "}
+          Tình trạng:{" "}
           <span
             id="stock_status"
             className={product?.stock > 0 ? "greenColor" : "redColor"}
           >
-            {product?.stock > 0 ? "In stock" : "Out of Stock"}
+            {product?.stock > 0 ? "Còn hàng" : "Hết hàng"}
           </span>
+          ({product?.stock})
         </p>
 
         <hr />
 
-        <h4 className="mt-2">Description:</h4>
+        <h4 className="mt-2">Mô tả:</h4>
+
         <p>{product?.description}</p>
+
+        <p>Màu sắc: {product?.color[0]?.name}</p>
+        <p>Hãng sản xuất: {product?.category[0]?.name}</p>
+        <p>CPU: {product?.cpu[0]?.type}</p>
+        <p>Card đồ họa: {product?.graphicCard[0]?.type}</p>
+        <p>Ổ cứng: {product?.hardDisk[0]?.type}</p>
+        <p>Ram: {product?.ram[0]?.type}</p>
         <hr />
         <p id="product_seller mb-3">
-          Sold by: <strong>{product?.seller}</strong>
+          <p>Trạng thái: {product?.status}</p>
         </p>
 
         <div className="alert alert-danger my-5" role="alert">

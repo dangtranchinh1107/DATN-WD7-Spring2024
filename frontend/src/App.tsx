@@ -1,5 +1,5 @@
 import "./App.css";
-import "./index.css";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 ("react-router-dom");
 import Header from "./components/layout/Header";
@@ -20,9 +20,8 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
         </div>
+        <Footer />
       </div>
-
-      <Footer />
     </Router>
   );
 }

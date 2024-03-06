@@ -1,12 +1,12 @@
-// import React from "react";
-// import { Helmet } from "react-helmet-async";
+import React from "react";
+import { Helmet } from "react-helmet";
 
-// const MetaData = ({ title }: { title: string }) => {
-//   return (
-//     <Helmet>
-//       <title>{`${title} - ShopIt`}</title>
-//     </Helmet>
-//   );
-// };
+const MetaData = ({ title }) => {
+  return (
+    <Helmet>
+      <title>{`${title} - ShopIt`}</title>
+    </Helmet>
+  );
+};
 
-// export default MetaData;
+export default MetaData;
