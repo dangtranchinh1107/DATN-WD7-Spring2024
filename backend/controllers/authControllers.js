@@ -2,11 +2,11 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/user.js";
 import { getResetPasswordTemPlates } from "../utils/emailTemplates.js";
 import ErrorHandler from "../utils/errorHandler.js";
-import sendEmail from "../utils/sendEmail.js";
 import sendToken from "../utils/sendToken.js";
+import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto";
 
-// dky user  => /api/v1/register
+// Register user   =>  /api/v1/register
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -19,64 +19,66 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 201, res);
 });
 
-// dangnhap user  => /api/v1/login
+// Login user   =>  /api/v1/login
 export const loginUser = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new ErrorHandler("Phải điền email & password", 400));
+    return next(new ErrorHandler("Please enter email & password", 400));
   }
 
-  //tìm kiếm user trong database
+  // Find user in the database
   const user = await User.findOne({ email }).select("+password");
+
   if (!user) {
-    return next(new ErrorHandler("Email hoặc mật khẩu không hợp lệ", 401));
+    return next(new ErrorHandler("Invalid email or password", 401));
   }
 
-  //ktra mk
+  // Check if password is correct
   const isPasswordMatched = await user.comparePassword(password);
+
   if (!isPasswordMatched) {
-    return next(new ErrorHandler("Email hoặc mật khẩu không hợp lệ", 401));
+    return next(new ErrorHandler("Invalid email or password", 401));
   }
 
   sendToken(user, 200, res);
 });
 
-// dangxuat user  => /api/v1/logout
+// Logout user   =>  /api/v1/logout
 export const logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
+
   res.status(200).json({
-    message: "logged out",
+    message: "Logged Out",
   });
 });
 
-// Quên mật khẩu  => /api/v1/password/forgot
+// Forgot password   =>  /api/v1/password/forgot
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
-  //tìm kiếm user trong database
+  // Find user in the database
   const user = await User.findOne({ email: req.body.email });
+
   if (!user) {
-    return next(
-      new ErrorHandler("Không tìm thấy người dùng với email này", 404)
-    );
+    return next(new ErrorHandler("User not found with this email", 404));
   }
 
-  //dặt lại mk
+  // Get reset password token
   const resetToken = user.getResetPasswordToken();
 
   await user.save();
 
-  //gửi khôi phục mk
-
+  // Create reset password url
   const resetUrl = `${process.env.FRONTEND_URL}/api/v1/password/reset/${resetToken}`;
 
-  const message = getResetPasswordTemPlates(user?.name, resetUrl);
+  const message = getResetPasswordTemplate(user?.name, resetUrl);
+
   try {
     await sendEmail({
       email: user.email,
-      subject: "Khôi phục mật khẩu Techlap",
+      subject: "ShopIT Password Recovery",
       message,
     });
 
@@ -90,10 +92,9 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save();
     return next(new ErrorHandler(error?.message, 500));
   }
-  sendToken(user, 200, res);
 });
 
-// đặt lại mk mới   =>  /api/v1/password/reset/:token
+// Reset password   =>  /api/v1/password/reset/:token
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash the URL Token
   const resetPasswordToken = crypto
@@ -116,10 +117,10 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new ErrorHandler("mật khẩu không đúng", 400));
+    return next(new ErrorHandler("Passwords does not match", 400));
   }
 
-  // đặtlại mk mới
+  // Set the new password
   user.password = req.body.password;
 
   user.resetPasswordToken = undefined;
@@ -130,10 +131,106 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-//nhận hồ sô người dùng => /api/v1/me
+// Get current user profile  =>  /api/v1/me
 export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req?.user?._id);
+
   res.status(200).json({
     user,
+  });
+});
+
+// Update Password  =>  /api/v1/password/update
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req?.user?._id).select("+password");
+
+  // Check the previous user password
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Old Password is incorrect", 400));
+  }
+
+  user.password = req.body.password;
+  user.save();
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Update User Profile  =>  /api/v1/me/update
+export const updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
+    new: true,
+  });
+
+  res.status(200).json({
+    user,
+  });
+});
+
+// Get all Users - ADMIN  =>  /api/v1/admin/users
+export const allUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    users,
+  });
+});
+
+// Get User Details - ADMIN  =>  /api/v1/admin/users/:id
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json({
+    user,
+  });
+});
+
+// Update User Details - ADMIN  =>  /api/v1/admin/users/:id
+export const updateUser = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+  });
+
+  res.status(200).json({
+    user,
+  });
+});
+
+// Delete User - ADMIN  =>  /api/v1/admin/users/:id
+export const deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 404)
+    );
+  }
+
+  // TODO - Remove user avatar from cloudinary
+
+  await user.deleteOne();
+
+  res.status(200).json({
+    success: true,
   });
 });
