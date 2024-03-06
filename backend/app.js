@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 import express from "express";
-
-import cookieParser from 'cookie-parser'
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import errorMiddlewares from "./middlewares/errors.js";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
 
 import dotenv from "dotenv";
@@ -17,12 +19,12 @@ app.use(express.json());
 
 //Routesr
 import productRoutes from "./routes/products.js";
-
+import orderRoutes from "./routes/order.js";
 import authRoutes from "./routes/auth.js";
-
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", orderRoutes);
 
 import categoryRoutes from "./routes/categories.js";
 import colorRoutes from "./routes/colors.js";
@@ -40,8 +42,6 @@ app.use("/api/v1", hardDiskRoutes);
 app.use("/api/v1", graphicCardRoutes);
 
 app.use(errorMiddlewares);
-
-
 
 // Kết nối Db
 const connectDB = async () => {

@@ -1,8 +1,11 @@
 import express from "express";
 
 import {
+  createProductReview,
   deleteProduct,
+  deleteProductReview,
   getProductDetail,
+  getProductReviews,
   getProducts,
   newProduct,
   updateProduct,
@@ -24,5 +27,11 @@ router
 router
   .route("/admin/product/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
+
+router.route("/reviews").put(isAuthenticatedUser, createProductReview);
+router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
+router
+  .route("/admin/reviews")
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductReview);
 
 export default router;
