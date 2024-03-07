@@ -12,7 +12,7 @@ const ProductDetails = () => {
     params?.id
   );
   const product = data?.product;
-  console.log(product);
+  // console.log(product);
 
   const [activeImg, setActiveImg] = useState("");
 
