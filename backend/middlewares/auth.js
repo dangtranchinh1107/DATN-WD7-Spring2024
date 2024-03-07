@@ -1,35 +1,33 @@
-import ErrorHandler from "../utils/errorHandler";
-import catchAsyncErrors from "./catchAsyncErrors";
-import jwt from "jsonwebtoken"
-import User from "../models/user"
+import catchAsyncErrors from "./catchAsyncErrors.js";
+import ErrorHandler from "../utils/errorHandler.js";
+import User from "../models/user.js";
+import jwt from "jsonwebtoken";
 
-
-// Kiểm tra xem người dùng có được xác thực hay không
+// kiểm tra ng dùng có xác thực k
 export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
+  if (!token) {
+    return next(new ErrorHandler("đăng nhập trước khi thay đổi", 401));
+  }
 
-    if (!token) {
-        return next(new ErrorHandler("Login first to access this resource", 401))
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = await User.findById(decoded.id);
+
+  next();
+});
+
+// role user
+export const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorHandler(
+          `Role (${req.user.role}) không được phép thay đổi`,
+          403
+        )
+      );
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
-
     next();
-})
-
-// Ủy quyền vai trò người dùng
-export const authorizeRoles = (...roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return next(
-                new ErrorHandler(
-                    `Role (${req.user.role}) is not allowed to access this resource`,
-                    403
-                )
-            );
-        }
-
-        next();
-    };
-}
+  };
+};
