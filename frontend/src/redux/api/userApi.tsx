@@ -3,10 +3,10 @@ import { setIsAuthenticated, setUser } from "../features/userSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/v1" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
   endpoints: (builder) => ({
     getMe: builder.query({
-      query: () => `/me`,
+      query: () => "/me",
       transformResponse: (result) => result.user,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
@@ -14,7 +14,7 @@ export const userApi = createApi({
           dispatch(setUser(data));
           dispatch(setIsAuthenticated(true));
         } catch (error) {
-          console.log(error);
+          console.log("chưa trả về data");
         }
       },
     }),

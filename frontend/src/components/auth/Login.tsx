@@ -10,12 +10,7 @@ const Login = () => {
   // const navigate = useNavigate();
   const [login, { isLoading, error, data }] = useLoginMutation();
 
-  useEffect(() => {
-    if (data) {
-      localStorage.setItem("token", data?.token);
-    }
-  }, [data]);
-  // console.log(data);
+  console.log(data);
 
   // const { isAuthenticated } = useSelector((state) => state.auth);
 
