@@ -54,6 +54,8 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
   const productsFilters = await apiFilters.query;
   const productsFiltersCount = productsFilters.length;
 
+
+
   // Pagination;
   apiFilters.pagination(resPerPage);
   const products = await apiFilters.query.clone();
