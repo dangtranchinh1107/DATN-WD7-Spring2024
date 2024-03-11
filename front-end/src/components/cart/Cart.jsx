@@ -118,20 +118,29 @@ const Cart = () => {
               <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px]">
                 <h2 className="text-xl font-normal mb-6">Cart Total</h2>
                 <div className="flex justify-between items-center mb-4 pb-4 border-b border-b-gray-400">
-                  <p className="text-base">Số lượng:</p>
                   <p className="text-base">
-                    {cartItems?.reduce((acc, item) => acc + item?.quantity, 0)}{" "}
+                    Số lượng:{""}
+                    <span className="font-bold text-base">
+                      {cartItems?.reduce(
+                        (acc, item) => acc + item?.quantity,
+                        0
+                      )}{" "}
+                    </span>
                   </p>
                 </div>
 
                 <div className="flex justify-between items-center mb-4 pb-4">
-                  <p className="text-base">Total:</p>
                   <p className="text-base">
-                    $
-                    {cartItems?.reduce(
-                      (acc, item) => acc + item?.quantity * item.price,
-                      0
-                    )}
+                    Total:{""}
+                    <span className="text-base font-bold">
+                      $
+                      {cartItems
+                        ?.reduce(
+                          (acc, item) => acc + item?.quantity * item.price,
+                          0
+                        )
+                        .toFixed(2)}
+                    </span>
                   </p>
                 </div>
 
