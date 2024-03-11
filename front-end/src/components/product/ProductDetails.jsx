@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGetProductsDetailsQuery } from "../../redux/api/productsApi";
+import { useGetProductDetailsQuery } from "../../redux/api/productsApi";
 import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ import StarRatings from "react-star-ratings";
 const ProductDetails = () => {
   const params = useParams();
 
-  const { data, isLoading, error, isError } = useGetProductsDetailsQuery(
+  const { data, isLoading, error, isError } = useGetProductDetailsQuery(
     params?.id
   );
   const product = data?.product;

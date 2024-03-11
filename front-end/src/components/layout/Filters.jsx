@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getPriceQueryParams } from "../../helpers/helpers";
-import { PRODUCT_CATEGORIES } from "../../constants/constants";
+// import { PRODUCT_CATEGORIES } from "../../constants/constants";
 import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
+import StarRatings from "react-star-ratings";
 
 const Filters = () => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const params = useParams();
 
-  const { data, isLoading, error, isError } = useGetCategoriesQuery(params?.id);
+  const { data } = useGetCategoriesQuery(params?.id);
   const cate = data?.categories.map((item) => item.name);
   // const names = cate.categories
   console.log(cate);
@@ -20,7 +21,7 @@ const Filters = () => {
   useEffect(() => {
     searchParams.has("min") && setMin(searchParams.get("min"));
     searchParams.has("max") && setMax(searchParams.get("max"));
-  }, []);
+  }, [searchParams]);
 
   //handler Category & ratings
   const handleClick = (checkbox) => {
@@ -59,7 +60,7 @@ const Filters = () => {
     navigate(path);
   };
 
-  const defaultCheckedHandler = (checkboxType, checkboxvalue) => {
+  const defaultCheckHandler = (checkboxType, checkboxvalue) => {
     const value = searchParams.get(checkboxType);
     if (checkboxvalue === value) return true;
     return false;
@@ -110,7 +111,7 @@ const Filters = () => {
             name="category"
             id="check4"
             value={category}
-            defaultChecked={defaultCheckedHandler("category", category)}
+            defaultChecked={defaultCheckHandler("category", category)}
             onClick={(e) => handleClick(e.target)}
           />
           <label className="form-check-label" htmlFor="check4">
@@ -122,31 +123,29 @@ const Filters = () => {
 
       <hr />
       <h5 className="mb-3">Ratings</h5>
-
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          name="ratings"
-          id="check7"
-          value="5"
-        />
-        <label className="form-check-label" htmlFor="check7">
-          <span className="star-rating">★ ★ ★ ★ ★</span>
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          name="ratings"
-          id="check8"
-          value="4"
-        />
-        <label className="form-check-label" htmlFor="check8">
-          <span className="star-rating">★ ★ ★ ★ ☆</span>
-        </label>
-      </div>
+      {[5, 4, 3, 2, 1].map((rating) => (
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="ratings"
+            id="check7"
+            value={rating}
+            defaultChecked={defaultCheckHandler("ratings", rating?.toString())}
+            onClick={(e) => handleClick(e.target)}
+          />
+          <label className="form-check-label" for="check7">
+            <StarRatings
+              rating={rating}
+              starRatedColor="#ffb829"
+              numberOfStars={5}
+              name="rating"
+              starDimension="21px"
+              starSpacing="1px"
+            />
+          </label>
+        </div>
+      ))}
     </div>
   );
 };

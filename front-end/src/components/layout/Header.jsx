@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import Search from "./Search";
 import "../../assets/css/home.css";
+import logo from "../../assets/logo.png";
 
+import { Link } from "react-router-dom";
 const Header = () => {
   // const { cartItems } = useSelector((state) => state.cart);
   return (
@@ -9,7 +11,7 @@ const Header = () => {
       <div className="col-12 col-md-3 ps-5">
         <div className="navbar-brand">
           <a href="/">
-            <img className="logo" src="src/assets/logo.png" alt="ShopIT Logo" />
+            <img src={logo} alt="ShopIT Logo" className="logo" />
           </a>
         </div>
       </div>
@@ -70,10 +72,10 @@ const Header = () => {
           </div>
         </div>
 
-        <a href="/login" className="btn ms-4" id="login_btn">
+        <Link to="/login" className="btn ms-4" id="login_btn">
           {" "}
           Login{" "}
-        </a>
+        </Link>
       </div>
     </nav>
   );

@@ -6,8 +6,9 @@ import cookieParser from "cookie-parser";
 import errorMiddlewares from "./middlewares/errors.js";
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+
 app.use(cookieParser());
 
 import dotenv from "dotenv";

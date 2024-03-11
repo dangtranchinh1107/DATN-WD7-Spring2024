@@ -7,7 +7,7 @@ import CustomPagination from "../layout/CustomPagination";
 import { useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
-import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
+// import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
 
 const HomePage = () => {
   let [searchParams] = useSearchParams();
@@ -16,14 +16,18 @@ const HomePage = () => {
   const min = searchParams.get("min");
   const max = searchParams.get("max");
   const category = searchParams.get("category");
+  const ratings = searchParams.get("ratings");
+  console.log(category);
 
   const params = { page, keyword };
 
   min !== null && (params.min = min);
   max !== null && (params.max = max);
   category !== null && (params.category = category);
+  ratings !== null && (params.ratings = ratings);
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
+  console.log(data);
 
   useEffect(() => {
     if (isError) {
