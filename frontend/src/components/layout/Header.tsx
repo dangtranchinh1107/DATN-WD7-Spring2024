@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { useSelector } from "react-redux";
 import "../../assets/css/home.css";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 69c59227f07d28bce4fff8316b8f86d7438ac64c
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   return (
@@ -83,10 +87,10 @@ const Header = () => {
           </div>
         </div>
 
-        <a href="/login" className="btn ms-4" id="login_btn">
+        <Link to="/login" className="btn ms-4" id="login_btn">
           {" "}
           Login{" "}
-        </a>
+        </Link>
       </div>
     </nav>
   );

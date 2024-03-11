@@ -1,20 +1,34 @@
 import "./App.css";
+<<<<<<< HEAD
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+=======
+
+
+
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+("react-router-dom");
+>>>>>>> 69c59227f07d28bce4fff8316b8f86d7438ac64c
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import HomePage from "./components/page/HomePage";
 import { Toaster } from "react-hot-toast";
 import ProductDetails from "./components/product/ProductDetails";
+<<<<<<< HEAD
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import PaymentMethod from "./components/cart/PaymentMethod";
+=======
+
+>>>>>>> 69c59227f07d28bce4fff8316b8f86d7438ac64c
 
 function App() {
   return (
     <Router>
       <div className="App">
+<<<<<<< HEAD
         <Toaster position="top-center" />
         <Header />
 
@@ -34,6 +48,21 @@ function App() {
 
         <Footer />
       </div>
+=======
+
+        <Toaster position="top-center" />
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+          </Routes>
+        </div>
+      </div>
+
+      <Footer />
+
+>>>>>>> 69c59227f07d28bce4fff8316b8f86d7438ac64c
     </Router>
   );
 }
