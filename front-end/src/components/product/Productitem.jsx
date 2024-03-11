@@ -16,9 +16,9 @@ const ProductItem = ({ product }) => {
           <Link to={`/product/${product?._id}`}>{product?.name}</Link>
         </p>
         <span className="price">${product?.price}</span>
-        <div className="danhgia ">
+        <div className="danhgia">
           <StarRatings
-            rating={product?.rating}
+            rating={product?.ratings}
             starRatedColor="#ffb829"
             numberOfStars={5}
             name="rating"

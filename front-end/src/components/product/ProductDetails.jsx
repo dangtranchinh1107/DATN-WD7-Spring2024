@@ -104,7 +104,7 @@ const ProductDetails = () => {
 
           <div className="d-flex">
             <StarRatings
-              rating={product?.rating}
+              rating={product?.ratings}
               starRatedColor="#ffb829"
               numberOfStars={5}
               name="rating"
