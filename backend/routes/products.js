@@ -11,6 +11,7 @@ import {
   updateProduct,
 } from "../controllers/productControllers.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middlewares/auth.js";
+import { getUserProfile } from "../controllers/authControllers.js";
 const router = express.Router();
 
 router.route("/products").get(getProducts);
@@ -30,6 +31,7 @@ router
 
 router.route("/reviews").put(isAuthenticatedUser, createProductReview);
 router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
+router.route("/me").get(isAuthenticatedUser, getUserProfile);
 router
   .route("/admin/reviews")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductReview);

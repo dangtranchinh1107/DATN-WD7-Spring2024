@@ -39,7 +39,7 @@ const Shipping = () => {
         <div className="col-10 col-lg-5">
           <form
             className="shadow rounded bg-body"
-            onSubmit={{ submitHandler }}
+            onSubmit={submitHandler}
             action="your_submit_url_here"
             method="post"
           >

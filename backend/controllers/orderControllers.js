@@ -40,7 +40,7 @@ export const myOrders = catchAsyncErrors(async (req, res, next) => {
     order,
   });
 });
-//Xem chi tiết đơn hàng => /api/v1/orders/:id
+//Xem chi tiết đơn hàng => /api/v1/orders/:id 
 
 export const getOrderDetails = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate(
