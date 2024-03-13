@@ -10,7 +10,7 @@ const PaymentMethod = () => {
   const [method, setMethod] = useState("");
   const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  const [createNewOrder, { isLoading, error, isSuccess }] =
+  const [createNewOrder, {  error, isSuccess }] =
     useCreateNewOrderMutation();
   useEffect(() => {
     if (error) {
@@ -22,21 +22,18 @@ const PaymentMethod = () => {
   }, [error, isSuccess]);
   const submitHandler = (e) => {
     e.preventDefault();
-
+  
     const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
       caluclateOrderCost(cartItems);
-
+  
     if (method === "COD") {
       const orderData = {
-        shippingInfo,
-        orderItems: cartItems,
+        CheckOut: shippingInfo,
+        Cart: cartItems, 
         itemsPrice,
         shippingAmount: shippingPrice,
         taxAmount: taxPrice,
         totalAmount: totalPrice,
-        paymentInfo: {
-          status: "Not Paid",
-        },
         paymentMethod: "COD",
       };
       createNewOrder(orderData);
@@ -45,6 +42,7 @@ const PaymentMethod = () => {
       alert("Card");
     }
   };
+  
 
   return (
     <>
