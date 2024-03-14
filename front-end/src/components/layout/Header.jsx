@@ -3,9 +3,21 @@ import Search from "./Search";
 import "../../assets/css/home.css";
 import logo from "../../assets/logo.png";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useGetMeQuery } from "../../redux/api/userApi";
+import { useLazyLogoutQuery } from "../../redux/api/authApi";
 const Header = () => {
-  // const { cartItems } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const { isLoading } = useGetMeQuery();
+  // console.log(data);
+  const [logout] = useLazyLogoutQuery();
+
+  const { user } = useSelector((state) => state.auth);
+  const logoutHandler = () => {
+    logout();
+    navigate(0);
+  };
+  const { cartItems } = useSelector((state) => state.cart);
   return (
     <nav className="navbar row">
       <div className="col-12 col-md-3 ps-5">
@@ -22,60 +34,67 @@ const Header = () => {
         <a href="/cart" style={{ textDecoration: "none" }}>
           <span id="cart" className="ms-3">
             {" "}
-            Cart{" "}
+            Giỏ hàng{" "}
           </span>
-          {/* <span className="ms-1" id="cart_count">
+          <span className="ms-1" id="cart_count">
             {cartItems?.length}
-          </span> */}
+          </span>
         </a>
 
-        <div className="ms-4 dropdown">
-          <button
-            className="btn dropdown-toggle text-white d-flex"
-            type="button"
-            id="dropDownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <figure className="avatar avatar-nav">
-              <img
-                src="./images/default_avatar.jpg"
-                alt="User Avatar"
-                className="rounded-circle"
-              />
-            </figure>
-            <span>User</span>
-          </button>
-          <div
-            className="dropdown-menu w-100"
-            aria-labelledby="dropDownMenuButton"
-          >
-            <a className="dropdown-item" href="/admin/dashboard">
-              {" "}
-              Dashboard{" "}
-            </a>
+        {user ? (
+          <div className="ms-4 dropdown">
+            <button
+              className="btn dropdown-toggle text-white"
+              type="button"
+              id="dropDownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <figure className="avatar avatar-nav">
+                <img
+                  src="../images/default_avatar.jpg"
+                  alt="User Avatar"
+                  className="rounded-circle"
+                />
+              </figure>
+              <span>{user?.name}</span>
+            </button>
+            <div
+              className="dropdown-menu w-100"
+              aria-labelledby="dropDownMenuButton"
+            >
+              <Link className="dropdown-item" to="/admin/dashboard">
+                {" "}
+                Dashboard{" "}
+              </Link>
 
-            <a className="dropdown-item" href="/me/orders">
-              {" "}
-              Orders{" "}
-            </a>
+              <Link className="dropdown-item" to="/me/orders">
+                {" "}
+                Orders{" "}
+              </Link>
 
-            <a className="dropdown-item" href="/me/profile">
-              {" "}
-              Profile{" "}
-            </a>
+              <Link className="dropdown-item" to="/me/profile">
+                {" "}
+                Profile{" "}
+              </Link>
 
-            <a className="dropdown-item text-danger" href="/">
-              {" "}
-              Logout{" "}
-            </a>
+              <Link
+                className="dropdown-item text-danger"
+                to="/"
+                onClick={logoutHandler}
+              >
+                Logout{" "}
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <Link to="/login" className="btn ms-4" id="login_btn">
-          {" "}
-          Login{" "}
-        </Link>
+        ) : (
+          !isLoading && (
+            <Link to="/login" className="btn ms-4" id="login_btn">
+              {" "}
+              Đăng nhập{" "}
+            </Link>
+          )
+        )}
       </div>
     </nav>
   );

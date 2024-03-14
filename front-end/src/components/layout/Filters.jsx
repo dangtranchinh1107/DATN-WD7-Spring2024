@@ -68,9 +68,9 @@ const Filters = () => {
 
   return (
     <div className="border p-3 filter">
-      <h3>Filters</h3>
+      <h3>Tìm kiếm</h3>
       <hr />
-      <h5 className="filter-heading mb-3">Price</h5>
+      <h5 className="filter-heading mb-3">Giá</h5>
       <form id="filter_form" className="px-2" onSubmit={handlerButtonClick}>
         <div className="row">
           <div className="col">
@@ -95,13 +95,13 @@ const Filters = () => {
           </div>
           <div className="col">
             <button type="submit" className="btn btn-primary">
-              GO
+              Tìm kiếm
             </button>
           </div>
         </div>
       </form>
       <hr />
-      <h5 className="mb-3">Category</h5>
+      <h5 className="mb-3">Danh mục</h5>
 
       {cate?.map((category) => (
         <div className="form-check">
@@ -122,7 +122,7 @@ const Filters = () => {
       ))}
 
       <hr />
-      <h5 className="mb-3">Ratings</h5>
+      <h5 className="mb-3">Xếp hạng</h5>
       {[5, 4, 3, 2, 1].map((rating) => (
         <div className="form-check">
           <input

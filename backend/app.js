@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import errorMiddlewares from "./middlewares/errors.js";
@@ -8,7 +7,6 @@ import errorMiddlewares from "./middlewares/errors.js";
 const app = express();
 
 app.use(express.json());
-
 app.use(cookieParser());
 
 import dotenv from "dotenv";

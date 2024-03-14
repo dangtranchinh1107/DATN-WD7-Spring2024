@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../../redux/api/productsApi";
 import ProductItem from "../product/ProductItem";
 import Loader from "../layout/Loader";
@@ -7,6 +7,7 @@ import CustomPagination from "../layout/CustomPagination";
 import { useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
+import "../../assets/css/home.css";
 // import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
 
 const HomePage = () => {
@@ -27,6 +28,7 @@ const HomePage = () => {
   ratings !== null && (params.ratings = ratings);
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
+  const [currentIndex, setCurrentIndex] = useState(0);
   console.log(data);
 
   useEffect(() => {
@@ -34,29 +36,71 @@ const HomePage = () => {
       toast.error(error?.data?.message);
     }
   }, [isError]);
+  //
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+    }, 3000); // Thời gian chuyển đổi ảnh
 
+    return () => clearInterval(interval);
+  }, [error, isError]);
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
+  };
   const columnSize = keyword ? 4 : 3;
 
   if (isLoading) return <Loader />;
 
   return (
     <>
-      <MetaData title="Buy Best Products Online" />
+      <MetaData title="Mua sản phẩm tốt nhất trực tuyến" />
       <div className="right">
         <div className="image-slider">
+          <div>
+            <button
+              onClick={prevSlide}
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              onClick={nextSlide}
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
           <img
-            className="image active"
+            className={`image ${currentIndex === 0 ? "active" : ""}`}
             src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/2/638449855361141781_F-C1_1200x300.png"
             alt=""
           />
           <img
-            className="image"
-            src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/4/638451815694627811_F-C1_1200x300.png"
+            className={`image ${currentIndex === 1 ? "active" : ""}`}
+            src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/2/638449857797599116_F-C1_1200x300.png"
             alt=""
           />
           <img
-            className="image"
-            src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/2/638449855361141781_F-C1_1200x300.png"
+            className={`image ${currentIndex === 2 ? "active" : ""}`}
+            src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/1/638449086705112725_F-C1_1200x300.png"
             alt=""
           />
         </div>
@@ -70,8 +114,8 @@ const HomePage = () => {
         <div className={keyword ? "col-6 col-md-9" : "col-6 col-md-12"}>
           <h1 id="products_heading" className="text-secondary">
             {keyword
-              ? `${data?.products?.length} Products found with keyword: ${keyword}`
-              : "Latest Products"}
+              ? `${data?.products?.length} Sản phẩm được tìm thấy với từ khóa: ${keyword}`
+              : "Sản phẩm mới nhất"}
           </h1>
 
           <section id="products" className="mt-5">

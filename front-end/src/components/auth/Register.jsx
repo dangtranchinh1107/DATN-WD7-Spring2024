@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useRegisterMutation } from "../../redux/api/authApi";
 import toast from "react-hot-toast";
+import { useRegisterMutation } from "../../redux/api/authApi";
+
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -8,29 +11,38 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
   const { name, email, password } = user;
+
   const [register, { isLoading, error, data }] = useRegisterMutation();
-  console.log(data);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
     if (error) {
       toast.error(error?.data?.message);
     }
-  }, [error]);
+  }, [error, isAuthenticated]);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const signupData = {
+    const signUpData = {
       name,
       email,
       password,
     };
-    register(signupData);
+
+    register(signUpData);
   };
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
   return (
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
@@ -85,7 +97,7 @@ const Register = () => {
             className="btn w-100 py-2"
             disabled={isLoading}
           >
-            {isLoading ? "Sign Up" : "Register"}
+            {isLoading ? "Creating..." : "REGISTER"}
           </button>
         </form>
       </div>

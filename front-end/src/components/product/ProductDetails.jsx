@@ -4,9 +4,13 @@ import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader";
 import toast from "react-hot-toast";
 import StarRatings from "react-star-ratings";
+import { useDispatch } from "react-redux";
+import { setCartItem } from "../../redux/features/cartSlice";
 
 const ProductDetails = () => {
   const params = useParams();
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
 
   const { data, isLoading, error, isError } = useGetProductDetailsQuery(
     params?.id
@@ -30,8 +34,33 @@ const ProductDetails = () => {
     }
   }, [isError]);
 
-  if (isLoading) return <Loader />;
+  const increseQty = () => {
+    const count = document.querySelector(".count");
+    if (count.valueAsNumber >= product?.stock) return;
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+  const decreseQty = () => {
+    const count = document.querySelector(".count");
+    if (count.valueAsNumber <= 1) return;
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
 
+  const setItemToCart = () => {
+    const cartItem = {
+      product: product?._id,
+      name: product?.name,
+      price: product?.price,
+      image: product?.images[0]?.url,
+      stock: product?.stock,
+      quantity,
+    };
+
+    dispatch(setCartItem(cartItem));
+    toast.success("Thêm vào giỏ hàng thành công!");
+  };
+  if (isLoading) return <Loader />;
   return (
     <div className="row d-flex justify-content-around">
       <div className="col-12 col-lg-5 img-fluid" id="product_image">
@@ -73,7 +102,7 @@ const ProductDetails = () => {
         <div className="">
           <div className="star-ratings  mb-3">
             <StarRatings
-              rating={product?.rating}
+              rating={product?.ratings}
               starRatedColor="#ffb829"
               numberOfStars={5}
               name="rating"
@@ -83,27 +112,32 @@ const ProductDetails = () => {
           </div>
           <span id="no-of-reviews" className="pt-1 ps-2">
             {" "}
-            ({product?.numOfReviews} Reviews){" "}
+            ({product?.numOfReviews} Đánh giá ){" "}
           </span>
         </div>
         <hr />
 
         <p id="product_price">${product?.price}</p>
         <div className="stockCounter d-inline">
-          <span className="btn btn-danger minus">-</span>
+          <span className="btn btn-danger minus" onClick={decreseQty}>
+            -
+          </span>
           <input
             type="number"
             className="form-control count d-inline"
-            value="1"
+            value={quantity}
             readOnly
           />
-          <span className="btn btn-primary plus">+</span>
+          <span className="btn btn-primary plus" onClick={increseQty}>
+            +
+          </span>
         </div>
         <button
           type="button"
           id="cart_btn"
           className="btn btn-primary d-inline ms-4"
-          disabled
+          disabled={product.stock <= 0}
+          onClick={setItemToCart}
         >
           Thêm vào giỏ hàng
         </button>
@@ -139,7 +173,7 @@ const ProductDetails = () => {
         </p>
 
         <div className="alert alert-danger my-5" role="alert">
-          Login to post your review.
+          Đăng nhập để gửi đánh giá của bạn.
         </div>
       </div>
     </div>

@@ -1,26 +1,35 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoginMutation } from "../../redux/api/authApi";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const [login, { isLoading, error, data }] = useLoginMutation();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   console.log(data);
 
   useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
     if (error) {
       toast.error(error?.data?.message);
     }
-  }, [error]);
+  }, [error, isAuthenticated]);
+
   const submitHandler = (e) => {
     e.preventDefault();
-
     const loginData = {
       email,
       password,
     };
+
     login(loginData);
   };
 
@@ -57,9 +66,9 @@ const Login = () => {
             />
           </div>
 
-          <a href="/password/forgot" className="float-end mb-4">
+          <Link href="/password/forgot" className="float-end mb-4">
             Forgot Password?
-          </a>
+          </Link>
 
           <button
             id="login_button"
@@ -67,7 +76,7 @@ const Login = () => {
             className="btn w-100 py-2"
             disabled={isLoading}
           >
-            {isLoading ? "Log In..." : "Log In"}
+            {isLoading ? "Authenticating..." : "LOGIN"}
           </button>
 
           <div className="my-3">
