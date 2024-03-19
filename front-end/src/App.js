@@ -10,6 +10,8 @@ import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import PaymentMethod from "./components/cart/PaymentMethod";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
 
 function App() {
   return (
@@ -23,9 +25,32 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/confirm_order" element={<ConfirmOrder />} />
-            <Route path="/payment_method" element={<PaymentMethod />} />
+            <Route
+              path="/shipping"
+              element={
+                <protectedRoute>
+                  <Shipping />
+                </protectedRoute>
+              }
+            />
+            <Route
+              path="/confirm_order"
+              element={
+                <protectedRoute>
+                  <ConfirmOrder />
+                </protectedRoute>
+              }
+            />
+            <Route
+              path="/payment_method"
+              element={
+                <protectedRoute>
+                  <PaymentMethod />
+                </protectedRoute>
+              }
+            />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
 

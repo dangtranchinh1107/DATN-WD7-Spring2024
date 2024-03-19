@@ -6,40 +6,35 @@ import { caluclateOrderCost } from "../helpers/helpers";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useCreateNewOrderMutation } from "../../redux/api/orderApi";
-
 const PaymentMethod = () => {
   const [method, setMethod] = useState("");
-  const navigate  = useNavigate()
-
+  const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-
-  const [createNewOrder, { isLoading, error, isSuccess }] =
+  const [createNewOrder, {  error, isSuccess }] =
     useCreateNewOrderMutation();
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
-    if(isSuccess){
-        navigate("/");
+    if (isSuccess) {
+      navigate("/");
     }
   }, [error, isSuccess]);
-
   const submitHandler = (e) => {
     e.preventDefault();
+  
     const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
       caluclateOrderCost(cartItems);
+  
     if (method === "COD") {
       const orderData = {
-        shippingInfo,
-        orderItems: cartItems,
+        CheckOut: shippingInfo,
+        Cart: cartItems, 
         itemsPrice,
         shippingAmount: shippingPrice,
         taxAmount: taxPrice,
         totalAmount: totalPrice,
-        paymentInfo: {
-          status: " Not Paid",
-        },
-        PaymentMethod: "COD",
+        paymentMethod: "COD",
       };
       createNewOrder(orderData);
     }
@@ -47,6 +42,8 @@ const PaymentMethod = () => {
       alert("Card");
     }
   };
+  
+
   return (
     <>
       <MetaData title={"Payment Method"} />
