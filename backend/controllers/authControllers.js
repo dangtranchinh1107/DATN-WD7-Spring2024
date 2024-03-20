@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import sendEmail from "../utils/sendEmail.js";
 import sendToken from "../utils/sendToken.js";
 import crypto from "crypto";
+import { loginValid, registerValid } from "../validation/user.js";
 
 // dky user  => /api/v1/register
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -135,5 +136,83 @@ export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req?.user?._id);
   res.status(200).json({
     user,
+  });
+});
+// Nhận tất cả người dùng - ADMIN  =>  /api/v1/admin/users
+export const allUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json({
+    users,
+  });
+});
+
+// Nhận thông tin chi tiết người dùng - ADMIN  =>  /api/v1/admin/users/:id
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 400)
+    );
+  }
+  res.status(200).json({
+    user,
+  });
+});
+
+//cập nhật thông tin chi tiết người dùng - ADMIN => /api/v1/admin/users/:id
+export const updateUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    // Kiểm tra xem có thông tin mới của người dùng không
+    const { name, email, role } = req.body;
+    if (!name || !email || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Tên, email và vai trò là bắt buộc",
+      });
+    }
+
+    // kt xem id của người dùng
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy người dùng",
+      });
+    }
+
+    // cập nhật user
+    user.name = name;
+    user.email = email;
+    user.role = role;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// delete user - ADMIN  =>  /api/v1/admin/users/:id
+export const deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id: ${req.params.id}`, 400)
+    );
+  }
+
+  // TODO - Remove user avatar from cloudinary
+  await user.deleteOne();
+  res.status(200).json({
+    success: true,
   });
 });

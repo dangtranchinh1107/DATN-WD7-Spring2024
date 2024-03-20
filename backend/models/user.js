@@ -8,17 +8,37 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Vui lòng nhập tên người dùng"],
       maxLength: [50, "Không được vượt quá 50 ký tự"],
+      validate: {
+        validator: function (value) {
+          return !/^\s|\s$/.test(value);
+        },
+        message: "Tên người dùng không được chứa khoảng trắng",
+      },
     },
     email: {
       type: String,
       required: [true, "Vui lòng nhập email của bạn"],
       unique: true,
+      validate: {
+        validator: function (value) {
+          return (
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && /.com$/.test(value)
+          );
+        },
+        message: "Email không hợp lệ",
+      },
     },
     password: {
       type: String,
       required: [true, "Vui lòng nhập mật khẩu"],
       minLength: [6, "Mật khẩu từ 6 ký tự trở lên"],
       select: false,
+      validate: {
+        validator: function (value) {
+          return !/\s/.test(value);
+        },
+        message: "Mật khẩu không được chứa khoảng trắng",
+      },
     },
     avatar: {
       public_id: String,
