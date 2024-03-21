@@ -4,7 +4,14 @@ import cookieParser from "cookie-parser";
 import errorMiddlewares from "./middlewares/errors.js";
 
 const app = express();
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 app.use(cookieParser());
 
 import dotenv from "dotenv";
@@ -15,10 +22,12 @@ const { PORT, mongoDB } = process.env;
 import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/order.js";
 import authRoutes from "./routes/auth.js";
+import paymentRoutes from "./routes/payment.js";
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoutes);
 
 import categoryRoutes from "./routes/categories.js";
 import colorRoutes from "./routes/colors.js";
