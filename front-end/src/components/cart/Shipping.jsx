@@ -32,7 +32,11 @@ const Shipping = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <MetaData title={"Shipping Info"} />
+=======
+      <MetaData title={"Thông tin vận chuyển"} />
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 
       <CheckoutSteps shipping />
       <div className="row wrapper mb-5">
@@ -43,10 +47,17 @@ const Shipping = () => {
             action="your_submit_url_here"
             method="post"
           >
+<<<<<<< HEAD
             <h2 className="mb-4">Shipping Info</h2>
             <div className="mb-3">
               <label htmlFor="address_field" className="form-label">
                 Address
+=======
+            <h2 className="mb-4">Thông tin vận chuyển</h2>
+            <div className="mb-3">
+              <label htmlFor="address_field" className="form-label">
+                Địa chỉ
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
               </label>
               <input
                 type="text"
@@ -61,7 +72,11 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="city_field" className="form-label">
+<<<<<<< HEAD
                 City
+=======
+                Thành phố
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
               </label>
               <input
                 type="text"
@@ -76,7 +91,11 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="phone_field" className="form-label">
+<<<<<<< HEAD
                 Phone No
+=======
+                Số điện thoại
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
               </label>
               <input
                 type="tel"
@@ -106,7 +125,11 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="country_field" className="form-label">
+<<<<<<< HEAD
                 Country
+=======
+                Quốc gia
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
               </label>
               <select
                 id="country_field"
@@ -125,7 +148,11 @@ const Shipping = () => {
             </div>
 
             <button id="shipping_btn" type="submit" className="btn w-100 py-2">
+<<<<<<< HEAD
               CONTINUE
+=======
+              Tiếp tục
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
             </button>
           </form>
         </div>

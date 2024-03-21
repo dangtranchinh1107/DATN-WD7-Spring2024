@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CheckoutSteps from "./CheckoutSteps";
+<<<<<<< HEAD
+=======
+import { caluclateOrderCost } from "../../helpers/helpers";
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 import {
   useCreateNewOrderMutation,
   useStripeCheckoutSessionMutation,
 } from "../../redux/api/orderApi";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { caluclateOrderCost } from "../helpers/helpers";
+=======
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 
 const PaymentMethod = () => {
   const [method, setMethod] = useState("");
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+=======
+  const { shippingInfo, cartItems, paymentInfo, orderItems } = useSelector(
+    (state) => state.cart
+  );
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 
   const [createNewOrder, { error, isSuccess }] = useCreateNewOrderMutation();
 
@@ -39,7 +52,11 @@ const PaymentMethod = () => {
     }
 
     if (isSuccess) {
+<<<<<<< HEAD
       navigate("/");
+=======
+      navigate("/me/orders?order_success=true");
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
     }
   }, [error, isSuccess]);
 
@@ -76,6 +93,12 @@ const PaymentMethod = () => {
         shippingAmount: shippingPrice,
         taxAmount: taxPrice,
         totalAmount: totalPrice,
+<<<<<<< HEAD
+=======
+        paymentInfo: {
+          status: " Paid",
+        },
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
       };
 
       stripeCheckoutSession(orderData);

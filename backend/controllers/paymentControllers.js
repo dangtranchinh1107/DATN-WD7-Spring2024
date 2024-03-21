@@ -1,7 +1,11 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Stripe from "stripe";
+<<<<<<< HEAD
 import order from "../models/order.js";
 
+=======
+import Order from "../models/order.js";
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 const stripe = Stripe(
   "sk_test_51OtnIN00s3mvU7AiSjZTMcomzAe2yuAixKEsI1i5xVDWpMRy9WhI5ZZP2xldRDB2hwNVtlDqfUn1pCnCg9mghwO600mcvnzDef"
 );
@@ -33,7 +37,11 @@ export const stripeCheckoutSession = catchAsyncErrors(
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
+<<<<<<< HEAD
       success_url: `http://localhost:3000/me/orders`,
+=======
+      success_url: `http://localhost:3000/me/orders?order_success=true`,
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
       cancel_url: `http://localhost:3000/`,
       customer_email: req?.user?.email,
       client_reference_id: req?.user?._id?.toString(),
@@ -126,7 +134,11 @@ export const stripeWebhook = catchAsyncErrors(async (req, res, next) => {
         user,
       };
 
+<<<<<<< HEAD
       await order.create(orderData);
+=======
+      await Order.create(orderData);
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
       console.log(orderData);
       res.status(200).json({ success: true });
     }

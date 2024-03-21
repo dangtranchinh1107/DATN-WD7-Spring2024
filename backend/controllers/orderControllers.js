@@ -7,27 +7,28 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 export const newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
-    CheckOut,
-    Cart,
-    paymentMethod,
-    Bill,
+    orderItems,
+    shippingInfo,
     itemsPrice,
     taxAmount,
     shippingAmount,
     totalAmount,
+    paymentMethod,
+    paymentInfo,
   } = req.body;
 
   const order = await Order.create({
-    CheckOut,
-    Cart,
-    paymentMethod,
-    Bill,
+    orderItems,
+    shippingInfo,
     itemsPrice,
     taxAmount,
     shippingAmount,
     totalAmount,
+    paymentMethod,
+    paymentInfo,
     user: req.user._id,
   });
+
   res.status(200).json({
     order,
   });
@@ -49,7 +50,7 @@ export const getOrderDetails = catchAsyncErrors(async (req, res, next) => {
   );
 
   if (!order) {
-    return next(new ErrorHandler("No Order found with this ID", 404));
+    return next(new ErrorHandler("Không tìm thấy đơn hàng nào có ID này", 404));
   }
   res.status(200).json({
     order,
@@ -70,16 +71,18 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    return next(new ErrorHandler("No Order found with this ID", 404));
+    return next(new ErrorHandler("Không tìm thấy đơn hàng nào có ID này", 404));
   }
   if (order?.orderStatus === "Delivered") {
-    return next(new ErrorHandler("You have already delivered this order", 400));
+    return next(new ErrorHandler("Bạn đã giao đơn đặt hàng này", 400));
   }
   //update product stock
   order?.Cart?.forEach(async (item) => {
     const product = await Product.findById(item?.product?.toString());
     if (!product) {
-      return next(new ErrorHandler("No Product found with this ID", 404));
+      return next(
+        new ErrorHandler("Không tìm thấy sản phẩm nào có ID này", 404)
+      );
     }
     product.stock = product.stock - item.quantity;
     await product.save({ validateBeforeSave: false });
@@ -97,11 +100,90 @@ export const deleteOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    return next(new ErrorHandler("No Order found with this ID"), 404);
+    return next(new ErrorHandler("Không tìm thấy đơn hàng nào có ID này"), 404);
   }
 
   await order.deleteOne();
   res.status(200).json({
     success: true,
+  });
+});
+
+//
+async function getSalesData(startDate, endDate) {
+  const salesData = await Order.aggregate([
+    {
+      //Bước 1 - Lọc kết quả
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        },
+      },
+    },
+    {
+      //Bước 2 - Nhóm Data
+      $group: {
+        _id: {
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        },
+        totalSales: { $sum: "$totalAmount" },
+        numOrders: { $sum: 1 }, // Đếm số lượng đơn đặt hàng
+      },
+    },
+  ]);
+  //Tạo Map đến store sales data
+  const salesMap = new Map();
+  let totalSales = 0;
+  let totalNumOrders = 0;
+
+  salesData.forEach((entry) => {
+    const date = entry?._id.date;
+    const sales = entry?.totalSales;
+    const numOrders = entry?.numOrders;
+
+    salesMap.set(date, { sales, numOrders });
+    totalSales += sales;
+    totalNumOrders += numOrders;
+  });
+  //Tạo một mảng ngày giữa ngày bắt đầu và ngày kết thúc
+  const datesBetween = getDatesBetween(startDate, endDate);
+  //Tạo mảng dữ liệu bán hàng cuối cùng bằng 0 cho những ngày không có doanh số bán hàng
+  const finalSalesData = datesBetween.map((date) => ({
+    date,
+    sales: (salesMap.get(date) || { sales: 0 }).sales,
+    numOrders: (salesMap.get(date) || { numOrders: 0 }).numOrders,
+  }));
+
+  return { salesData: finalSalesData, totalSales, totalNumOrders };
+}
+
+function getDatesBetween(startDate, endDate) {
+  const dates = [];
+  let currentDate = new Date(startDate);
+  while (currentDate <= new Date(endDate)) {
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    dates.push(formattedDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dates;
+}
+
+//Lấy dữ liệu bán hàng => /api/v1/admin/get_sales
+export const getSales = catchAsyncErrors(async (req, res, next) => {
+  const startDate = new Date(req.query.startDate);
+  const endDate = new Date(req.query.endDate);
+
+  startDate.setUTCHours(0, 0, 0, 0);
+  endDate.setUTCHours(23, 59, 59, 999);
+  const { salesData, totalSales, totalNumOrders } = await getSalesData(
+    startDate,
+    endDate
+  );
+
+  res.status(200).json({
+    totalSales,
+    totalNumOrders,
+    sales: salesData,
   });
 });

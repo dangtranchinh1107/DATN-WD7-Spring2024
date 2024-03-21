@@ -11,7 +11,7 @@ export const getCategories = catchAsyncErrors(async (req, res, next) => {
   });
 
   res.status(200).json({
-    message: "Lấy tất cả danh sách thành công",
+    message: "Lấy tất cả danh sách thành công!",
     categories,
   });
 });

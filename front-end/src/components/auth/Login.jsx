@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useLoginMutation } from "../../redux/api/authApi";
+=======
+import { useLoginMutation } from "../../redux/api/authApi";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +44,11 @@ const Login = () => {
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form className="shadow rounded bg-body" onSubmit={submitHandler}>
+<<<<<<< HEAD
           <h2 className="mb-4">Login</h2>
+=======
+          <h2 className="mb-4">Đăng nhập</h2>
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
           <div className="mb-3">
             <label htmlFor="email_field" className="form-label">
               Email
@@ -54,7 +65,11 @@ const Login = () => {
 
           <div className="mb-3">
             <label htmlFor="password_field" className="form-label">
+<<<<<<< HEAD
               Password
+=======
+              Mật khẩu
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
             </label>
             <input
               type="password"
@@ -66,8 +81,13 @@ const Login = () => {
             />
           </div>
 
+<<<<<<< HEAD
           <Link href="/password/forgot" className="float-end mb-4">
             Forgot Password?
+=======
+          <Link to="/password/forgot" className="float-end mb-4">
+            Quên mật khẩu?
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
           </Link>
 
           <button
@@ -76,12 +96,20 @@ const Login = () => {
             className="btn w-100 py-2"
             disabled={isLoading}
           >
+<<<<<<< HEAD
             {isLoading ? "Authenticating..." : "LOGIN"}
+=======
+            {isLoading ? "Đang xác thực..." : "Đăng nhập"}
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
           </button>
 
           <div className="my-3">
             <Link to="/register" className="float-end">
+<<<<<<< HEAD
               New User?
+=======
+              Đăng ký?
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
             </Link>
           </div>
         </form>

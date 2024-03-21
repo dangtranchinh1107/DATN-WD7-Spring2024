@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import errorMiddlewares from "./middlewares/errors.js";
 
 const app = express();
+<<<<<<< HEAD
 app.use(
   express.json({
     limit: "10mb",
@@ -12,6 +13,10 @@ app.use(
     },
   })
 );
+=======
+
+app.use(express.json({ limit: "10mb" }));
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 app.use(cookieParser());
 
 import dotenv from "dotenv";
@@ -23,7 +28,10 @@ import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/order.js";
 import authRoutes from "./routes/auth.js";
 import paymentRoutes from "./routes/payment.js";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);

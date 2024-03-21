@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .App {
   text-align: center;
 }
@@ -37,6 +38,8 @@
     transform: rotate(360deg);
   }
 }
+=======
+>>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 html,
 body {
   font-family: "Amazon Ember";
