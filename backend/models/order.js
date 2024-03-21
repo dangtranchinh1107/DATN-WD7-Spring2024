@@ -24,13 +24,12 @@ const orderSchema = new mongoose.Schema(
         required: true,
       },
     },
-
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    Cart: [
+    orderItems: [
       {
         name: {
           type: String,
@@ -63,12 +62,10 @@ const orderSchema = new mongoose.Schema(
         message: "Vui lòng chọn: COD or Card",
       },
     },
-    Bill: [
-      {
-        id: String,
-        status: String,
-      },
-    ],
+    paymentInfo: {
+      id: String,
+      status: String,
+    },
     itemsPrice: {
       type: Number,
       required: true,

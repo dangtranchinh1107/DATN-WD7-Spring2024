@@ -12,6 +12,9 @@ import ConfirmOrder from "./components/cart/ConfirmOrder";
 import PaymentMethod from "./components/cart/PaymentMethod";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import MyOrders from "./components/order/MyOrders";
+import OrderDetails from "./components/order/OrderDetails";
+import Invoice from "./components/invoice/Invoice";
 
 function App() {
   return (
@@ -46,6 +49,30 @@ function App() {
               element={
                 <protectedRoute>
                   <PaymentMethod />
+                </protectedRoute>
+              }
+            />
+            <Route
+              path="/me/orders"
+              element={
+                <protectedRoute>
+                  <MyOrders />
+                </protectedRoute>
+              }
+            />
+            <Route
+              path="/me/order/:id"
+              element={
+                <protectedRoute>
+                  <OrderDetails />
+                </protectedRoute>
+              }
+            />
+            <Route
+              path="/invoice/order/:id"
+              element={
+                <protectedRoute>
+                  <Invoice />
                 </protectedRoute>
               }
             />
