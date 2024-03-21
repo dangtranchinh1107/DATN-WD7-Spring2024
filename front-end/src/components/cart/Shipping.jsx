@@ -32,7 +32,7 @@ const Shipping = () => {
 
   return (
     <>
-      <MetaData title={"Shipping Info"} />
+      <MetaData title={"Thông tin vận chuyển"} />
 
       <CheckoutSteps shipping />
       <div className="row wrapper mb-5">
@@ -43,10 +43,10 @@ const Shipping = () => {
             action="your_submit_url_here"
             method="post"
           >
-            <h2 className="mb-4">Shipping Info</h2>
+            <h2 className="mb-4">Thông tin vận chuyển</h2>
             <div className="mb-3">
               <label htmlFor="address_field" className="form-label">
-                Address
+                Địa chỉ
               </label>
               <input
                 type="text"
@@ -61,7 +61,7 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="city_field" className="form-label">
-                City
+                Thành phố
               </label>
               <input
                 type="text"
@@ -76,7 +76,7 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="phone_field" className="form-label">
-                Phone No
+                Số điện thoại
               </label>
               <input
                 type="tel"
@@ -106,7 +106,7 @@ const Shipping = () => {
 
             <div className="mb-3">
               <label htmlFor="country_field" className="form-label">
-                Country
+                Quốc gia
               </label>
               <select
                 id="country_field"
@@ -125,7 +125,7 @@ const Shipping = () => {
             </div>
 
             <button id="shipping_btn" type="submit" className="btn w-100 py-2">
-              CONTINUE
+              Tiếp tục
             </button>
           </form>
         </div>

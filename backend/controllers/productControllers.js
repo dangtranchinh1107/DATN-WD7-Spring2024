@@ -7,6 +7,7 @@ import HardDisk from "../models/HardDisk.js";
 import Product from "../models/Product.js";
 import Ram from "../models/Ram.js";
 import APIFilters from "../utils/apiFilters.js";
+import { delete_file, upload_file } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Lấy tất cả sản phẩm => /api/v1/products
@@ -272,6 +273,11 @@ export const deleteProduct = catchAsyncErrors(async (req, res) => {
   if (!product) {
     return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
   }
+  //Xóa hình ảnh sản phẩm
+
+  for (let i = 0; i < product?.images?.length; i++) {
+    await delete_file(product?.images[i].public_id);
+  }
   await product.deleteOne();
   res.status(200).json({
     message: "Sản phẩm đã xóa",
@@ -306,7 +312,7 @@ export const createProductReview = catchAsyncErrors(async (req, res, next) => {
     product.numOfReviews = product.reviews.length;
   }
 
-  product.rating =
+  product.ratings =
     product.reviews.reduce((acc, item) => item.rating + acc, 0) /
     product.reviews.length;
 
@@ -354,6 +360,56 @@ export const deleteProductReview = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    product,
+  });
+});
+
+//Admin
+// Lấy 1 sản phẩm - Admin => /api/v1/admin/products
+export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    message: "Sản phẩm cần tìm",
+    products,
+  });
+});
+
+// Cập nhật hình ảnh sản phẩm => /api/v1/admin/products/:id/upload_images
+export const uploadProductImages = catchAsyncErrors(async (req, res) => {
+  let product = await Product.findById(req?.params?.id);
+
+  if (!product) {
+    next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
+  }
+  const uploader = async (image) => upload_file(image, "shopit/products");
+  const urls = await Promise.all((req?.body?.images).map(uploader));
+  product?.images?.push(...urls);
+  await product?.save();
+  res.status(200).json({
+    product,
+  });
+});
+
+// Xoá hình ảnh sản phẩm => /api/v1/admin/products/:id/delete_image
+export const deleteProductImage = catchAsyncErrors(async (req, res) => {
+  let product = await Product.findById(req?.params?.id);
+
+  if (!product) {
+    return next(new ErrorHandler("Không tìm thấy sản phẩm", 404));
+  }
+
+  const isDeleted = await delete_file(req.body.imgId);
+
+  if (isDeleted) {
+    product.images = product?.images?.filter(
+      (img) => img.public_id !== req.body.imgId
+    );
+
+    await product?.save();
+  }
+
+  res.status(200).json({
     product,
   });
 });

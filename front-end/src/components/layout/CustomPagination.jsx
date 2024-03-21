@@ -25,7 +25,7 @@ const CustomPagination = ({ resPerPage, productsFiltersCount }) => {
     const path = window.location.pathname + "?" + searchParams.toString();
     navigate(path);
   };
-  console.log(resPerPage, productsFiltersCount);
+  // console.log(resPerPage, productsFiltersCount);
   return (
     <div className="d-flex justify-content-center my-5">
       {productsFiltersCount > resPerPage && (

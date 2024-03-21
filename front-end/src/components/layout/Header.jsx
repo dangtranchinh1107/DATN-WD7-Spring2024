@@ -1,21 +1,32 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Search from "./Search";
 import "../../assets/css/home.css";
 import logo from "../../assets/logo.png";
 
 import { Link, useNavigate } from "react-router-dom";
+
 import { useGetMeQuery } from "../../redux/api/userApi";
 import { useLazyLogoutQuery } from "../../redux/api/authApi";
+import { logoutUser } from "../../redux/features/userSlice";
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useGetMeQuery();
   // console.log(data);
   const [logout] = useLazyLogoutQuery();
 
   const { user } = useSelector((state) => state.auth);
-  const logoutHandler = () => {
-    logout();
-    navigate(0);
+  const logoutHandler = async () => {
+    try {
+      await logout();
+
+      // Xóa thông tin người dùng và token khỏi local storage hoặc bất kỳ nơi lưu trữ khác
+      dispatch(logoutUser());
+
+      navigate(0);
+    } catch (error) {
+      console.error("Lỗi khi đăng xuất:", error);
+    }
   };
   const { cartItems } = useSelector((state) => state.cart);
   return (
@@ -52,7 +63,11 @@ const Header = () => {
             >
               <figure className="avatar avatar-nav">
                 <img
-                  src="../images/default_avatar.jpg"
+                  src={
+                    user?.avatar
+                      ? user?.avatar?.url
+                      : "/images/default_avatar.jpg"
+                  }
                   alt="User Avatar"
                   className="rounded-circle"
                 />
@@ -63,19 +78,21 @@ const Header = () => {
               className="dropdown-menu w-100"
               aria-labelledby="dropDownMenuButton"
             >
-              <Link className="dropdown-item" to="/admin/dashboard">
-                {" "}
-                Dashboard{" "}
-              </Link>
+              {user?.role === "admin" && (
+                <Link className="dropdown-item" to="/admin/dashboard">
+                  {" "}
+                  Thống kê{" "}
+                </Link>
+              )}
 
               <Link className="dropdown-item" to="/me/orders">
                 {" "}
-                Orders{" "}
+                Đơn đặt hàng{" "}
               </Link>
 
               <Link className="dropdown-item" to="/me/profile">
                 {" "}
-                Profile{" "}
+                Hồ sơ người dùng{" "}
               </Link>
 
               <Link
@@ -83,7 +100,7 @@ const Header = () => {
                 to="/"
                 onClick={logoutHandler}
               >
-                Logout{" "}
+                Đăng xuất{" "}
               </Link>
             </div>
           </div>

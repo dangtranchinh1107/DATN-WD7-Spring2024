@@ -19,7 +19,8 @@ export const caluclateOrderCost = (cartItems) => {
   );
   const shippingPrice = itemsPrice > 200 ? 0 : 25;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
-  const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
+  // const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
+  const totalPrice = (itemsPrice + shippingPrice).toFixed(2);
   return {
     itemsPrice: Number(itemsPrice).toFixed(2),
     shippingPrice,

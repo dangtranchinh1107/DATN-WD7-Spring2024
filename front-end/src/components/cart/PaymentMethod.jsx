@@ -1,37 +1,59 @@
 import React, { useEffect, useState } from "react";
-import MetaData from "../layout/MetaData";
 import { useSelector } from "react-redux";
 import CheckoutSteps from "./CheckoutSteps";
 import { caluclateOrderCost } from "../../helpers/helpers";
-import toast from "react-hot-toast";
+import {
+  useCreateNewOrderMutation,
+  useStripeCheckoutSessionMutation,
+} from "../../redux/api/orderApi";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useCreateNewOrderMutation } from "../../redux/api/orderApi";
 
-const PaymentMethod = ({ paymentMethodCallback }) => {
+const PaymentMethod = () => {
   const [method, setMethod] = useState("");
+
   const navigate = useNavigate();
 
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems, paymentInfo, orderItems } = useSelector(
+    (state) => state.cart
+  );
 
-  const [createNewOrder, { isLoading, error, isSuccess }] =
-    useCreateNewOrderMutation();
+  const [createNewOrder, { error, isSuccess }] = useCreateNewOrderMutation();
+
+  const [
+    stripeCheckoutSession,
+    { data: checkoutData, error: checkoutError, isLoading },
+  ] = useStripeCheckoutSessionMutation();
+
+  useEffect(() => {
+    if (checkoutData) {
+      window.location.href = checkoutData?.url;
+    }
+
+    if (checkoutError) {
+      toast.error(checkoutError?.data?.message);
+    }
+  }, [checkoutData, checkoutError]);
+
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
+
     if (isSuccess) {
-      navigate("/online_checkout"); // Chuyển hướng với giá trị phương thức thanh toán
+      navigate("/me/orders?order_success=true");
     }
   }, [error, isSuccess]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
       caluclateOrderCost(cartItems);
+
     if (method === "COD") {
+      // Create COD Order
       const orderData = {
-        CheckOut: shippingInfo,
-        Cart: cartItems,
         shippingInfo,
         orderItems: cartItems,
         itemsPrice,
@@ -39,25 +61,40 @@ const PaymentMethod = ({ paymentMethodCallback }) => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: " Not Paid",
+          status: "Not Paid",
         },
         paymentMethod: "COD",
       };
+
       createNewOrder(orderData);
     }
+
     if (method === "Card") {
-      alert("Card");
+      // Stripe Checkout
+      const orderData = {
+        shippingInfo,
+        orderItems: cartItems,
+        itemsPrice,
+        shippingAmount: shippingPrice,
+        taxAmount: taxPrice,
+        totalAmount: totalPrice,
+        paymentInfo: {
+          status: " Paid",
+        },
+      };
+
+      stripeCheckoutSession(orderData);
     }
   };
 
   return (
     <>
-      <MetaData title={"Payment Method"} />
       <CheckoutSteps shipping confirmOrder payment />
+
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
-            <h2 className="mb-4">Chọn phương thức thanh toán</h2>
+            <h2 className="mb-4">Select Payment Method</h2>
 
             <div className="form-check">
               <input
@@ -88,19 +125,11 @@ const PaymentMethod = ({ paymentMethodCallback }) => {
 
             <button
               id="shipping_btn"
-              name="momo"
               type="submit"
               className="btn py-2 w-100"
+              disabled={isLoading}
             >
-              Thanh toán Momo
-            </button>
-            <button
-              id="shipping_btn"
-              name="vnpay"
-              type="submit"
-              className="btn py-2 w-100"
-            >
-              Thanh toán VnPay
+              CONTINUE
             </button>
           </form>
         </div>

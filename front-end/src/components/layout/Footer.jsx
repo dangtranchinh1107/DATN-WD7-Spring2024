@@ -9,29 +9,29 @@ const Footer = () => {
             <img className="logo" src="src/images/logo.png" alt="" />
           </div>
           <div>Subscribe</div>
-          <div>Get 10% off your first order</div>
+          <div>Nhận 10% giảm giá cho đơn hàng đầu tiên của bạn</div>
           <div className="email2">
             <input
               className="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder="Nhập email của bạn"
             />
             <i className="bi bi-send"></i>
           </div>
         </div>
         <div>
-          <div className="title2">Support</div>
+          <div className="title2">Liên hệ</div>
           <div>111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.</div>
           <div>techlap@gmail.com</div>
           <div>0789257816</div>
         </div>
         <div>
-          <div className="title2">Account</div>
-          <div>My Account</div>
-          <div>Login / Register</div>
-          <div>Cart</div>
-          <div>Wishlist</div>
-          <div>Shop</div>
+          <div className="title2">Tài khoản</div>
+          <div>Tài khoản của tôi</div>
+          <div>Đăng nhập / Đăng ký</div>
+          <div>Giỏ hàng</div>
+          <div>Danh sách yêu thích</div>
+          <div>Cửa hàng</div>
         </div>
         <div>
           <div className="title2">Quick Link</div>

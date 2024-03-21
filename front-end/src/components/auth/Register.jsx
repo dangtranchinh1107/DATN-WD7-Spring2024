@@ -19,9 +19,9 @@ const Register = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
+    // if (isAuthenticated) {
+    //   navigate("/");
+    // }
     if (error) {
       toast.error(error?.data?.message);
     }
@@ -47,11 +47,11 @@ const Register = () => {
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form className="shadow rounded bg-body" onSubmit={submitHandler}>
-          <h2 className="mb-4">Register</h2>
+          <h2 className="mb-4">Đăng ký tài khoản</h2>
 
           <div className="mb-3">
             <label htmlFor="name_field" className="form-label">
-              Name
+              Tên người dùng
             </label>
             <input
               type="text"
@@ -79,7 +79,7 @@ const Register = () => {
 
           <div className="mb-3">
             <label htmlFor="password_field" className="form-label">
-              Password
+              Mật khẩu
             </label>
             <input
               type="password"
@@ -97,7 +97,7 @@ const Register = () => {
             className="btn w-100 py-2"
             disabled={isLoading}
           >
-            {isLoading ? "Creating..." : "REGISTER"}
+            {isLoading ? "Đang đăng ký..." : "Đăng ký"}
           </button>
         </form>
       </div>

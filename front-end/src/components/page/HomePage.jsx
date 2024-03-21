@@ -16,20 +16,20 @@ const HomePage = () => {
   const keyword = searchParams.get("keyword") || "";
   const min = searchParams.get("min");
   const max = searchParams.get("max");
-  const category = searchParams.get("category");
+  const categorys = searchParams.get("category");
   const ratings = searchParams.get("ratings");
-  console.log(category);
+  console.log(categorys);
 
   const params = { page, keyword };
 
   min !== null && (params.min = min);
   max !== null && (params.max = max);
-  category !== null && (params.category = category);
+  categorys !== null && (params.category = categorys);
   ratings !== null && (params.ratings = ratings);
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (isError) {
@@ -72,7 +72,7 @@ const HomePage = () => {
                 class="carousel-control-prev-icon"
                 aria-hidden="true"
               ></span>
-              <span class="visually-hidden">Previous</span>
+              <span class="visually-hidden">Trước </span>
             </button>
             <button
               onClick={nextSlide}
@@ -85,7 +85,7 @@ const HomePage = () => {
                 class="carousel-control-next-icon"
                 aria-hidden="true"
               ></span>
-              <span class="visually-hidden">Next</span>
+              <span class="visually-hidden">Sau</span>
             </button>
           </div>
           <img
@@ -121,7 +121,11 @@ const HomePage = () => {
           <section id="products" className="mt-5">
             <div className="row">
               {data?.products?.map((product) => (
-                <ProductItem product={product} columnSize={columnSize} />
+                <ProductItem
+                  key={product._id}
+                  product={product}
+                  columnSize={columnSize}
+                />
               ))}
             </div>
           </section>

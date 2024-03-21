@@ -9,12 +9,15 @@ const Filters = () => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
   const params = useParams();
+  const [categories, setCategories] = useState([]);
 
   const { data } = useGetCategoriesQuery(params?.id);
-  const cate = data?.categories.map((item) => item.name);
-  // const names = cate.categories
-  console.log(cate);
 
+  useEffect(() => {
+    if (data?.categories) {
+      setCategories(data.categories);
+    }
+  }, [data]);
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
 
@@ -103,20 +106,19 @@ const Filters = () => {
       <hr />
       <h5 className="mb-3">Danh mục</h5>
 
-      {cate?.map((category) => (
-        <div className="form-check">
+      {categories?.map((category) => (
+        <div className="form-check" key={category._id}>
           <input
             className="form-check-input"
             type="checkbox"
             name="category"
-            id="check4"
-            value={category}
-            defaultChecked={defaultCheckHandler("category", category)}
+            id={`check-${category._id}`}
+            value={category._id}
+            defaultChecked={defaultCheckHandler("category", category._id)}
             onClick={(e) => handleClick(e.target)}
           />
-          <label className="form-check-label" htmlFor="check4">
-            {" "}
-            {category}
+          <label className="form-check-label" htmlFor={`check-${category._id}`}>
+            {category.name}
           </label>
         </div>
       ))}
