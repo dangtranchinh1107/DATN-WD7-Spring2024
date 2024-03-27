@@ -206,10 +206,12 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHandler(`User not found with id: ${req.params.id}`, 400)
+      new ErrorHandler(`Không tìm thấy người dùng: ${req.params.id}`, 400)
     );
   }
-
+  if (user.role === "admin") {
+    return next(new ErrorHandler(`Tài khoản "Admin" không thể xóa!`, 403));
+  }
   // TODO - Remove user avatar from cloudinary
   await user.deleteOne();
   res.status(200).json({

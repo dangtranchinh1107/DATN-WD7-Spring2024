@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    CheckOut: {
+    shippingInfo: {
       address: {
         type: String,
         required: true,
@@ -15,13 +15,21 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      zipCode: {
+        type: String,
+        required: true,
+      },
+      country: {
+        type: String,
+        required: true,
+      },
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    Cart: [
+    orderItems: [
       {
         name: {
           type: String,
@@ -54,12 +62,10 @@ const orderSchema = new mongoose.Schema(
         message: "Vui lòng chọn: COD or Card",
       },
     },
-    Bill: [
-      {
-        id: String,
-        status: String,
-      },
-    ],
+    paymentInfo: {
+      id: String,
+      status: String,
+    },
     itemsPrice: {
       type: Number,
       required: true,

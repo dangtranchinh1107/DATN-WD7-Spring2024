@@ -4,6 +4,9 @@ import { Toaster } from "react-hot-toast";
 import Header from "./components/layout/Header";
 import useUserRoutes from "./routes/userRoutes";
 import useAdminRoutes from "./routes/adminRoutes";
+import MyOrders from "./components/order/MyOrders";
+import OrderDetails from "./components/order/OrderDetails";
+import Invoice from "./components/invoice/Invoice";
 
 function App() {
   const userRoutes = useUserRoutes();

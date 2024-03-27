@@ -15,10 +15,12 @@ const { PORT, mongoDB } = process.env;
 import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/order.js";
 import authRoutes from "./routes/auth.js";
+import paymentRoutes from "./routes/payment.js";
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoutes);
 
 import categoryRoutes from "./routes/categories.js";
 import colorRoutes from "./routes/colors.js";
