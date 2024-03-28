@@ -1,22 +1,17 @@
 import mongoose from "mongoose";
 import express from "express";
-
 import cookieParser from "cookie-parser";
-
 import errorMiddlewares from "./middlewares/errors.js";
 
 
 
 const app = express();
-app.use(express.json());
-
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 import dotenv from "dotenv";
 dotenv.config();
 const { PORT, mongoDB } = process.env;
-
-app.use(express.json());
 
 //Routesr
 import productRoutes from "./routes/products.js";

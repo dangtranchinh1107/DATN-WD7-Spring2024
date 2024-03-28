@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 
 import User from '../models/user.js'
+import { delete_file, upload_file } from "../utils/cloudinary.js";
 import { getResetPasswordTemplates } from "../utils/emailTemplates.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import sendEmail from "../utils/sendEmail.js";
@@ -58,6 +59,25 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
 
 
 
+// cập nhật avatar user  => /api/v1/me/upload_avatar
+export const uploadAvatar = catchAsyncErrors(async (req, res, next) => {
+  const avatarResponse = await upload_file(req.body.avatar, "shopit/avatars")
+
+
+  //remove previous avatar
+  if (req?.user?.avatar?.url) {
+    await delete_file(req?.user?.avatar?.public_id)
+  }
+  const user = await User.findByIdAndUpdate(req?.user?._id, {
+    avatar: avatarResponse,
+  })
+
+  res.status(200).json({
+    user,
+  })
+})
+
+
 // Quên mật khẩu  => /api/v1/password/forgot
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
@@ -75,7 +95,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   //gửi khôi phục mk
 
-  const resetUrl = `${process.env.FRONTEND_URL}/api/v1/password/reset/${resetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
   const message = getResetPasswordTemplates(user?.name, resetUrl);
   try {
@@ -141,8 +161,10 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   await user.save();
 
+
   sendToken(user, 200, res)
 })
+
 
 
 //nhận hồ sô người dùng => /api/v1/me
@@ -150,6 +172,7 @@ export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req?.user?._id);
   res.status(200).json({
     user,
+
   })
 })
 
@@ -157,36 +180,76 @@ export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
 
 //cập nhật mk => /api/v1/password/update
 export const updatePassword = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req?.user?._id).select("+password");
-  // Kiểm tra mật khẩu người dùng trước đó
-  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+  try {
+    const userId = req?.user?._id;
+    if (!userId) {
+      throw new ErrorHandler('Người dùng k có', 400);
+    }
 
-  if (!isPasswordMatched) {
-    return next(new ErrorHandler('Mật khẩu cũ không đúng', 400))
+    // Tìm người dùng bằng ID,MKhau
+    const user = await User.findById(userId).select("+password");
+
+    // ktra người dùng tồn tại k
+    if (!user) {
+      throw new ErrorHandler('Người dùng k có', 404);
+    }
+
+    // ktra lại mk
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+    if (!isPasswordMatched) {
+      throw new ErrorHandler('Mật khẩu cũ không đúng', 400);
+    }
+
+    // Update mk mới
+    user.password = req.body.password;
+
+    // Lưu người dùng
+    await user.save();
+
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+
+    next(error);
   }
-
-  user.password = req.body.password;
-  user.save();
-  res.status(200).json({
-    success: true,
-  })
-})
+});
 
 
 //cập nhật thông tin người dùng => /api/v1/me/update
-export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const newUserData = {
-    name: req.body.name,
-    email: req.body.email,
-  }
 
-  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
-    new: true,
-  })
-  res.status(200).json({
-    user,
-  })
-})
+export const updateProfile = catchAsyncErrors(async (req, res, next) => {
+  try {
+
+    const { name, email } = req.body;
+
+
+    if (!name || !email) {
+      return res.status(400).json({ success: false, message: "Vui lòng cung cấp tên và email." });
+    }
+
+
+    const userId = req.user._id;
+
+    // kta xem người dùng có tồn tại không
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "Người dùng không tồn tại." });
+    }
+
+    // cập nhật thông tin 
+    user.name = name;
+    user.email = email;
+    const updatedUser = await user.save();
+
+    //  thông tin người dùng đã cập nhật
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+
+    console.error("Thông tin cá nhân điền chưa đúng:", error);
+    res.status(500).json({ success: false, message: "Thông tin cá nhân điền chưa đúng" });
+  }
+});
+
 
 // Nhận tất cả người dùng - ADMIN  =>  /api/v1/admin/users
 export const allUsers = catchAsyncErrors(async (req, res, next) => {
