@@ -5,6 +5,7 @@ import Cpu from "../models/Cpu.js";
 import GraphicCard from "../models/GraphicCard.js";
 import HardDisk from "../models/HardDisk.js";
 import Product from "../models/Product.js";
+import Order from "../models/order.js";
 import Ram from "../models/Ram.js";
 import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
@@ -69,31 +70,33 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
 // Lấy 1 sản phẩm => /api/v1/products/:id
 export const getProductDetail = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req?.params?.id)
-    .populate({
-      path: "category",
-      select: "-_id name",
-    })
-    .populate({
-      path: "color",
-      select: "-_id name",
-    })
-    .populate({
-      path: "ram",
-      select: "-_id type",
-    })
-    .populate({
-      path: "cpu",
-      select: "-_id type",
-    })
-    .populate({
-      path: "hardDisk",
-      select: "-_id type",
-    })
-    .populate({
-      path: "graphicCard",
-      select: "-_id type",
-    });
+  const product = await Product.findById(req?.params?.id).populate(
+    "reviews.user"
+  );
+  // .populate({
+  //   path: "category",
+  //   select: "-_id name",
+  // })
+  // .populate({
+  //   path: "color",
+  //   select: "-_id name",
+  // })
+  // .populate({
+  //   path: "ram",
+  //   select: "-_id type",
+  // })
+  // .populate({
+  //   path: "cpu",
+  //   select: "-_id type",
+  // })
+  // .populate({
+  //   path: "hardDisk",
+  //   select: "-_id type",
+  // })
+  // .populate({
+  //   path: "graphicCard",
+  //   select: "-_id type",
+  // });
   if (!product) {
     return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
   }
@@ -355,5 +358,19 @@ export const deleteProductReview = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     product,
+  });
+});
+//can user review => /api/v1/can_review
+export const canUserReview = catchAsyncErrors(async (req, res) => {
+  const orders = await Order.find({
+    user: req.user._id,
+
+    "orderItems.product": req.query.productId,
+  });
+  if (orders.length === 0) {
+    return res.status(200).json({ canReview: false });
+  }
+  res.status(200).json({
+    canReview: true,
   });
 });

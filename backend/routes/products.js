@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+  canUserReview,
   createProductReview,
   deleteProduct,
   deleteProductReview,
@@ -29,11 +30,13 @@ router
   .route("/admin/product/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 
-router.route("/reviews").put(isAuthenticatedUser, createProductReview);
-router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
+router
+  .route("/reviews")
+  .get(isAuthenticatedUser, getProductReviews)
+  .put(isAuthenticatedUser, createProductReview);
 router.route("/me").get(isAuthenticatedUser, getUserProfile);
 router
   .route("/admin/reviews")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductReview);
-
+router.route("/can_review").get(isAuthenticatedUser, canUserReview);
 export default router;

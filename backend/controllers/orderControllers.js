@@ -5,6 +5,8 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 //Tạo mới Order => /api/v1/orders/new
 
+//Tạo mới Order => /api/v1/orders/new
+
 export const newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
     orderItems,

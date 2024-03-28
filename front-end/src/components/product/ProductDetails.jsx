@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader";
 import toast from "react-hot-toast";
 import StarRatings from "react-star-ratings";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import MetaData from "../layout/MetaData";
+import NewReviews from "../reviews/NewReviews";
+import ListReviews from "../reviews/ListReviews";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -19,6 +21,7 @@ const ProductDetails = () => {
     params?.id
   );
   const product = data?.product;
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setActiveImg(
@@ -99,9 +102,7 @@ const ProductDetails = () => {
         <div className="col-12 col-lg-5 mt-5">
           <h3>{product?.name}</h3>
           <p id="product_id">Product # {product?._id}</p>
-
           <hr />
-
           <div className="d-flex">
             <StarRatings
               rating={product?.ratings}
@@ -117,7 +118,6 @@ const ProductDetails = () => {
             </span>
           </div>
           <hr />
-
           <p id="product_price">$ {product?.price}</p>
           <div className="stockCounter d-inline">
             <span className="btn btn-danger minus" onClick={decreseQty}>
@@ -142,9 +142,7 @@ const ProductDetails = () => {
           >
             Add to Cart
           </button>
-
           <hr />
-
           <p>
             Status:{" "}
             <span
@@ -154,21 +152,25 @@ const ProductDetails = () => {
               {product?.stock > 0 ? "Còn hàng" : "Hết hàng"}
             </span>
           </p>
-
           <hr />
-
           <h4 className="mt-2">Description:</h4>
           <p>{product?.description}</p>
           <hr />
           <p id="product_seller mb-3">
             Sold by: <strong>{product?.seller}</strong>
           </p>
-
-          <div className="alert alert-danger my-5" type="alert">
-            Login to post your review.
-          </div>
+          {isAuthenticated ? (
+            <NewReviews productId={product?._id} />
+          ) : (
+            <div className="alert alert-danger my-5" type="alert">
+              Login to post your review.
+            </div>
+          )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        <ListReviews reviews={product?.reviews} />
+      )}
     </>
   );
 };
