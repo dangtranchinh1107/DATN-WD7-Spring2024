@@ -61,7 +61,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: "Not Paid",
+          status: "Chưa thanh toán",
         },
         paymentMethod: "COD",
       };
@@ -79,7 +79,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: " Paid",
+          status: " Đã thanh toán",
         },
       };
 

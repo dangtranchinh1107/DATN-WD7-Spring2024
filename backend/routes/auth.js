@@ -9,6 +9,7 @@ import {
   logout,
   registerUser,
   resetPassword,
+  updateStatusUser,
   updateUser,
 } from "../controllers/authControllers.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middlewares/auth.js";
@@ -31,4 +32,8 @@ router
   .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetails)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUser)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+router
+  .route("/admin/users/status/:id")
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateStatusUser);
 export default router;

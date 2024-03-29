@@ -3,42 +3,55 @@ import Loader from "../layout/Loader";
 import { toast } from "react-hot-toast";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
+import { FaToggleOn, FaToggleOff } from "react-icons/fa";
 
 import AdminLayout from "../layout/AdminLayout";
 
 import {
-  useDeleteUserMutation,
   useGetAdminUsersQuery,
+  useUpdateStatusUserMutation,
 } from "../../redux/api/userApi";
 
 const ListUsers = () => {
   const { data, isLoading, error } = useGetAdminUsersQuery();
 
-  const [
-    deleteUser,
-    { error: deleteError, isLoading: isDeleteLoading, isSuccess },
-  ] = useDeleteUserMutation();
+  const [updateUser, { error: updateError }] = useUpdateStatusUserMutation();
 
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
-
-    if (deleteError) {
-      toast.error(deleteError?.data?.message);
+    if (updateError) {
+      toast.error(updateError?.data?.message);
     }
+  }, [error, updateError]);
 
-    if (isSuccess) {
-      toast.success("Tài khoản đã xóa!");
+  const toggleUserStatus = (id, status, role) => {
+    if (role === "admin") {
+      toast.error("Không thể vô hiệu hóa tài khoản admin.");
+      return;
     }
-  }, [error, deleteError, isSuccess]);
+    const newStatus = status === "active" ? "deactive" : "active";
 
-  const deleteUserHandler = (id) => {
-    const confirmDelete = window.confirm(
-      "Bạn có chắc chắn xóa tài khoản không?"
+    // Hiển thị xác nhận trước khi thay đổi trạng thái
+    const confirmToggle = window.confirm(
+      `Bạn có chắc chắn muốn ${
+        newStatus === "active" ? "kích hoạt" : "vô hiệu hóa"
+      } tài khoản này không?`
     );
-    if (confirmDelete) {
-      deleteUser(id);
+
+    if (confirmToggle) {
+      updateUser({ id, body: { status: newStatus } })
+        .then(() => {
+          toast.success(
+            `Tài khoản đã ${
+              newStatus === "active" ? "kích hoạt" : "vô hiệu hóa"
+            } thành công!`
+          );
+        })
+        .catch((error) => {
+          toast.error(error?.data?.message);
+        });
     }
   };
 
@@ -51,7 +64,7 @@ const ListUsers = () => {
           sort: "asc",
         },
         {
-          label: "Name",
+          label: "Tên",
           field: "name",
           sort: "asc",
         },
@@ -63,6 +76,11 @@ const ListUsers = () => {
         {
           label: "Role",
           field: "role",
+          sort: "asc",
+        },
+        {
+          label: "Status",
+          field: "status",
           sort: "asc",
         },
         {
@@ -80,6 +98,15 @@ const ListUsers = () => {
         name: user?.name,
         email: user?.email,
         role: user?.role,
+        status: (
+          <span
+            className={
+              user.status === "active" ? "toggle-active" : "toggle-deactive"
+            }
+          >
+            {user.status === "active" ? "active" : "deactive"}
+          </span>
+        ),
         actions: (
           <>
             <Link
@@ -91,11 +118,19 @@ const ListUsers = () => {
             </Link>
 
             <button
-              className="btn btn-outline-danger ms-2"
-              onClick={() => deleteUserHandler(user?._id)}
-              disabled={isDeleteLoading}
+              className={`btn ms-2 ${
+                user.status === "active" ? "toggle-active" : "toggle-deactive"
+              }`}
+              onClick={() =>
+                toggleUserStatus(user?._id, user?.status, user?.role)
+              }
+              disabled={isLoading}
             >
-              <i className="fa fa-trash"></i>
+              {user.status === "active" ? (
+                <FaToggleOn size={28} />
+              ) : (
+                <FaToggleOff size={28} />
+              )}
             </button>
           </>
         ),

@@ -89,64 +89,69 @@ const Invoice = () => {
             </div>
           </header>
           <main>
-            <table className="mt-5">
-              <thead>
-                <tr>
-                  <th className="service">ID</th>
-                  <th className="desc">NAME</th>
-                  <th>PRICE</th>
-                  <th>QTY</th>
-                  <th>TOTAL</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderItems?.map((item) => (
+            <div class="table-responsive mt-5">
+              <table class="table">
+                <thead>
                   <tr>
-                    <td className="service">{item?.product}</td>
-                    <td className="desc">{item?.name}</td>
-                    <td className="unit">${item?.price}</td>
-                    <td className="qty">{item?.quantity}</td>
-                    <td className="total">${item?.price * item?.quantity}</td>
+                    <th class="text-center desc">NAME</th>
+                    <th class="text-center unit">PRICE</th>
+                    <th class="text-center qty">QTY</th>
+                    <th class="text-center total">TOTAL</th>
+                    <th class="text-center total"></th>
                   </tr>
-                ))}
+                </thead>
+                <tbody>
+                  {orderItems?.map((item) => (
+                    <tr>
+                      <td class="text-center desc">{item?.name}</td>
+                      <td class="text-center unit">${item?.price}</td>
+                      <td class="text-center qty">{item?.quantity}</td>
+                      <td class="text-center total">
+                        ${item?.price * item?.quantity}
+                      </td>
+                      <td class="text-center qty"></td>
+                    </tr>
+                  ))}
 
-                <tr>
-                  <td colSpan="4">
-                    <b>TỔNG PHỤ</b>
-                  </td>
-                  <td className="total">${order?.itemsPrice}</td>
-                </tr>
+                  <tr>
+                    <td colspan="4" class="text-end">
+                      <b>TỔNG PHỤ</b>
+                    </td>
+                    <td class="text-center">${order?.itemsPrice}</td>
+                  </tr>
 
-                <tr>
-                  <td colSpan="4">
-                    <b>THUẾ 15%</b>
-                  </td>
-                  <td className="total">${order?.taxAmount}</td>
-                </tr>
+                  <tr>
+                    <td colspan="4" class="text-end">
+                      <b>THUẾ 15%</b>
+                    </td>
+                    <td class="text-center">${order?.taxAmount}</td>
+                  </tr>
 
-                <tr>
-                  <td colSpan="4">
-                    <b>PHÍ VẬN CHUYỂN</b>
-                  </td>
-                  <td className="total">${order?.shippingAmount}</td>
-                </tr>
+                  <tr>
+                    <td colspan="4" class="text-end">
+                      <b>PHÍ VẬN CHUYỂN</b>
+                    </td>
+                    <td class="text-center">${order?.shippingAmount}</td>
+                  </tr>
 
-                <tr>
-                  <td colSpan="4" className="grand total">
-                    <b>TỔNG CỘNG</b>
-                  </td>
-                  <td className="grand total">${order?.totalAmount}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div id="notices">
+                  <tr>
+                    <td colspan="4" class="text-end">
+                      <b>TỔNG CỘNG</b>
+                    </td>
+                    <td class="text-center">${order?.totalAmount}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="notices" class="mt-4">
               <div>Lưu ý:</div>
-              <div className="notice">
+              <div class="notice">
                 Khoản phí tài chính 1,5% sẽ được tính trên số dư chưa thanh toán
                 sau 30 ngày.
               </div>
             </div>
           </main>
+
           <footer className="bg-black p-5">
             Invoice was created on a computer and is valid without the
             signature.

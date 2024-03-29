@@ -85,11 +85,17 @@ const orderSchema = new mongoose.Schema(
     orderStatus: {
       type: String,
       enum: {
-        values: ["Đang xử lý", "Được vận chuyển", "Đã giao hàng"],
+        values: [
+          "Chờ xác nhận",
+          "Chờ lấy hàng",
+          "Chờ giao hàng",
+          "Đã giao",
+          "Trả hàng",
+        ],
         message: "Vui lòng chọn chính xác tình trang đặt hàng!",
       },
 
-      default: "Đang xử lý",
+      default: "Chờ xác nhận",
     },
     deliveredAt: Date,
   },

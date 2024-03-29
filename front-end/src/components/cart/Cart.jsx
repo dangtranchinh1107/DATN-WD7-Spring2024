@@ -37,7 +37,9 @@ const Cart = () => {
   };
 
   const removeCartItemHandler = (id) => {
-    dispatch(removeCartItem(id));
+    if (window.confirm("Bạn có chắc chắn muốn xóa?")) {
+      dispatch(removeCartItem(id));
+    }
   };
   const checkoutHandler = () => {
     navigate("/shipping");
@@ -54,64 +56,68 @@ const Cart = () => {
           </h2>
           <div className="flex justify-between w-full gap-[120px] ">
             <div className="col-12 col-lg-8">
-              {cartItems?.map((item) => (
-                <>
-                  <hr />
-                  <div className="cart-item" data-key="product1">
-                    <div className="row">
-                      <div className="col-4 col-lg-3">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Giá tiền</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Tổng tiền</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems?.map((item) => (
+                    <tr key={item.product}>
+                      <td>
                         <img
-                          src={item?.image}
-                          alt="Laptop"
+                          src={item.image}
+                          alt={item.name}
                           height="90"
                           width="115"
                         />
-                      </div>
-                      <div className="col-5 col-lg-3">
-                        <Link to={`/products/${item?.product}`}>
-                          {" "}
-                          {item?.name}{" "}
+                      </td>
+                      <td>
+                        <Link to={`/products/${item.product}`}>
+                          {item.name}
                         </Link>
-                      </div>
-                      <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                        <p id="card_item_price">${item?.price}</p>
-                      </div>
-                      <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                        <div className="stockCounter d-inline">
+                      </td>
+                      <td>${item.price}</td>
+                      <td>
+                        <div className="stockCounter">
                           <span
                             className="btn btn-danger minus"
                             onClick={() => decreseQty(item, item.quantity)}
                           >
-                            {" "}
-                            -{" "}
+                            -
                           </span>
                           <input
                             type="number"
                             className="form-control count d-inline"
-                            value={item?.quantity}
-                            readonly
+                            value={item.quantity}
+                            readOnly
                           />
                           <span
                             className="btn btn-primary plus"
                             onClick={() => increseQty(item, item.quantity)}
                           >
-                            {" "}
-                            +{" "}
+                            +
                           </span>
                         </div>
-                      </div>
-                      <div className="col-4 col-lg-1 mt-4 mt-lg-0">
+                      </td>
+                      <td>${item.price * item.quantity}</td>
+                      <td>
                         <i
                           id="delete_cart_item"
                           className="fa fa-trash btn btn-danger"
-                          onClick={() => removeCartItemHandler(item?.product)}
+                          onClick={() => removeCartItemHandler(item.product)}
                         ></i>
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                </>
-              ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             <div className="w-1/2 flex justify-end">

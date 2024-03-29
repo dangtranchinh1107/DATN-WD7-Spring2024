@@ -126,7 +126,7 @@ const ProductDetails = () => {
             type="number"
             className="form-control count d-inline"
             value={quantity}
-            readOnly
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
           />
           <span className="btn btn-primary plus" onClick={increseQty}>
             +

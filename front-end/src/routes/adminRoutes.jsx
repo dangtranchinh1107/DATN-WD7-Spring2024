@@ -4,6 +4,8 @@ import Dashboard from "../components/admin/Dashboard";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import ListUsers from "../components/admin/ListUsers";
 import UpdateUser from "../components/admin/UpdateUser";
+import ListOrders from "../components/admin/ListOrders";
+import ProcessOrder from "../components/admin/ProcessOrder";
 const adminRoutes = () => {
   return (
     <>
@@ -29,6 +31,23 @@ const adminRoutes = () => {
         element={
           <ProtectedRoute admin={true}>
             <UpdateUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <ProtectedRoute admin={true}>
+            <ListOrders />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/orders/:id"
+        element={
+          <ProtectedRoute admin={true}>
+            <ProcessOrder />
           </ProtectedRoute>
         }
       />

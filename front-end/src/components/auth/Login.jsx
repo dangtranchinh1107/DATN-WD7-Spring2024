@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [login, { isLoading, error, data }] = useLoginMutation();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   console.log(data);
 
   useEffect(() => {
@@ -20,6 +20,12 @@ const Login = () => {
     }
     if (error) {
       toast.error(error?.data?.message);
+    }
+    if (user?.role === "block") {
+      toast.error(
+        "Tài khoản của bạn đã bị chặn. Vui lòng liên hệ quản trị viên."
+      );
+      navigate("/");
     }
   }, [error, isAuthenticated]);
 

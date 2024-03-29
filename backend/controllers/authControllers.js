@@ -33,7 +33,14 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("Email hoặc mật khẩu không hợp lệ", 401));
   }
-
+  if (user.status === "deactive") {
+    return next(
+      new ErrorHandler(
+        "Tài khoản của bạn đã bị chặn. Vui lòng liên hệ quản trị viên.",
+        401
+      )
+    );
+  }
   //ktra mk
   const isPasswordMatched = await user.comparePassword(password);
   if (!isPasswordMatched) {
@@ -168,7 +175,7 @@ export const updateUser = catchAsyncErrors(async (req, res, next) => {
     if (!name || !email || !role) {
       return res.status(400).json({
         success: false,
-        message: "Tên, email và vai trò là bắt buộc",
+        message: "Tên, email, vai trò  là bắt buộc",
       });
     }
 
@@ -217,4 +224,42 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
   });
+});
+
+//cập nhật status người dùng - ADMIN => /api/v1/admin/users/status/:id
+export const updateStatusUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    // Kiểm tra xem có thông tin mới của người dùng không
+    const { status } = req.body;
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: "Trạng thái người dùng là bắt buộc",
+      });
+    }
+
+    // kt xem id của người dùng
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy người dùng",
+      });
+    }
+
+    // cập nhật user
+    user.status = status;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });

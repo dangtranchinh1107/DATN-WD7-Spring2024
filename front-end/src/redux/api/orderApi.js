@@ -29,6 +29,37 @@ export const orderApi = createApi({
         };
       },
     }),
+    getAminOrders: builder.query({
+      query: () => `/admin/orders`,
+      providesTags: ["AdminOrders"],
+    }),
+    updateOrder: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/orders/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["Order"],
+    }),
+    deleteOrder: builder.mutation({
+      query(id) {
+        return {
+          url: `/admin/orders/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["AdminOrders"],
+    }),
+    deleteMyOrder: builder.mutation({
+      query(id) {
+        return {
+          url: `/me/orders/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
   }),
 });
 
@@ -37,4 +68,8 @@ export const {
   useStripeCheckoutSessionMutation,
   useMyOrdersQuery,
   useOrderDetailsQuery,
+  useDeleteMyOrderMutation,
+  useGetAminOrdersQuery,
+  useUpdateOrderMutation,
+  useDeleteOrderMutation,
 } = orderApi;

@@ -17,6 +17,8 @@ const OrderDetails = () => {
     user,
     totalAmount,
     orderStatus,
+    taxAmount,
+    shippingAmount,
   } = order;
 
   const isPaid = paymentInfo?.status === "paid" ? true : false;
@@ -101,6 +103,14 @@ const OrderDetails = () => {
               <tr>
                 <th scope="row">Stripe ID</th>
                 <td>{paymentInfo?.id || "Nill"}</td>
+              </tr>
+              <tr>
+                <th scope="row">shippingAmount</th>
+                <td>${shippingAmount}</td>
+              </tr>
+              <tr>
+                <th scope="row">tax amount</th>
+                <td>${taxAmount}</td>
               </tr>
               <tr>
                 <th scope="row">Amount Paid</th>
