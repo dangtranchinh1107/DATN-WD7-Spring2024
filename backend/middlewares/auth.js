@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
   if (!token) {
-    return next(new ErrorHandler("Đăng nhập trước khi thay đổi", 401));
+    return next(new ErrorHandler("đăng nhập trước khi thay đổi", 401));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -22,7 +22,7 @@ export const authorizeRoles = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHandler(
-          `Role (${req.user.role}) Không được phép thay đổi`,
+          `Role (${req.user.role}) không được phép thay đổi`,
           403
         )
       );

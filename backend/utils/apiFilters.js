@@ -18,7 +18,7 @@ class APIFilters {
   }
 
   filters() {
-    const queryCopy = { ...this.queryStr };
+    let queryCopy = { ...this.queryStr };
 
     // Lọc theo danh sách (Filters)
     const fieldsToRemove = ["keyword", "page"];

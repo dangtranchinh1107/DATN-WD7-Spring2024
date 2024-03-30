@@ -36,7 +36,7 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-    ratings: {
+    rating: {
       type: Number,
       default: 0,
     },
@@ -106,7 +106,7 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false,
+      required: true,
     },
   },
   {

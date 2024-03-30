@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import MetaData from "../layout/MetaData.jsx";
 import { useGetProductsQuery } from "../../redux/api/productsApi.jsx";
@@ -11,47 +10,6 @@ const HomePage = () => {
   const { data, isLoading, error, isError } = useGetProductsQuery([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-=======
-import React, { useEffect, useState } from "react";
-import { useGetProductsQuery } from "../../redux/api/productsApi";
-import ProductItem from "../product/ProductItem";
-import Loader from "../layout/Loader";
-import toast from "react-hot-toast";
-import CustomPagination from "../layout/CustomPagination";
-import { useSearchParams } from "react-router-dom";
-import MetaData from "../layout/MetaData";
-import Filters from "../layout/Filters";
-import "../../assets/css/home.css";
-// import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
-
-const HomePage = () => {
-  let [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const keyword = searchParams.get("keyword") || "";
-  const min = searchParams.get("min");
-  const max = searchParams.get("max");
-  const categorys = searchParams.get("category");
-  const ratings = searchParams.get("ratings");
-  console.log(categorys);
-
-  const params = { page, keyword };
-
-  min !== null && (params.min = min);
-  max !== null && (params.max = max);
-  categorys !== null && (params.category = categorys);
-  ratings !== null && (params.ratings = ratings);
-
-  const { data, isLoading, error, isError } = useGetProductsQuery(params);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // console.log(data);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(error?.data?.message);
-    }
-  }, [isError]);
-  //
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
@@ -66,20 +24,12 @@ const HomePage = () => {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
   };
-<<<<<<< HEAD
-=======
-  const columnSize = keyword ? 4 : 3;
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
 
   if (isLoading) return <Loader />;
 
   return (
     <>
-<<<<<<< HEAD
       <MetaData title={"By Best Products Online"} />
-=======
-      <MetaData title="Mua sản phẩm tốt nhất trực tuyến" />
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
       <div className="right">
         <div className="image-slider">
           <div>
@@ -94,11 +44,7 @@ const HomePage = () => {
                 class="carousel-control-prev-icon"
                 aria-hidden="true"
               ></span>
-<<<<<<< HEAD
               <span class="visually-hidden">Previous</span>
-=======
-              <span class="visually-hidden">Trước </span>
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
             </button>
             <button
               onClick={nextSlide}
@@ -111,11 +57,7 @@ const HomePage = () => {
                 class="carousel-control-next-icon"
                 aria-hidden="true"
               ></span>
-<<<<<<< HEAD
               <span class="visually-hidden">Next</span>
-=======
-              <span class="visually-hidden">Sau</span>
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
             </button>
           </div>
           <img
@@ -135,51 +77,20 @@ const HomePage = () => {
           />
         </div>
       </div>
-<<<<<<< HEAD
 
       <div className="row">
         <div className="col-12 col-sm-6 col-md-12">
           <h1 id="products_heading" className="text-secondary">
             Latest Products
-=======
-      <div className="row">
-        {keyword && (
-          <div className="col-6 col-md-3 mt-5">
-            <Filters />
-          </div>
-        )}
-        <div className={keyword ? "col-6 col-md-9" : "col-6 col-md-12"}>
-          <h1 id="products_heading" className="text-secondary">
-            {keyword
-              ? `${data?.products?.length} Sản phẩm được tìm thấy với từ khóa: ${keyword}`
-              : "Sản phẩm mới nhất"}
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
           </h1>
 
           <section id="products" className="mt-5">
             <div className="row">
-<<<<<<< HEAD
               {data?.products?.map((product, index) => (
                 <ProductItem key={index} product={product} />
               ))}
             </div>
           </section>
-=======
-              {data?.products?.map((product) => (
-                <ProductItem
-                  key={product._id}
-                  product={product}
-                  columnSize={columnSize}
-                />
-              ))}
-            </div>
-          </section>
-
-          <CustomPagination
-            resPerPage={data?.resPerPage}
-            productsFiltersCount={data?.productsFiltersCount}
-          />
->>>>>>> 70dc9caa369907d560f06ac980304342816a8cb4
         </div>
       </div>
     </>

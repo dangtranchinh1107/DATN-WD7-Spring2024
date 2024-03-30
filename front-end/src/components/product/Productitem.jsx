@@ -1,49 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-const ProductItem = ({ product, columnSize }) => {
+import "../../assets/css/home.css";
+
+const ProductItem = ({ product }) => {
   return (
-    <div className={`col-sm-12 col-md-6 col-lg-${columnSize} my-3`}>
-      <div className="card p-3 rounded">
-        <img
+    <div className="col-sm-12 col-md-6 col-lg-3 my-3">
+      <div className="item4">
+        {/* <img
           className="card-img-top mx-auto"
-          src={
-            product?.images[0]
-              ? product?.images[0]?.url
-              : "/images/default_product.png"
-          }
-          alt={product?.name}
-        />
-        <div className="card-body ps-3 d-flex justify-content-center flex-column">
-          <h5 className="card-title">
-            <Link to={`/product/${product?._id}`}>{product?.name}</Link>
-          </h5>
-          <div className="ratings mt-auto d-flex">
-            <div className="star-ratings">
-              <StarRatings
-                rating={product?.ratings}
-                starRatedColor="#ffb829"
-                numberOfStars={5}
-                name="rating"
-                starDimension="22px"
-                starSpacing="1px"
-              />
-            </div>
-            <span id="no_of_reviews" className="pt-2 ps-2">
-              {" "}
-              ({product?.numOfReviews})
-            </span>
-          </div>
-          <p className="card-text mt-2">${product.price}</p>
-          <p className="card-text mt-2">{product.description}</p>
-          <Link
-            to={`/product/${product?._id}`}
-            id="view_btn"
-            className="btn btn-block"
-          >
-            Xem chi tiết
-          </Link>
+          src={product?.image[0]?.url}
+          alt=""
+        /> */}
+        <p>
+          <Link to={`/product/${product?._id}`}>{product?.name}</Link>
+        </p>
+        <span className="price">${product?.price}</span>
+        <div className="danhgia">
+          <StarRatings
+            rating={product?.ratings}
+            starRatedColor="#ffb829"
+            numberOfStars={5}
+            name="rating"
+            starDimension="20px"
+            starSpacing="1px"
+          />
+          <span id="no_of_reviews" className="pt-2 ps-2">
+            {" "}
+            ({product?.numOfReviews})
+          </span>
         </div>
+        <Link
+          to={`/product/${product?._id}`}
+          id="view_btn"
+          className="buy-button btn bg-danger"
+        >
+          View Details
+        </Link>
       </div>
     </div>
   );
