@@ -1,6 +1,8 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Stripe from "stripe";
 import Order from "../models/order.js";
+import { getOrderTemplates } from "../utils/emailOrderTemplates.js";
+import sendEmail from "../utils/sendEmail.js";
 const stripe = Stripe(
   "sk_test_51OtnIN00s3mvU7AiSjZTMcomzAe2yuAixKEsI1i5xVDWpMRy9WhI5ZZP2xldRDB2hwNVtlDqfUn1pCnCg9mghwO600mcvnzDef"
 );
@@ -45,7 +47,21 @@ export const stripeCheckoutSession = catchAsyncErrors(
       ],
       line_items,
     });
-
+    // Gửi email cho người đặt hàng
+    const message = getOrderTemplates(
+      req.user.name,
+      body?.orderItems,
+      body?.itemsPrice,
+      body?.taxAmount,
+      body?.shippingAmount,
+      body?.totalAmount,
+      body?.shippingInfo
+    );
+    await sendEmail({
+      email: req.user.email,
+      subject: "Xác nhận đơn hàng",
+      message,
+    });
     res.status(200).json({
       url: session.url,
     });

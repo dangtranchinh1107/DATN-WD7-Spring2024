@@ -4,7 +4,7 @@ import ProductItem from "../product/ProductItem";
 import Loader from "../layout/Loader";
 import toast from "react-hot-toast";
 import CustomPagination from "../layout/CustomPagination";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 // import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
 import "../../assets/css/home.css";
@@ -106,6 +106,67 @@ const HomePage = () => {
           />
         </div>
       </div>
+
+      {/* Hiển thị Danh mục và Ảnh */}
+      <div className="row mt-4 mb-4">
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=65b3ed3049d98167851d92f8">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-hp-149x40-1.png"
+              alt="Hp"
+              class="img-fluid border rounded-pill shadow "
+            />
+          </Link>
+        </div>
+
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=65b3ed8449d98167851d92fa">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-asus-149x40.png"
+              alt="Asus"
+              class="img-fluid border rounded-pill shadow"
+            />
+          </Link>
+        </div>
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=66052b23a1d3f9852da74a99">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-acer-149x40.png"
+              alt="Acer"
+              class="img-fluid border rounded-pill shadow"
+            />
+          </Link>
+        </div>
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=65b3ed8e49d98167851d92fc">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-lenovo-149x40.png"
+              alt="Lenovo"
+              class="img-fluid border rounded-pill shadow"
+            />
+          </Link>
+        </div>
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=65b3ed2249d98167851d92f6">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-dell-149x40.png"
+              alt="Dell"
+              class="img-fluid border rounded-pill shadow"
+            />
+          </Link>
+        </div>
+
+        <div className="col-md-2">
+          <Link to="http://localhost:3000/?category=65b3ed0e49d98167851d92f4">
+            <img
+              src="https://cdn.tgdd.vn/Brand/1/logo-macbook-149x40.png"
+              alt="Macbook"
+              class="img-fluid border rounded-pill shadow"
+            />
+          </Link>
+        </div>
+      </div>
+
       <div className="row">
         {keyword && (
           <div className="col-6 col-md-3 mt-5">{/* <Filters /> */}</div>
