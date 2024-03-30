@@ -25,8 +25,9 @@ const ConfirmOrder = () => {
             <b>Phone:</b> {shippingInfo?.phoneNo}
           </p>
           <p className="mb-4">
-            <b>Address:</b> {shippingInfo.address}, {shippingInfo.city},{" "}
-            {shippingInfo.zipCode}, {shippingInfo.country}
+            <b>Address:</b>
+            {shippingInfo.country},{shippingInfo.city}, {shippingInfo.district},
+            {shippingInfo.address},{shippingInfo.zipCode}.
           </p>
 
           <hr />

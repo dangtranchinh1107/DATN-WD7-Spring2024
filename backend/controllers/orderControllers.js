@@ -7,27 +7,28 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 export const newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
-    CheckOut,
-    Cart,
-    paymentMethod,
-    Bill,
+    orderItems,
+    shippingInfo,
     itemsPrice,
     taxAmount,
     shippingAmount,
     totalAmount,
+    paymentMethod,
+    paymentInfo,
   } = req.body;
 
   const order = await Order.create({
-    CheckOut,
-    Cart,
-    paymentMethod,
-    Bill,
+    orderItems,
+    shippingInfo,
     itemsPrice,
     taxAmount,
     shippingAmount,
     totalAmount,
+    paymentMethod,
+    paymentInfo,
     user: req.user._id,
   });
+
   res.status(200).json({
     order,
   });
