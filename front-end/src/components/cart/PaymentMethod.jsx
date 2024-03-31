@@ -41,9 +41,10 @@ const PaymentMethod = () => {
     }
 
     if (isSuccess) {
+      toast.success("Bạn đã đặt hàng thành công");
       navigate("/me/orders?order_success=true");
     }
-  }, [error, isSuccess]);
+  }, [error, isSuccess, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: "Not Paid",
+          status: "Chưa thanh toán",
         },
         paymentMethod: "COD",
       };
@@ -79,7 +80,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: " Paid",
+          status: "Đã thanh toán",
         },
       };
 
@@ -94,7 +95,7 @@ const PaymentMethod = () => {
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
-            <h2 className="mb-4">Select Payment Method</h2>
+            <h2 className="mb-4">Chọn phương thức thanh toán</h2>
 
             <div className="form-check">
               <input
@@ -106,7 +107,7 @@ const PaymentMethod = () => {
                 onChange={(e) => setMethod("COD")}
               />
               <label className="form-check-label" htmlFor="codradio">
-                Cash on Delivery
+                Thanh toán khi nhận hàng
               </label>
             </div>
             <div className="form-check">
@@ -119,7 +120,7 @@ const PaymentMethod = () => {
                 onChange={(e) => setMethod("Card")}
               />
               <label className="form-check-label" htmlFor="cardradio">
-                Card - VISA, MasterCard
+                Thanh toán online
               </label>
             </div>
 
@@ -129,7 +130,7 @@ const PaymentMethod = () => {
               className="btn py-2 w-100"
               disabled={isLoading}
             >
-              CONTINUE
+              Tiếp tục
             </button>
           </form>
         </div>

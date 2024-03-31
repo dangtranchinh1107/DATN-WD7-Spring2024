@@ -21,6 +21,20 @@ export const productApi = createApi({
     }),
     getProductDetails: builder.query({
       query: (id) => `/product/${id}`,
+      providesTags: ["Product"],
+    }),
+    submitReview: builder.mutation({
+      query(body) {
+        return {
+          url: "/reviews",
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["Product"],
+    }),
+    canUserReview: builder.query({
+      query: (productId) => `/can_review/?productId=${productId}`,
     }),
     getAdminProducts: builder.query({
       query: () => `/admin/products`,
@@ -60,7 +74,7 @@ export const productApi = createApi({
       query({ id, body }) {
         return {
           url: `/admin/products/${id}/delete_image`,
-          method: "PUT",
+          method: "DELETE",
           body,
         };
       },
@@ -87,4 +101,6 @@ export const {
   useUploadProductImagesMutation,
   useDeleteProductImageMutation,
   useDeleteProductMutation,
+  useCanUserReviewQuery,
+  useSubmitReviewMutation,
 } = productApi;

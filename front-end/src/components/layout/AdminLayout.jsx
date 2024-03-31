@@ -8,28 +8,19 @@ const AdminLayout = ({ children }) => {
       url: "/admin/dashboard",
       icon: "fas fa-tachometer-alt",
     },
+
     {
-      name: "Thêm sản phẩm",
-      url: "/admin/product/new",
-      icon: "fas fa-plus",
-    },
-    {
-      name: "Sản phẩm",
-      url: "/admin/products",
-      icon: "fab fa-product-hunt",
-    },
-    {
-      name: "Đơn đặt hàng",
+      name: "Quản lý đơn hàng",
       url: "/admin/orders",
       icon: "fas fa-receipt",
     },
     {
-      name: "Người dùng",
+      name: "Quản lý người dùng",
       url: "/admin/users",
       icon: "fas fa-user",
     },
     {
-      name: "Đánh giá",
+      name: "Quản lý đánh giá",
       url: "/admin/reviews",
       icon: "fas fa-star",
     },

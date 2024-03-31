@@ -5,14 +5,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Lấy tất cả hardDisk => /api/v1/hardDisk
 export const getHardDisk = catchAsyncErrors(async (req, res, next) => {
   // Get All hardDisk
-  const hardDisk = await HardDisk.find().populate({
+  const hardDisks = await HardDisk.find().populate({
     path: "products",
     select: "-_id name",
   });
 
   res.status(200).json({
     message: "Lấy tất cả hardDisk thành công",
-    hardDisk,
+    hardDisks,
   });
 });
 

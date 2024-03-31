@@ -5,14 +5,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Lấy tất cả graphicCard => /api/v1/graphicCard
 export const getGraphicCard = catchAsyncErrors(async (req, res, next) => {
   // Get All graphicCard
-  const graphicCard = await GraphicCard.find().populate({
+  const graphicCards = await GraphicCard.find().populate({
     path: "products",
-    select: "-_id name",
+    select: "_id name",
   });
 
   res.status(200).json({
     message: "Lấy tất cả graphicCard thành công",
-    graphicCard,
+    graphicCards,
   });
 });
 
@@ -20,7 +20,7 @@ export const getGraphicCard = catchAsyncErrors(async (req, res, next) => {
 export const getGraphicCardDetail = catchAsyncErrors(async (req, res, next) => {
   const graphicCard = await GraphicCard.findById(req?.params?.id).populate({
     path: "products",
-    select: "-_id name",
+    select: "_id name",
   });
   if (!graphicCard) {
     return next(new ErrorHandler("Không tìm thấy graphicCard", 400));

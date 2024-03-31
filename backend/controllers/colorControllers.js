@@ -5,14 +5,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Lấy tất cả sản phẩm => /api/v1/colors
 export const getColor = catchAsyncErrors(async (req, res, next) => {
   // Get All color
-  const color = await Color.find().populate({
+  const colors = await Color.find().populate({
     path: "products",
     select: "-_id name",
   });
 
   res.status(200).json({
     message: "Lấy tất cả màu thành công",
-    color,
+    colors,
   });
 });
 

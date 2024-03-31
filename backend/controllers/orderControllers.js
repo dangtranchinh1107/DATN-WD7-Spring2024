@@ -2,7 +2,8 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Order from "../models/order.js";
 import Product from "../models/Product.js";
 import ErrorHandler from "../utils/errorHandler.js";
-
+import sendEmail from "../utils/sendEmail.js";
+import { getOrderTemplates } from "../utils/emailOrderTemplates.js";
 //Tạo mới Order => /api/v1/orders/new
 
 export const newOrder = catchAsyncErrors(async (req, res, next) => {
@@ -27,6 +28,22 @@ export const newOrder = catchAsyncErrors(async (req, res, next) => {
     paymentMethod,
     paymentInfo,
     user: req.user._id,
+  });
+
+  // Gửi email cho người đặt hàng
+  const message = getOrderTemplates(
+    req.user.name,
+    orderItems,
+    itemsPrice,
+    taxAmount,
+    shippingAmount,
+    totalAmount,
+    shippingInfo
+  );
+  await sendEmail({
+    email: req.user.email,
+    subject: "Xác nhận đơn hàng",
+    message,
   });
 
   res.status(200).json({
@@ -73,16 +90,17 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (!order) {
     return next(new ErrorHandler("Không tìm thấy đơn hàng nào có ID này", 404));
   }
-  if (order?.orderStatus === "Delivered") {
-    return next(new ErrorHandler("Bạn đã giao đơn đặt hàng này", 400));
+  if (order?.orderStatus === "Hoàn tất") {
+    return next(new ErrorHandler("Bạn đã hoàn tất đơn đặt hàng này", 400));
   }
+
+  let productNotFound = false;
+
   //update product stock
   order?.Cart?.forEach(async (item) => {
     const product = await Product.findById(item?.product?.toString());
     if (!product) {
-      return next(
-        new ErrorHandler("Không tìm thấy sản phẩm nào có ID này", 404)
-      );
+      return next(new ErrorHandler("No Product found with this ID", 404));
     }
     product.stock = product.stock - item.quantity;
     await product.save({ validateBeforeSave: false });
@@ -128,6 +146,7 @@ async function getSalesData(startDate, endDate) {
           date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
         },
         totalSales: { $sum: "$totalAmount" },
+        totalQuantity: { $sum: "$totalAmount" },
         numOrders: { $sum: 1 }, // Đếm số lượng đơn đặt hàng
       },
     },

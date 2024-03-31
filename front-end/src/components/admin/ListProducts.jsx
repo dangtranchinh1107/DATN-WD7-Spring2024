@@ -31,7 +31,7 @@ const ListProducts = () => {
     }
   }, [error, deleteError, isSuccess]);
 
-  const deleProductHandler = (id) => {
+  const deleteProductHandler = (id) => {
     deleteProduct(id);
   };
 
@@ -82,17 +82,23 @@ const ListProducts = () => {
             >
               <i className="fa fa-image"></i>
             </Link>
-            <button
+            <Link
+              to={`/admin/product/${product?._id}`}
+              className="btn btn-outline-info ms-2"
+            >
+              <i className="fa fa-eye"></i>
+            </Link>
+            {/* <button
               className="btn btn-outline-danger ms-2"
               onClick={() => {
                 if (window.confirm("Bạn có chắc muốn xoá không?")) {
-                  deleProductHandler(product?._id);
+                  deleteProductHandler(product?._id);
                 }
               }}
               disabled={isDeleteLoading}
             >
               <i className="fa fa-trash"></i>
-            </button>
+            </button> */}
           </>
         ),
       });
@@ -106,7 +112,9 @@ const ListProducts = () => {
   return (
     <AdminLayout>
       <MetaData title={"Tất cả sản phẩm"} />
-
+      <Link to="/admin/product/new" className="btn btn-outline-success ms-2">
+        <i className="fa fa-plus me-2"></i>Thêm sản phẩm
+      </Link>
       <h1 className="my-5">{data?.products?.length} Sản phẩm</h1>
 
       <MDBDataTable

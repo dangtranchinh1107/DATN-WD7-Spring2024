@@ -19,6 +19,9 @@ const productSchema = new mongoose.Schema(
     status: {
       type: String,
       required: [true, "Vui lòng nhập trạng thái sản phẩm"],
+      enum: {
+        values: ["New 100%", "Like new 99%"],
+      },
     },
     stock: {
       type: Number,

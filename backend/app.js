@@ -31,7 +31,6 @@ import cpuRoutes from "./routes/cpus.js";
 import ramRoutes from "./routes/ram.js";
 import hardDiskRoutes from "./routes/hardDisk.js";
 import graphicCardRoutes from "./routes/graphicCard.js";
-
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", categoryRoutes);
 app.use("/api/v1", colorRoutes);

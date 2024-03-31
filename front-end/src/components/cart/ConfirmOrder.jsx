@@ -25,8 +25,9 @@ const ConfirmOrder = () => {
             <b>Số điện thoại:</b> {shippingInfo?.phoneNo}
           </p>
           <p className="mb-4">
-            <b>Địa chỉ:</b> {shippingInfo.address}, {shippingInfo.city},{" "}
-            {shippingInfo.zipCode}, {shippingInfo.country}
+            <b>Địa chỉ:</b> {shippingInfo.country},{shippingInfo.city},{" "}
+            {shippingInfo.district},{shippingInfo.address},
+            {shippingInfo.zipCode}.
           </p>
 
           <hr />
@@ -76,9 +77,9 @@ const ConfirmOrder = () => {
               Phí vận chuyển:{" "}
               <span className="order-summary-values">${shippingPrice}</span>
             </p>
-            {/* <p>
-              Tax: <span className="order-summary-values">${taxPrice}</span>
-            </p> */}
+            <p>
+              Thuế: <span className="order-summary-values">${taxPrice}</span>
+            </p>
 
             <hr />
 

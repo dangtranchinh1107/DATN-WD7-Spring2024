@@ -11,6 +11,7 @@ import {
   resetPassword,
   updatePassword,
   updateProfile,
+  updateStatusUser,
   updateUser,
   uploadAvatar,
 } from "../controllers/authControllers.js";
@@ -39,4 +40,7 @@ router
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUser)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
+router
+  .route("/admin/users/status/:id")
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateStatusUser);
 export default router;

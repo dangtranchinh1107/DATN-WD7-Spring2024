@@ -5,6 +5,8 @@ export const colorsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/v1",
   }),
+  tagTypes: ["Color", "AdminColors"],
+
   endpoints: (builder) => ({
     getColors: builder.query({
       query: (params) => ({
@@ -14,6 +16,39 @@ export const colorsApi = createApi({
         },
       }),
     }),
+    getColorDetails: builder.query({
+      query: (id) => `/color/${id}`,
+    }),
+    getAdminColors: builder.query({
+      query: () => `/admin/colors`,
+      providesTags: ["AdminColors"],
+    }),
+    createColor: builder.mutation({
+      query(body) {
+        return {
+          url: "/admin/colors",
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["AdminColors"],
+    }),
+    updateColor: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/color/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["Color", "AdminColors"],
+    }),
   }),
 });
-export const { useGetColorsQuery } = colorsApi;
+export const {
+  useGetColorsQuery,
+  useGetAdminColorsQuery,
+  useCreateColorMutation,
+  useUpdateColorMutation,
+  useGetColorDetailsQuery,
+} = colorsApi;

@@ -11,13 +11,17 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      district: {
+        type: String,
+        required: true,
+      },
       phoneNo: {
         type: String,
         required: true,
       },
       zipCode: {
         type: String,
-        required: true,
+        required: false,
       },
       country: {
         type: String,
@@ -85,11 +89,18 @@ const orderSchema = new mongoose.Schema(
     orderStatus: {
       type: String,
       enum: {
-        values: ["Đang xử lý", "Được vận chuyển", "Đã giao hàng"],
+        values: [
+          "Chờ xác nhận",
+          "Đã xác nhận",
+          "Đang giao hàng",
+          "Đã giao",
+          "Hoàn tất",
+          "Hủy",
+        ],
         message: "Vui lòng chọn chính xác tình trang đặt hàng!",
       },
 
-      default: "Đang xử lý",
+      default: "Chờ xác nhận",
     },
     deliveredAt: Date,
   },

@@ -97,6 +97,16 @@ export const userApi = createApi({
       },
       invalidatesTags: ["AdminUsers"],
     }),
+    updateStatusUser: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/users/status/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["AdminUsers"],
+    }),
   }),
 });
 
@@ -111,4 +121,5 @@ export const {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useUpdateStatusUserMutation,
 } = userApi;

@@ -17,7 +17,6 @@ const UploadImages = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
-
   const [uploadProductImages, { isLoading, error, isSuccess }] =
     useUploadProductImagesMutation();
 
@@ -29,9 +28,9 @@ const UploadImages = () => {
   const { data } = useGetProductDetailsQuery(params?.id);
 
   useEffect(() => {
-    // if (data?.product) {
-    //   setUploadedImages(data?.product?.images);
-    // }
+    if (data?.product) {
+      setUploadedImages(data?.product?.images);
+    }
 
     if (error) {
       toast.error(error?.data?.message);
@@ -83,12 +82,10 @@ const UploadImages = () => {
     uploadProductImages({ id: params?.id, body: { images } });
   };
 
-  // const deleteImage = (imgId) => {
-  //   deleteProductImage({ id: params?.id, body: { imgId } });
-  //   setUploadedImages((prevImages) =>
-  //     prevImages.filter((img) => img?.public_id !== imgId)
-  //   );
-  // };
+  const deleteImage = (imgId) => {
+    console.log(imgId);
+    deleteProductImage({ id: params?.id, body: { imgId } });
+  };
   return (
     <AdminLayout>
       <MetaData title={"Tải lên hình ảnh sản phẩm"} />
@@ -150,7 +147,7 @@ const UploadImages = () => {
                 </div>
               )}
 
-              {/* {uploadedImages?.length > 0 && (
+              {uploadedImages?.length > 0 && (
                 <div className="uploaded-images my-4">
                   <p className="text-success">Hình ảnh sản phẩm:</p>
                   <div className="row mt-1">
@@ -180,7 +177,7 @@ const UploadImages = () => {
                     ))}
                   </div>
                 </div>
-              )} */}
+              )}
             </div>
 
             <button

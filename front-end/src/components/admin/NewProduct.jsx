@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
 import { toast } from "react-hot-toast";
+import Joi from "joi"; // Import Joi
 
 import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
@@ -28,33 +29,42 @@ const NewProduct = () => {
     ram: "",
     graphicCard: "",
   });
-  const [createProduct, { isLoading, error, isSuccess }] =
-    useCreateProductMutation();
+
+  const [errors, setErrors] = useState({});
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+
+  const [createProduct, { error, isSuccess }] = useCreateProductMutation();
+
   const {
     data: categoriesData,
     isLoading: categoriesLoading,
     error: categoriesError,
   } = useGetCategoriesQuery();
+
   const {
     data: colorData,
     isLoading: colorLoading,
     error: colorError,
   } = useGetColorsQuery();
+
   const {
     data: graphicCardData,
     isLoading: graphicCardLoading,
     error: graphicCardError,
   } = useGetGraphicCardsQuery();
+
   const {
     data: cpuData,
     isLoading: cpuLoading,
     error: cpuError,
   } = useGetCpuQuery();
+
   const {
     data: hardDiskData,
     isLoading: hardDiskLoading,
     error: hardDiskError,
   } = useGethardDisksQuery();
+
   const {
     data: ramData,
     isLoading: ramLoading,
@@ -73,26 +83,112 @@ const NewProduct = () => {
     }
   }, [error, isSuccess]);
 
-  const {
-    name,
-    price,
-    description,
-    category,
-    status,
-    stock,
-    color,
-    cpu,
-    hardDisk,
-    ram,
-    graphicCard,
-  } = product;
-
-  const onChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProduct({ ...product, [name]: value });
   };
 
-  const submitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    const schema = Joi.object({
+      name: Joi.string()
+        .min(6)
+        .required()
+        .messages({
+          "string.empty": "Tên sản phẩm không được để trống",
+          "string.min": "Tên sản phẩm phải có ít nhất {#limit} ký tự",
+        })
+        .label("Tên sản phẩm"),
+
+      price: Joi.number()
+        .required()
+        .messages({
+          "number.base": "Giá sản phẩm phải là một số",
+          "any.required": "Giá sản phẩm không được để trống",
+        })
+        .label("Giá sản phẩm"),
+
+      description: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Mô tả sản phẩm không được để trống",
+        })
+        .label("Mô tả sản phẩm"),
+
+      category: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn danh mục",
+        })
+        .label("Danh mục sản phẩm"),
+
+      status: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn trạng thái",
+        })
+        .label("Trạng thái"),
+
+      stock: Joi.number()
+        .required()
+        .messages({
+          "number.base": "Số lượng sản phẩm phải là một số",
+          "any.required": "Số lượng phẩm không được để trống",
+        })
+        .label("Số lượng"),
+
+      color: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn màu sắc",
+        })
+        .label("Màu sắc"),
+
+      cpu: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn CPU",
+        })
+        .label("CPU"),
+
+      hardDisk: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn ổ cứng",
+        })
+        .label("Ổ cứng"),
+
+      ram: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn RAM",
+        })
+        .label("RAM"),
+
+      graphicCard: Joi.string()
+        .required()
+        .messages({
+          "string.empty": "Vui lòng chọn card đồ họa",
+        })
+        .label("Card đồ họa"),
+    });
+
+    const { error: validationError } = schema.validate(product, {
+      abortEarly: false,
+    });
+
+    if (validationError) {
+      const errorsObj = {};
+      validationError.details.forEach((item) => {
+        errorsObj[item.path[0]] = item.message;
+      });
+      setErrors(errorsObj);
+      toast.error("Vui lòng không được bỏ trống!");
+      return;
+    }
+
+    setIsLoadingSubmit(true);
     createProduct(product);
   };
 
@@ -101,73 +197,89 @@ const NewProduct = () => {
       <MetaData title={"Thêm sản phẩm mới"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-10 mt-5 mt-lg-0">
-          <form className="shadow rounded bg-body" onSubmit={submitHandler}>
+          <form className="shadow rounded bg-body" onSubmit={handleSubmit}>
             <h2 className="mb-4">Thêm sản phẩm</h2>
+
+            {/* Tên sản phẩm */}
             <div className="mb-3">
               <label htmlFor="name_field" className="form-label">
-                {" "}
-                Tên sản phẩm{" "}
+                Tên sản phẩm
               </label>
               <input
                 type="text"
                 id="name_field"
-                className="form-control"
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
                 name="name"
-                value={name}
-                onChange={onChange}
+                value={product.name}
+                onChange={handleInputChange}
               />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
             </div>
 
+            {/* Mô tả sản phẩm */}
             <div className="mb-3">
               <label htmlFor="description_field" className="form-label">
                 Mô tả sản phẩm
               </label>
               <textarea
-                className="form-control"
+                className={`form-control ${
+                  errors.description ? "is-invalid" : ""
+                }`}
                 id="description_field"
                 rows="8"
                 name="description"
-                value={description}
-                onChange={onChange}
+                value={product.description}
+                onChange={handleInputChange}
               ></textarea>
+              {errors.description && (
+                <div className="invalid-feedback">{errors.description}</div>
+              )}
             </div>
 
+            {/* Giá và Số lượng */}
             <div className="row">
               <div className="mb-3 col">
                 <label htmlFor="price_field" className="form-label">
-                  {" "}
-                  Giá sản phẩm{" "}
+                  Giá sản phẩm
                 </label>
                 <input
                   type="text"
                   id="price_field"
-                  className="form-control"
+                  className={`form-control ${errors.price ? "is-invalid" : ""}`}
                   name="price"
-                  value={price}
-                  onChange={onChange}
+                  value={product.price}
+                  onChange={handleInputChange}
                 />
+                {errors.price && (
+                  <div className="invalid-feedback">{errors.price}</div>
+                )}
               </div>
 
               <div className="mb-3 col">
                 <label htmlFor="stock_field" className="form-label">
-                  {" "}
-                  Số lượng{" "}
+                  Số lượng
                 </label>
                 <input
                   type="number"
                   id="stock_field"
-                  className="form-control"
+                  className={`form-control ${errors.stock ? "is-invalid" : ""}`}
                   name="stock"
-                  value={stock}
-                  onChange={onChange}
+                  value={product.stock}
+                  onChange={handleInputChange}
                 />
+                {errors.stock && (
+                  <div className="invalid-feedback">{errors.stock}</div>
+                )}
               </div>
             </div>
+
+            {/* Danh mục và GraphicCard */}
             <div className="row">
               <div className="mb-3 col">
                 <label htmlFor="category_field" className="form-label">
-                  {" "}
-                  Danh mục sản phẩm{" "}
+                  Danh mục sản phẩm
                 </label>
                 {categoriesLoading ? (
                   <Loader />
@@ -176,10 +288,12 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="category_field"
-                    className="form-select"
+                    className={`form-select ${
+                      errors.category ? "is-invalid" : ""
+                    }`}
                     name="category"
-                    value={category}
-                    onChange={onChange}
+                    value={product.category}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn danh mục</option>
                     {categoriesData?.categories.map((category) => (
@@ -189,11 +303,13 @@ const NewProduct = () => {
                     ))}
                   </select>
                 )}
+                {errors.category && (
+                  <div className="invalid-feedback">{errors.category}</div>
+                )}
               </div>
               <div className="mb-3 col">
                 <label htmlFor="graphicCard_field" className="form-label">
-                  {" "}
-                  GraphicCard{" "}
+                  GraphicCard
                 </label>
                 {graphicCardLoading ? (
                   <Loader />
@@ -202,26 +318,32 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="graphicCard_field"
-                    className="form-select"
+                    className={`form-select ${
+                      errors.graphicCard ? "is-invalid" : ""
+                    }`}
                     name="graphicCard"
-                    value={graphicCard}
-                    onChange={onChange}
+                    value={product.graphicCard}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn graphicCards</option>
-                    {graphicCardData?.graphicCard.map((graphicCards) => (
-                      <option key={graphicCards._id} value={graphicCards._id}>
-                        {graphicCards.type}
+                    {graphicCardData?.graphicCards.map((graphicCard) => (
+                      <option key={graphicCard._id} value={graphicCard._id}>
+                        {graphicCard.type}
                       </option>
                     ))}
                   </select>
                 )}
+                {errors.graphicCard && (
+                  <div className="invalid-feedback">{errors.graphicCard}</div>
+                )}
               </div>
             </div>
+
+            {/* Màu sắc và CPU */}
             <div className="row">
               <div className="mb-3 col">
                 <label htmlFor="color_field" className="form-label">
-                  {" "}
-                  Màu sắc{" "}
+                  Màu sắc
                 </label>
                 {colorLoading ? (
                   <Loader />
@@ -230,24 +352,28 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="color_field"
-                    className="form-select"
+                    className={`form-select ${
+                      errors.color ? "is-invalid" : ""
+                    }`}
                     name="color"
-                    value={color}
-                    onChange={onChange}
+                    value={product.color}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn màu sắc</option>
-                    {colorData?.color.map((colors) => (
-                      <option key={colors._id} value={colors._id}>
-                        {colors.name}
+                    {colorData?.colors.map((color) => (
+                      <option key={color._id} value={color._id}>
+                        {color.name}
                       </option>
                     ))}
                   </select>
                 )}
+                {errors.color && (
+                  <div className="invalid-feedback">{errors.color}</div>
+                )}
               </div>
               <div className="mb-3 col">
                 <label htmlFor="cpu_field" className="form-label">
-                  {" "}
-                  CPU{" "}
+                  CPU
                 </label>
                 {cpuLoading ? (
                   <Loader />
@@ -256,26 +382,30 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="cpu_field"
-                    className="form-select"
+                    className={`form-select ${errors.cpu ? "is-invalid" : ""}`}
                     name="cpu"
-                    value={cpu}
-                    onChange={onChange}
+                    value={product.cpu}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn cpu</option>
-                    {cpuData?.cpu.map((cpus) => (
-                      <option key={cpus._id} value={cpus._id}>
-                        {cpus.type}
+                    {cpuData?.cpus.map((cpu) => (
+                      <option key={cpu._id} value={cpu._id}>
+                        {cpu.type}
                       </option>
                     ))}
                   </select>
                 )}
+                {errors.cpu && (
+                  <div className="invalid-feedback">{errors.cpu}</div>
+                )}
               </div>
             </div>
+
+            {/* HardDisk và RAM */}
             <div className="row">
               <div className="mb-3 col">
                 <label htmlFor="hardDisk_field" className="form-label">
-                  {" "}
-                  HardDisk{" "}
+                  HardDisk
                 </label>
                 {hardDiskLoading ? (
                   <Loader />
@@ -284,24 +414,28 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="hardDisk_field"
-                    className="form-select"
+                    className={`form-select ${
+                      errors.hardDisk ? "is-invalid" : ""
+                    }`}
                     name="hardDisk"
-                    value={hardDisk}
-                    onChange={onChange}
+                    value={product.hardDisk}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn hardDisk</option>
-                    {hardDiskData?.hardDisk.map((hardDisks) => (
-                      <option key={hardDisks._id} value={hardDisks._id}>
-                        {hardDisks.type}
+                    {hardDiskData?.hardDisks.map((hardDisk) => (
+                      <option key={hardDisk._id} value={hardDisk._id}>
+                        {hardDisk.type}
                       </option>
                     ))}
                   </select>
                 )}
+                {errors.hardDisk && (
+                  <div className="invalid-feedback">{errors.hardDisk}</div>
+                )}
               </div>
               <div className="mb-3 col">
                 <label htmlFor="ram_field" className="form-label">
-                  {" "}
-                  RAM{" "}
+                  RAM
                 </label>
                 {ramLoading ? (
                   <Loader />
@@ -310,44 +444,58 @@ const NewProduct = () => {
                 ) : (
                   <select
                     id="ram_field"
-                    className="form-select"
+                    className={`form-select ${errors.ram ? "is-invalid" : ""}`}
                     name="ram"
-                    value={ram}
-                    onChange={onChange}
+                    value={product.ram}
+                    onChange={handleInputChange}
                   >
                     <option value="">Chọn ram</option>
-                    {ramData?.ram.map((rams) => (
-                      <option key={rams._id} value={rams._id}>
-                        {rams.type}
+                    {ramData?.rams.map((ram) => (
+                      <option key={ram._id} value={ram._id}>
+                        {ram.type}
                       </option>
                     ))}
                   </select>
                 )}
-              </div>
-            </div>
-            <div className="row">
-              <div className="mb-3 col">
-                <label htmlFor="status_field" className="form-label">
-                  {" "}
-                  Trạng thái{" "}
-                </label>
-                <input
-                  type="text"
-                  id="status_field"
-                  className="form-control"
-                  name="status"
-                  value={status}
-                  onChange={onChange}
-                />
+                {errors.ram && (
+                  <div className="invalid-feedback">{errors.ram}</div>
+                )}
               </div>
             </div>
 
+            {/* Trạng thái */}
+            <div className="row">
+              <div className="mb-3 col">
+                <label htmlFor="status_field" className="form-label">
+                  Trạng thái
+                </label>
+                <select
+                  id="status_field"
+                  className={`form-select ${errors.status ? "is-invalid" : ""}`}
+                  name="status"
+                  value={product.status}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Chọn trạng thái</option>
+                  {["New 100%", "Like new 99%"].map((statusOption) => (
+                    <option key={statusOption} value={statusOption}>
+                      {statusOption}
+                    </option>
+                  ))}
+                </select>
+                {errors.status && (
+                  <div className="invalid-feedback">{errors.status}</div>
+                )}
+              </div>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="btn w-100 py-2"
-              disabled={isLoading}
+              disabled={isLoadingSubmit}
             >
-              {isLoading ? "Đang thêm..." : "Thêm sản phẩm"}
+              {isLoadingSubmit ? "Đang thêm..." : "Thêm sản phẩm"}
             </button>
           </form>
         </div>

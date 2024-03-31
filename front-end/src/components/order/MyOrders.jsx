@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
-import { useMyOrdersQuery } from "../../redux/api/orderApi";
+import {
+  useMyOrdersQuery,
+  useDeleteMyOrderMutation,
+} from "../../redux/api/orderApi";
 import toast from "react-hot-toast";
 import Loader from "../layout/Loader";
 import { MDBDataTable } from "mdbreact";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import MetaData from "../layout/MetaData";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/features/cartSlice";
 
 const MyOrders = () => {
-  const { data, isLoading, error } = useMyOrdersQuery();
-  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data, isLoading, error } = useMyOrdersQuery();
+  const [searchParams] = useSearchParams();
   const orderSuccess = searchParams.get("order_success");
-  console.log(data);
+  const [deleteOrder, { isError }] = useDeleteMyOrderMutation();
+
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
@@ -24,6 +27,20 @@ const MyOrders = () => {
       navigate("/me/orders");
     }
   }, [error, orderSuccess]);
+
+  const deleteOrderHandler = async (orderId) => {
+    const confirmDelete = window.confirm("Bạn có chắc muốn hủy đơn hàng này?");
+    if (confirmDelete) {
+      try {
+        await deleteOrder(orderId);
+        toast.success("Đơn hàng đã được hủy thành công.");
+        window.location.reload();
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi khi hủy đơn hàng.");
+      }
+    }
+  };
+
   const setOrders = () => {
     const orders = {
       columns: [
@@ -33,39 +50,55 @@ const MyOrders = () => {
           sort: "asc",
         },
         {
-          label: "Amount",
+          label: "Số tiền",
           field: "amount",
           sort: "asc",
         },
         {
-          label: "Payment Status",
+          label: "Tình trạng thanh toán",
           field: "status",
           sort: "asc",
         },
         {
-          label: "Order Status",
+          label: "Tình trạng đặt hàng",
           field: "orderStatus",
           sort: "asc",
         },
         {
-          label: "Actions",
+          label: "Ngày đặt hàng",
+          field: "orderDate",
+          sort: "asc",
+        },
+        {
+          label: "Hành động",
           field: "actions",
           sort: "asc",
         },
       ],
       rows: [],
     };
+
     data?.order?.forEach((order) => {
       orders.rows.push({
         id: order?._id,
         amount: `$${order?.totalAmount}`,
         status: order?.paymentInfo?.status?.toUpperCase(),
         orderStatus: order?.orderStatus,
+        orderDate: new Date(order?.createdAt).toLocaleDateString("en-GB"),
         actions: (
           <>
             <Link to={`/me/order/${order?._id}`} className="btn btn-primary">
               <i className="fa fa-eye"></i>
             </Link>
+            {order?.paymentInfo?.status === "Chưa thanh toán" &&
+            order?.orderStatus === "Chờ xác nhận" ? (
+              <button
+                onClick={() => deleteOrderHandler(order?._id)}
+                className="btn btn-danger ms-2"
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            ) : null}
             <Link
               to={`/invoice/order/${order?._id}`}
               className="btn btn-success ms-2"
@@ -76,12 +109,15 @@ const MyOrders = () => {
         ),
       });
     });
+
     return orders;
   };
+
   if (isLoading) return <Loader />;
+  if (isError) return <p>Đã xảy ra lỗi khi tải dữ liệu đơn hàng.</p>;
+
   return (
     <div>
-      <MetaData title={"My Orders"} />
       <h1 className="my-5">{data?.order?.length} Orders</h1>
       <MDBDataTable
         data={setOrders()}

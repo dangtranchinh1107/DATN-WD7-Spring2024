@@ -4,7 +4,7 @@ import ProductItem from "../product/ProductItem";
 import Loader from "../layout/Loader";
 import toast from "react-hot-toast";
 import CustomPagination from "../layout/CustomPagination";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
 import "../../assets/css/home.css";
@@ -28,8 +28,42 @@ const HomePage = () => {
   ratings !== null && (params.ratings = ratings);
 
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   // console.log(data);
+  //Danh mục và ảnh
+  const categories = [
+    {
+      id: "65b3ed3049d98167851d92f8",
+      name: "HP",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-hp-149x40-1.png",
+    },
+    {
+      id: "65b3ed8449d98167851d92fa",
+      name: "Asus",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-asus-149x40.png",
+    },
+    {
+      id: "66052b23a1d3f9852da74a99",
+      name: "Acer",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-acer-149x40.png",
+    },
+    {
+      id: "65b3ed8e49d98167851d92fc",
+      name: "Lenovo",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-lenovo-149x40.png",
+    },
+    {
+      id: "65b3ed2249d98167851d92f6",
+      name: "Dell",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-dell-149x40.png",
+    },
+    {
+      id: "65b3ed0e49d98167851d92f4",
+      name: "Macbook",
+      image: "https://cdn.tgdd.vn/Brand/1/logo-macbook-149x40.png",
+    },
+  ];
 
   useEffect(() => {
     if (isError) {
@@ -105,6 +139,28 @@ const HomePage = () => {
           />
         </div>
       </div>
+      {/* Hiển thị Danh mục và Ảnh */}
+      <div className="row mt-4 mb-4 ">
+        {categories.map((category) => (
+          <div key={category.id} className="col-md-2 ">
+            <Link to={`http://localhost:3000/?category=${category.id}`}>
+              <img
+                src={category.image}
+                alt={category.name}
+                className="img-fluid border rounded-pill shadow"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title={category.name}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+
       <div className="row">
         {keyword && (
           <div className="col-6 col-md-3 mt-5">

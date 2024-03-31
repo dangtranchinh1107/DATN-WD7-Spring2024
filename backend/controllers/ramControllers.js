@@ -5,14 +5,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Lấy tất cả Ram => /api/v1/ram
 export const getRam = catchAsyncErrors(async (req, res, next) => {
   // Get All ram
-  const ram = await Ram.find().populate({
+  const rams = await Ram.find().populate({
     path: "products",
     select: "-_id name",
   });
 
   res.status(200).json({
     message: "Lấy tất cả Ram thành công",
-    ram,
+    rams,
   });
 });
 

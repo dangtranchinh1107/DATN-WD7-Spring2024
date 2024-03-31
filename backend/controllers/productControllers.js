@@ -9,6 +9,7 @@ import Ram from "../models/Ram.js";
 import APIFilters from "../utils/apiFilters.js";
 import { delete_file, upload_file } from "../utils/cloudinary.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import Order from "../models/order.js";
 
 // Lấy tất cả sản phẩm => /api/v1/products
 export const getProducts = catchAsyncErrors(async (req, res, next) => {
@@ -18,34 +19,34 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
   //   select: "-_id name",
   // });
 
-  const resPerPage = 4;
+  const resPerPage = 8;
 
   // Search Pro
   const apiFilters = new APIFilters(
     Product.find()
       .populate({
         path: "category",
-        select: "-_id name",
+        select: "_id name",
       })
       .populate({
         path: "color",
-        select: "-_id name",
+        select: "_id name",
       })
       .populate({
         path: "ram",
-        select: "-_id type",
+        select: "_id type",
       })
       .populate({
         path: "cpu",
-        select: "-_id type",
+        select: "_id type",
       })
       .populate({
         path: "hardDisk",
-        select: "-_id type",
+        select: "_id type",
       })
       .populate({
         path: "graphicCard",
-        select: "-_id type",
+        select: "_id type",
       }),
     req.query
   )
@@ -73,28 +74,29 @@ export const getProductDetail = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req?.params?.id)
     .populate({
       path: "category",
-      select: "-_id name",
+      select: "_id name",
     })
     .populate({
       path: "color",
-      select: "-_id name",
+      select: "_id name",
     })
     .populate({
       path: "ram",
-      select: "-_id type",
+      select: "_id type",
     })
     .populate({
       path: "cpu",
-      select: "-_id type",
+      select: "_id type",
     })
     .populate({
       path: "hardDisk",
-      select: "-_id type",
+      select: "_id type",
     })
     .populate({
       path: "graphicCard",
-      select: "-_id type",
-    });
+      select: "_id type",
+    })
+    .populate("reviews.user");
   if (!product) {
     return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
   }
@@ -107,6 +109,7 @@ export const getProductDetail = catchAsyncErrors(async (req, res, next) => {
 // Tạo sản phẩm mới => /api/v1/admin/products
 export const newProduct = catchAsyncErrors(async (req, res) => {
   const product = await Product.create(req.body);
+
   // Thêm sản phẩm vào danh mục
   const updateCategory = await Category.findByIdAndUpdate(product.category, {
     $addToSet: {
@@ -115,7 +118,7 @@ export const newProduct = catchAsyncErrors(async (req, res) => {
   });
   if (!updateCategory) {
     return res.status(404).json({
-      message: "Sản phẩm chưa được chọn danh sách",
+      message: "Sản phẩm chưa được chọn danh mục",
     });
   }
   // Thêm màu
@@ -411,5 +414,19 @@ export const deleteProductImage = catchAsyncErrors(async (req, res) => {
 
   res.status(200).json({
     product,
+  });
+});
+
+export const canUserReview = catchAsyncErrors(async (req, res) => {
+  const orders = await Order.find({
+    user: req.user._id,
+
+    "orderItems.product": req.query.productId,
+  });
+  if (orders.length === 0) {
+    return res.status(200).json({ canReview: false });
+  }
+  res.status(200).json({
+    canReview: true,
   });
 });

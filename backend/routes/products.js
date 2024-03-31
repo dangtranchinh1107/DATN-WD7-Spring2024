@@ -12,6 +12,7 @@ import {
   newProduct,
   updateProduct,
   uploadProductImages,
+  canUserReview,
 } from "../controllers/productControllers.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middlewares/auth.js";
 const router = express.Router();
@@ -24,7 +25,7 @@ router
   .put(isAuthenticatedUser, authorizeRoles("admin"), uploadProductImages);
 router
   .route("/admin/products/:id/delete_image")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), deleteProductImage);
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductImage);
 
 router
   .route("/admin/products")
@@ -32,7 +33,6 @@ router
   .get(isAuthenticatedUser, authorizeRoles("admin"), getAdminProducts);
 
 router
-
   .route("/admin/products/:id")
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct);
 
@@ -40,10 +40,14 @@ router
   .route("/admin/product/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 
-router.route("/reviews").put(isAuthenticatedUser, createProductReview);
-router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
 router
   .route("/admin/reviews")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductReview);
+
+router
+  .route("/reviews")
+  .get(isAuthenticatedUser, getProductReviews)
+  .put(isAuthenticatedUser, createProductReview);
+router.route("/can_review").get(isAuthenticatedUser, canUserReview);
 
 export default router;
