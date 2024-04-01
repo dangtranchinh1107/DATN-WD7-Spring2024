@@ -87,10 +87,11 @@ const orderSchema = new mongoose.Schema(
       enum: {
         values: [
           "Chờ xác nhận",
-          "Chờ lấy hàng",
-          "Chờ giao hàng",
+          "Đã xác nhận",
+          "Đang giao hàng",
           "Đã giao",
-          "Trả hàng",
+          "Hoàn tất",
+          "Hủy",
         ],
         message: "Vui lòng chọn chính xác tình trang đặt hàng!",
       },

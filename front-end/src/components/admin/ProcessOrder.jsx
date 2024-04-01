@@ -169,10 +169,11 @@ const ProcessOrder = () => {
               onChange={(e) => setStatus(e.target.value)}
             >
               <option value="Chờ xác nhận">Chờ xác nhận</option>
-              <option value="Chờ lấy hàng">Chờ lấy hàng</option>
-              <option value="Chờ giao hàng">Chờ giao hàng</option>
+              <option value="Đã xác nhận">Đã xác nhận</option>
+              <option value="Đang giao hàng">Đang giao hàng</option>
               <option value="Đã giao">Đã giao</option>
-              <option value="Trả hàng">Trả hàng</option>
+              <option value="Hoàn tất">Hoàn tất</option>
+              <option value="Hủy">Hủy</option>
             </select>
           </div>
 

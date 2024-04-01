@@ -52,11 +52,11 @@ export const orderApi = createApi({
       },
       invalidatesTags: ["AdminOrders"],
     }),
-    deleteMyOrder: builder.mutation({
+    updateOrderMe: builder.mutation({
       query(id) {
         return {
           url: `/me/orders/${id}`,
-          method: "DELETE",
+          method: "PUT",
         };
       },
     }),
@@ -68,7 +68,7 @@ export const {
   useStripeCheckoutSessionMutation,
   useMyOrdersQuery,
   useOrderDetailsQuery,
-  useDeleteMyOrderMutation,
+  useUpdateOrderMeMutation,
   useGetAminOrdersQuery,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
