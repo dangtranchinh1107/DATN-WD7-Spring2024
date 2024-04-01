@@ -40,6 +40,7 @@ const CustomPagination = ({ resPerPage, productsFiltersCount }) => {
           lastPageText={"Cuối trang"}
           itemClass="page-item"
           linkClass="page-link"
+          
         />
       )}
     </div>

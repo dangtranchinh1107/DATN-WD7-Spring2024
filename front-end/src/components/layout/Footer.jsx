@@ -3,7 +3,7 @@ import "../../assets/css/home.css";
 const Footer = () => {
   return (
     <footer>
-      <div className="footer">
+      <div className="footer bg-danger ">
         <div>
           <div className="title2">
             <img className="logo" src="src/images/logo.png" alt="" />
@@ -58,8 +58,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="copy">
-        <i className="bi bi-c-circle"></i>Copyright Rimel 2024. All right
+      <div className="copy bg-danger ">
+        <i className="bi bi-c-circle "></i>Copyright Rimel 2024. All right
         reserved
       </div>
     </footer>

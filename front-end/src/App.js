@@ -15,6 +15,7 @@ import UpdatePassword from "./components/user/UpdatePassword.jsx";
 import MyOrders from "./components/order/MyOrders";
 import OrderDetails from "./components/order/OrderDetails";
 import Invoice from "./components/invoice/Invoice";
+import Snowfall from "./components/layout/Snowfall.jsx";
 
 function App() {
   const userRoutes = useUserRoutes();
@@ -24,7 +25,7 @@ function App() {
       <div className="App">
         <Toaster position="top-center" />
         <Header />
-
+        <Snowfall />
         <div className="container">
           <Routes>
             <Route path="/password/forgot" element={<ForgotPassword />} />

@@ -7,7 +7,7 @@ import CustomPagination from "../layout/CustomPagination";
 import { Link, useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
-import "../../assets/css/home.css";
+import "../css/style.css";
 // import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
 
 const HomePage = () => {
@@ -92,6 +92,7 @@ const HomePage = () => {
   return (
     <>
       <MetaData title="Mua sản phẩm tốt nhất trực tuyến" />
+
       <div className="right">
         <div className="image-slider">
           <div>
@@ -142,16 +143,12 @@ const HomePage = () => {
       {/* Hiển thị Danh mục và Ảnh */}
       <div className="row mt-4 mb-4 ">
         {categories.map((category) => (
-          <div key={category.id} className="col-md-2 ">
+          <div key={category.id} className="col-md-2">
             <Link to={`http://localhost:3000/?category=${category.id}`}>
               <img
                 src={category.image}
                 alt={category.name}
-                className="img-fluid border rounded-pill shadow"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
+                className="img-fluid zoom"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
                 title={category.name}

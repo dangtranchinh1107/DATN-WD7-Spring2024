@@ -63,8 +63,8 @@ const ConfirmOrder = () => {
           ))}
         </div>
 
-        <div className="col-12 col-lg-3 my-4">
-          <div id="order_summary">
+        <div className="col-12 col-lg-3 my-4 shadow p-5 mb-5 bg-body-tertiary rounded">
+          <div id="order_summary ">
             <h4 className="text-lg">
               <b>Tổng quan đơn hàng</b>
             </h4>

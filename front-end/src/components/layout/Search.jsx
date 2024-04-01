@@ -27,7 +27,7 @@ const Search = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <button id="search_btn" className="btn" type="submit">
+        <button id="search_btn" className="btn bg-warning" type="submit">
           <i className="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>

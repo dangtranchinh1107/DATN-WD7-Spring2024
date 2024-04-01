@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
+import "../css/style.css";
 const ProductItem = ({ product, columnSize }) => {
   return (
     <div className={`col-sm-12 col-md-6 col-lg-${columnSize} my-3`}>
-      <div className="card p-3 rounded">
+      <div className="card p-3 rounded item4">
         <img
           className="card-img-top mx-auto"
           src={
@@ -14,7 +15,7 @@ const ProductItem = ({ product, columnSize }) => {
           }
           alt={product?.name}
         />
-        <div className="card-body ps-3 d-flex justify-content-center flex-column">
+        <div className=" card-body ps-3 d-flex justify-content-center flex-column ">
           <h5 className="card-title">
             <Link to={`/product/${product?._id}`}>{product?.name}</Link>
           </h5>
@@ -39,7 +40,7 @@ const ProductItem = ({ product, columnSize }) => {
           <Link
             to={`/product/${product?._id}`}
             id="view_btn"
-            className="btn btn-block"
+            className="btn btn-block buy-button bg-danger"
           >
             Xem chi tiết
           </Link>

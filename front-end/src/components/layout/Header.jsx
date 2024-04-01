@@ -30,7 +30,7 @@ const Header = () => {
   };
   const { cartItems } = useSelector((state) => state.cart);
   return (
-    <nav className="navbar row">
+    <nav className="d-flex flex-row mb-3 w-100 bg-danger">
       <div className="col-12 col-md-3 ps-5">
         <div className="navbar-brand">
           <a href="/">
@@ -38,16 +38,34 @@ const Header = () => {
           </a>
         </div>
       </div>
-      <div className="col-12 col-md-6 pt-2 mt-md-0">
+      <Link className="text-white pe-5 " to={"/"}>
+        Home
+      </Link>
+      <Link className="text-white pe-5 " to={"/"}>
+        Contact
+      </Link>
+      <Link className="text-white pe-5 " to={"/"}>
+        About
+      </Link>
+      <div className="">
         <Search />
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         <a href="/cart" style={{ textDecoration: "none" }}>
           <span id="cart" className="ms-3">
             {" "}
-            Giỏ hàng{" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-cart "
+              viewBox="0 0 16 16"
+            >
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>{" "}
           </span>
-          <span className="ms-1" id="cart_count">
+          <span className="ms-1 bg-warning" id="cart_count">
             {cartItems?.length}
           </span>
         </a>
@@ -55,7 +73,7 @@ const Header = () => {
         {user ? (
           <div className="ms-4 dropdown">
             <button
-              className="btn dropdown-toggle text-white"
+              className="btn dropdown-toggle text-white "
               type="button"
               id="dropDownMenuButton"
               data-bs-toggle="dropdown"
@@ -96,7 +114,7 @@ const Header = () => {
               </Link>
 
               <Link
-                className="dropdown-item text-danger"
+                className="dropdown-item text-danger "
                 to="/"
                 onClick={logoutHandler}
               >
@@ -106,7 +124,7 @@ const Header = () => {
           </div>
         ) : (
           !isLoading && (
-            <Link to="/login" className="btn ms-4" id="login_btn">
+            <Link to="/login" className="btn ms-4 bg-warning" id="login_btn">
               {" "}
               Đăng nhập{" "}
             </Link>
