@@ -104,7 +104,7 @@ const Filters = () => {
         </div>
       </form>
       <hr />
-      <h5 className="mb-3">Danh mục</h5>
+      <h5 className="mb-3">Hãng sản xuất</h5>
 
       {categories?.map((category) => (
         <div className="form-check" key={category._id}>

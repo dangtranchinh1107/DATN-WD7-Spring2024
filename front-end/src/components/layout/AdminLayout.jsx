@@ -8,6 +8,41 @@ const AdminLayout = ({ children }) => {
       url: "/admin/dashboard",
       icon: "fas fa-tachometer-alt",
     },
+    {
+      name: "Quản lý Sản phẩm",
+      url: "/admin/products",
+      icon: "fab fa-product-hunt",
+    },
+    {
+      name: "Quản lý Danh mục",
+      url: "/admin/categories",
+      icon: "fa fa-bars",
+    },
+    {
+      name: "Quản lý GraphicCards",
+      url: "/admin/graphicCards",
+      icon: "fab fa-product-hunt",
+    },
+    {
+      name: "Quản lý Màu sắc",
+      url: "/admin/colors",
+      icon: "fab fa-product-hunt",
+    },
+    {
+      name: "Quản lý Cpu",
+      url: "/admin/cpus",
+      icon: "fab fa-product-hunt",
+    },
+    {
+      name: "Quản lý HardDisk",
+      url: "/admin/hardDisks",
+      icon: "fa fa-hdd-o",
+    },
+    {
+      name: "Quản lý Ram",
+      url: "/admin/rams",
+      icon: "fab fa-product-hunt",
+    },
 
     {
       name: "Quản lý đơn hàng",

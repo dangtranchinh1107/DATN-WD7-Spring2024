@@ -65,6 +65,14 @@ export const orderApi = createApi({
         };
       },
     }),
+    updateOrderMe: builder.mutation({
+      query(id) {
+        return {
+          url: `/me/orders/${id}`,
+          method: "PUT",
+        };
+      },
+    }),
   }),
 });
 
@@ -78,4 +86,5 @@ export const {
   useUpdateOrderMutation,
   useDeleteOrderMutation,
   useDeleteMyOrderMutation,
+  useUpdateOrderMeMutation,
 } = orderApi;

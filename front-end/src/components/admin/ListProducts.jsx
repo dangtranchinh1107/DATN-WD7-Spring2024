@@ -5,34 +5,49 @@ import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import {
-  useDeleteProductMutation,
   useGetAdminProductsQuery,
+  useUpdateStatusActiveMutation,
 } from "../../redux/api/productsApi";
 import AdminLayout from "../layout/AdminLayout";
+import { FaToggleOn, FaToggleOff } from "react-icons/fa";
 
 const ListProducts = () => {
   const { data, isLoading, error } = useGetAdminProductsQuery();
-
-  const [
-    deleteProduct,
-    { isLoading: isDeleteLoading, error: deleteError, isSuccess },
-  ] = useDeleteProductMutation();
+  const [updateStatusActive, { error: updateStatusActiveError }] =
+    useUpdateStatusActiveMutation();
 
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
-    if (deleteError) {
-      toast.error(deleteError?.data?.message);
+    if (updateStatusActiveError) {
+      toast.error(updateStatusActiveError?.data?.message);
     }
-    console.log(deleteError);
-    if (isSuccess) {
-      toast.success("Product Deleted");
-    }
-  }, [error, deleteError, isSuccess]);
+  }, [error, updateStatusActiveError]);
 
-  const deleteProductHandler = (id) => {
-    deleteProduct(id);
+  const toggleUserStatus = (id, statusActive) => {
+    const newStatus = statusActive === "active" ? "deactive" : "active";
+
+    // Hiển thị xác nhận trước khi thay đổi trạng thái
+    const confirmToggle = window.confirm(
+      `Bạn có chắc chắn muốn ${
+        newStatus === "active" ? "kích hoạt" : "vô hiệu hóa"
+      } sản phẩm này không?`
+    );
+
+    if (confirmToggle) {
+      updateStatusActive({ id, body: { statusActive: newStatus } })
+        .then(() => {
+          toast.success(
+            `Sản phẩm đã ${
+              newStatus === "active" ? "kích hoạt" : "vô hiệu hóa"
+            } thành công!`
+          );
+        })
+        .catch((error) => {
+          toast.error(error?.data?.message);
+        });
+    }
   };
 
   const setProducts = () => {
@@ -53,6 +68,11 @@ const ListProducts = () => {
           field: "stock",
           sort: "asc",
         },
+        {
+          label: "Status",
+          field: "status",
+          sort: "asc",
+        },
 
         {
           label: "Hành động",
@@ -68,6 +88,17 @@ const ListProducts = () => {
         id: product?._id,
         name: `${product?.name.substring(0, 20)}...`,
         stock: product?.stock,
+        status: (
+          <span
+            className={
+              product?.statusActive === "active"
+                ? "toggle-active"
+                : "toggle-deactive"
+            }
+          >
+            {product?.statusActive === "active" ? "active" : "deactive"}
+          </span>
+        ),
         actions: (
           <>
             <Link
@@ -88,17 +119,23 @@ const ListProducts = () => {
             >
               <i className="fa fa-eye"></i>
             </Link>
-            {/* <button
-              className="btn btn-outline-danger ms-2"
-              onClick={() => {
-                if (window.confirm("Bạn có chắc muốn xoá không?")) {
-                  deleteProductHandler(product?._id);
-                }
-              }}
-              disabled={isDeleteLoading}
+            <button
+              className={`btn ms-2 ${
+                product?.statusActive === "active"
+                  ? "toggle-active"
+                  : "toggle-deactive"
+              }`}
+              onClick={() =>
+                toggleUserStatus(product?._id, product?.statusActive)
+              }
+              disabled={isLoading}
             >
-              <i className="fa fa-trash"></i>
-            </button> */}
+              {product?.statusActive === "active" ? (
+                <FaToggleOn size={28} />
+              ) : (
+                <FaToggleOff size={28} />
+              )}
+            </button>
           </>
         ),
       });

@@ -53,7 +53,7 @@ const NewReviews = ({ productId }) => {
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="ratingModalLabel">
-                    Submit Review
+                    Gửi đánh giá
                   </h5>
                   <button
                     type="button"

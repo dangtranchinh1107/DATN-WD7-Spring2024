@@ -81,7 +81,7 @@ export const getOrderTemplates = (
           <p>Tổng tiền sản phẩm: ${itemsPrice}</p>
           <p>Thuế: ${taxAmount}</p>
           <p>Phí vận chuyển: ${shippingAmount}</p>
-          <p>Tổng tiền: ${totalAmount}</p>
+          <p>Tổng tiền thanh toán: ${totalAmount}</p>
           <p>Địa chỉ giao hàng: ${shippingInfo.address},${
   shippingInfo?.district
 }, ${shippingInfo.city}, ${shippingInfo.country}</p>

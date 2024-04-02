@@ -30,6 +30,7 @@ const HomePage = () => {
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
   // console.log(data);
   //Danh mục và ảnh
   const categories = [
@@ -85,7 +86,7 @@ const HomePage = () => {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
   };
-  const columnSize = keyword ? 4 : 3;
+  const columnSize = keyword ? 3 : 3;
 
   if (isLoading) return <Loader />;
 
@@ -162,11 +163,6 @@ const HomePage = () => {
       </div>
 
       <div className="row">
-        {keyword && (
-          <div className="col-6 col-md-3 mt-5">
-            <Filters />
-          </div>
-        )}
         <div className={keyword ? "col-6 col-md-9" : "col-6 col-md-12"}>
           <h1 id="products_heading" className="text-secondary">
             {keyword

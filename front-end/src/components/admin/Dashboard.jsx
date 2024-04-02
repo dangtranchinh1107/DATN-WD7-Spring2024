@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   const [getDashboardSales, { error, isLoading, data }] =
     useLazyGetDashboardSalesQuery();
-
+  console.log(data);
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
@@ -79,7 +79,7 @@ const Dashboard = () => {
           <div className="card text-white bg-success o-hidden h-100">
             <div className="card-body">
               <div className="text-center card-font-size">
-                Tổng tiền
+                Doanh thu
                 <br />
                 <b>${data?.totalSales?.toFixed(2)}</b>
               </div>
@@ -101,7 +101,12 @@ const Dashboard = () => {
       </div>
 
       <div style={{ display: "ruby-text" }}>
-        <SalesChart salesData={data?.sales} />
+        <SalesChart
+          salesData={data?.sales}
+          topProducts={data?.topProducts}
+          topUsers={data?.topUsers}
+          topCategories={data?.topCategories}
+        />
       </div>
 
       <div className="mb-5"></div>

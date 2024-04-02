@@ -111,6 +111,10 @@ const productSchema = new mongoose.Schema(
       ref: "User",
       required: false,
     },
+    statusActive: {
+      type: String,
+      default: "active",
+    },
   },
   {
     timestamps: true,

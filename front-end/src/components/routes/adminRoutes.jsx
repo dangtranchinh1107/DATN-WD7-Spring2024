@@ -35,6 +35,7 @@ import CpuView from "../admin/CpuView";
 import ColorView from "../admin/ColorView";
 import RamView from "../admin/RamView";
 import HardDiskView from "../admin/HardDiskView";
+import ProductReview from "../admin/ProductReview";
 
 const adminRoutes = () => {
   return (
@@ -319,6 +320,15 @@ const adminRoutes = () => {
         element={
           <ProtectedRoute admin={true}>
             <UpdateUser />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/reviews"
+        element={
+          <ProtectedRoute admin={true}>
+            <ProductReview />
           </ProtectedRoute>
         }
       />

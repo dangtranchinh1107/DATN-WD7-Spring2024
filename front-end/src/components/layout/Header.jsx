@@ -42,6 +42,12 @@ const Header = () => {
         <Search />
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+        <a href="/products" style={{ textDecoration: "none" }}>
+          <span id="cart" className="ms-3">
+            {" "}
+            Sản phẩm{" "}
+          </span>
+        </a>
         <a href="/cart" style={{ textDecoration: "none" }}>
           <span id="cart" className="ms-3">
             {" "}

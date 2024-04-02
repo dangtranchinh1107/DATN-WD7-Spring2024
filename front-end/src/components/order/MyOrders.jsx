@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
   useMyOrdersQuery,
-  useDeleteMyOrderMutation,
+  useUpdateOrderMeMutation,
 } from "../../redux/api/orderApi";
 import toast from "react-hot-toast";
 import Loader from "../layout/Loader";
@@ -16,7 +16,7 @@ const MyOrders = () => {
   const { data, isLoading, error } = useMyOrdersQuery();
   const [searchParams] = useSearchParams();
   const orderSuccess = searchParams.get("order_success");
-  const [deleteOrder, { isError }] = useDeleteMyOrderMutation();
+  const [updateOrderMe, { isError }] = useUpdateOrderMeMutation();
 
   useEffect(() => {
     if (error) {
@@ -32,7 +32,7 @@ const MyOrders = () => {
     const confirmDelete = window.confirm("Bạn có chắc muốn hủy đơn hàng này?");
     if (confirmDelete) {
       try {
-        await deleteOrder(orderId);
+        await updateOrderMe(orderId, { status: "Hủy" });
         toast.success("Đơn hàng đã được hủy thành công.");
         window.location.reload();
       } catch (error) {

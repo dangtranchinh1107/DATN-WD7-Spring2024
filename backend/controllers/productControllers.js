@@ -23,7 +23,9 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
   // Search Pro
   const apiFilters = new APIFilters(
-    Product.find()
+    Product.find({
+      statusActive: { $ne: "deactive" },
+    })
       .populate({
         path: "category",
         select: "_id name",
@@ -327,10 +329,10 @@ export const createProductReview = catchAsyncErrors(async (req, res, next) => {
 });
 
 // lấy tất cả sản phẩm review => /api/v1/reviews
-export const getProductReviews = catchAsyncErrors(async (req, res) => {
-  const product = await Product.findById(req.query.id);
+export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
+  const product = await Product.findById(req.query.id).populate("reviews.user");
   if (!product) {
-    return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
+    return next(new ErrorHandler("Không tìm thấy sản phẩm", 404));
   }
   res.status(200).json({
     reviews: product.reviews,
@@ -338,26 +340,26 @@ export const getProductReviews = catchAsyncErrors(async (req, res) => {
 });
 
 // Xoá sản phẩm review => /api/v1/admin/reviews
-export const deleteProductReview = catchAsyncErrors(async (req, res, next) => {
+export const deleteReview = catchAsyncErrors(async (req, res, next) => {
   let product = await Product.findById(req.query.productId);
   if (!product) {
-    return next(new ErrorHandler("Không tìm thấy sản phẩm", 400));
+    return next(new ErrorHandler("Không tìm thấy sản phẩm", 404));
   }
 
   const reviews = product?.reviews?.filter(
-    (review) => review._id.toString() === req?.user?.id.toString()
+    (review) => review._id.toString() !== req?.query?.id.toString()
   );
 
   const numOfReviews = reviews.length;
-  const rating =
+  const ratings =
     numOfReviews === 0
       ? 0
       : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
         numOfReviews;
 
-  await Product.findByIdAndUpdate(
+  product = await Product.findByIdAndUpdate(
     req.query.productId,
-    { reviews, numOfReviews, rating },
+    { reviews, numOfReviews, ratings },
     { new: true }
   );
 
@@ -429,4 +431,38 @@ export const canUserReview = catchAsyncErrors(async (req, res) => {
   res.status(200).json({
     canReview: true,
   });
+});
+
+// Cập nhật statusActive => /api/v1/products/statusActive/:id
+export const updateStatusActive = catchAsyncErrors(async (req, res) => {
+  try {
+    const { statusActive } = req.body;
+    if (!statusActive) {
+      return res.status(400).json({
+        success: false,
+        message: "Trạng thái sản phẩm là bắt buộc",
+      });
+    }
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy sản phẩms",
+      });
+    }
+    // cập nhật statusActive
+    product.statusActive = statusActive;
+
+    await product.save();
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });

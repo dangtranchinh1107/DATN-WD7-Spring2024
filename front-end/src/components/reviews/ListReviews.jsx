@@ -4,7 +4,7 @@ import StarRatings from "react-star-ratings";
 const ListReviews = ({ reviews }) => {
   return (
     <div class="reviews w-75">
-      <h3>Other's Reviews:</h3>
+      <h3>Các đánh giá còn lại</h3>
       <hr />
       {reviews.map((review) => (
         <div key={review?._id} class="review-card my-3">
@@ -33,7 +33,7 @@ const ListReviews = ({ reviews }) => {
                   starSpacing="1px"
                 />
               </div>
-              <p class="review_user">by {review.user?.name}</p>
+              <p class="review_user">bởi {review.user?.name}</p>
 
               <p class="review_comment">{review.comment}</p>
             </div>
