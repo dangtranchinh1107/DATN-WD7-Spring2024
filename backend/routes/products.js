@@ -9,6 +9,7 @@ import {
   getProducts,
   newProduct,
   updateProduct,
+  updateStatusActive,
 } from "../controllers/productControllers.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middlewares/auth.js";
 const router = express.Router();
@@ -23,7 +24,9 @@ router
 router
   .route("/admin/product/:id")
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct);
-
+router
+  .route("/admin/products/statusActive/:id")
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateStatusActive);
 router
   .route("/admin/product/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
