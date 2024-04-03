@@ -92,7 +92,7 @@ const ConfirmOrder = () => {
             <Link
               to="/payment_method"
               id="checkout_btn"
-              className="btn btn-primary w-100"
+              className="btn bg-warning w-100 rounded-2 text-white"
             >
               Tiến hành thanh toán
             </Link>

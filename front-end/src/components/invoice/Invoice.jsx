@@ -42,13 +42,13 @@ const Invoice = () => {
   return (
     <div>
       <MetaData title={"Order Invoice"} />
-      <div className="order-invoice my-5">
+      <div className="order-invoice my-5 ">
         <div className="row d-flex justify-content-center mb-5">
           <button className="btn btn-success col-md-5" onClick={handleDownload}>
             <i className="fa fa-print"></i>Tải hóa đơn xuống
           </button>
         </div>
-        <div id="order_invoice" className="p-3 border border-secondary">
+        <div id="order_invoice" className="p-3 shadow-lg">
           <header className="clearfix">
             <div id="logo">
               <img

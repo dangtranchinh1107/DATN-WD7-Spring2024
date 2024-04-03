@@ -116,6 +116,19 @@ const MyOrders = () => {
   if (isLoading) return <Loader />;
   if (isError) return <p>Đã xảy ra lỗi khi tải dữ liệu đơn hàng.</p>;
 
+  // Kiểm tra nếu không có đơn hàng
+  if (data.order.length === 0)
+    return (
+      <div>
+        <p className="text-center fs-5 fw-bolder">Không có đơn hàng.</p>
+        <div className="d-flex">
+          <Link className="btn btn-warning text-white " to={"/"}>
+            Mua ngay
+          </Link>
+        </div>
+      </div>
+    );
+
   return (
     <div>
       <h1 className="my-5">{data?.order?.length} Orders</h1>

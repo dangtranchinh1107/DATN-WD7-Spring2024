@@ -30,7 +30,7 @@ const Header = () => {
   };
   const { cartItems } = useSelector((state) => state.cart);
   return (
-    <nav className="d-flex flex-row mb-3 w-100 bg-danger">
+    <nav className="d-flex flex-row mb-3 w-100 bg-danger mt-0">
       <div className="col-12 col-md-3 ps-5">
         <div className="navbar-brand">
           <a href="/">

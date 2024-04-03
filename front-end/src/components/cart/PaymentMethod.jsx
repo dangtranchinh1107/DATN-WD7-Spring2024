@@ -127,7 +127,7 @@ const PaymentMethod = () => {
             <button
               id="shipping_btn"
               type="submit"
-              className="btn py-2 w-100"
+              className="btn py-2 w-100 bg-warning w-100 rounded-2 text-white"
               disabled={isLoading}
             >
               Tiếp tục
