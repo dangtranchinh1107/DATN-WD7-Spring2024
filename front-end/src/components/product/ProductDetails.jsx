@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import NewReviews from "../reviews/NewReviews";
 import ListReviews from "../reviews/ListReviews";
+import Magnifier from "react-magnifier";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -75,13 +76,14 @@ const ProductDetails = () => {
       <div className="row d-flex justify-content-around">
         <div className="col-12 col-lg-5 img-fluid" id="product_image">
           <div className="p-3">
-            <img
+            <Magnifier src={activeImg} alt={product?.name} width={500} />;
+            {/* <img
               className="d-block w-100"
               src={activeImg}
               alt={product?.name}
               width="340"
               height="390"
-            />
+            /> */}
           </div>
           <div className="row justify-content-start mt-5">
             {product?.images?.map((img) => (
@@ -145,7 +147,7 @@ const ProductDetails = () => {
           <button
             type="button"
             id="cart_btn"
-            className="btn btn-primary d-inline ms-4"
+            className="btn btn-primary bg-warning rounded-2 text-white d-inline ms-4"
             disabled={product.stock <= 0}
             onClick={setItemToCart}
           >

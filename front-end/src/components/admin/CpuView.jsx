@@ -3,6 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetCpuDetailsQuery } from "../../redux/api/cpuApi";
+import { Button } from "antd";
 
 const CpuView = () => {
   const params = useParams();
@@ -60,7 +61,7 @@ const CpuView = () => {
             </div>
 
             <Link to={`/admin/cpus`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>

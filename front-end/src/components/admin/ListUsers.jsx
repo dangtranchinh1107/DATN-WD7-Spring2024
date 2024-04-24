@@ -107,32 +107,33 @@ const ListUsers = () => {
             {user.status === "active" ? "active" : "deactive"}
           </span>
         ),
-        actions: (
-          <>
-            <Link
-              to={`/admin/users/${user?._id}`}
-              className="btn btn-outline-primary"
-              disabled={isLoading}
-            >
-              <i className="fa fa-pencil"></i>
-            </Link>
-            <button
-              className={`btn ms-2 ${
-                user.status === "active" ? "toggle-active" : "toggle-deactive"
-              }`}
-              onClick={() =>
-                toggleUserStatus(user?._id, user?.status, user?.role)
-              }
-              disabled={isLoading}
-            >
-              {user.status === "active" ? (
-                <FaToggleOn size={28} />
-              ) : (
-                <FaToggleOff size={28} />
-              )}
-            </button>
-          </>
-        ),
+        actions:
+          user.role !== "admin" ? ( // Thêm điều kiện ở đây
+            <>
+              <Link
+                to={`/admin/users/${user?._id}`}
+                className="btn btn-outline-primary"
+                disabled={isLoading}
+              >
+                <i className="fa fa-pencil"></i>
+              </Link>
+              <button
+                className={`btn ms-2 ${
+                  user.status === "active" ? "toggle-active" : "toggle-deactive"
+                }`}
+                onClick={() =>
+                  toggleUserStatus(user?._id, user?.status, user?.role)
+                }
+                disabled={isLoading}
+              >
+                {user.status === "active" ? (
+                  <FaToggleOn size={24} />
+                ) : (
+                  <FaToggleOff size={24} />
+                )}
+              </button>
+            </>
+          ) : null,
       });
     });
 
@@ -143,7 +144,7 @@ const ListUsers = () => {
 
   return (
     <AdminLayout>
-      <h1 className="my-5">{data?.users?.length} Users</h1>
+      <h4 className="my-5 mt-0 pt-0">{data?.users?.length} Users</h4>
 
       <MDBDataTable data={setUsers()} className="px-3" bordered striped hover />
     </AdminLayout>

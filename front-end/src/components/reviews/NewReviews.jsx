@@ -36,7 +36,7 @@ const NewReviews = ({ productId }) => {
           data-bs-toggle="modal"
           data-bs-target="#ratingModal"
         >
-          Submit Your Review
+          Gửi đánh giá của bạn
         </button>
       )}
       <div className="row mt-2 mb-5">
@@ -75,7 +75,7 @@ const NewReviews = ({ productId }) => {
                     name="review"
                     id="review"
                     className="form-control mt-4"
-                    placeholder="Enter your comment"
+                    placeholder="Nhập bình luận của bạn"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                   ></textarea>
@@ -87,7 +87,7 @@ const NewReviews = ({ productId }) => {
                     aria-label="Close"
                     onClick={submitHandler}
                   >
-                    Submit
+                    Gửi
                   </button>
                 </div>
               </div>

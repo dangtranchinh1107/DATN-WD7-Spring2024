@@ -18,14 +18,14 @@ const Profile = () => {
           </figure>
         </div>
 
-        <div className="col-12 col-md-5">
-          <h4>Họ và tên</h4>
+        <div className="col-12 col-md-5 ">
+          <h4 className="fw-bold">Họ và tên</h4>
           <p>{user?.name}</p>
 
-          <h4>Địa chỉ email</h4>
+          <h4 className="fw-bold">Địa chỉ email</h4>
           <p>{user?.email}</p>
 
-          <h4>Đã tham gia vào</h4>
+          <h4 className="fw-bold">Đã tham gia vào</h4>
           <p>{user?.createdAt?.substring(0, 10)}</p>
         </div>
       </div>

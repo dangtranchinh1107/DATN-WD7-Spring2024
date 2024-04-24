@@ -51,8 +51,6 @@ const ProductsPage = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
   };
 
-  const columnSize = keyword ? 4 : 3;
-
   if (isLoading) return <Loader />;
 
   return (
@@ -64,67 +62,12 @@ const ProductsPage = () => {
           <Filters />
         </div>
         <div className="col-md-9 order-md-2 order-1">
-          <div className="right">
-            <div className="image-slider">
-              <div>
-                <button
-                  onClick={prevSlide}
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Trước</span>
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Sau</span>
-                </button>
-              </div>
-              <img
-                className={`image ${currentIndex === 0 ? "active" : ""}`}
-                src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/2/638449855361141781_F-C1_1200x300.png"
-                alt=""
-              />
-              <img
-                className={`image ${currentIndex === 1 ? "active" : ""}`}
-                src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/2/638449857797599116_F-C1_1200x300.png"
-                alt=""
-              />
-              <img
-                className={`image ${currentIndex === 2 ? "active" : ""}`}
-                src="https://images.fpt.shop/unsafe/fit-in/1200x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/3/1/638449086705112725_F-C1_1200x300.png"
-                alt=""
-              />
-            </div>
-          </div>
-          <h1 id="products_heading" className="text-secondary mt-5">
-            {keyword
-              ? `${data?.products?.length} Sản phẩm được tìm thấy với từ khóa: ${keyword}`
-              : "Sản phẩm mới nhất"}
-          </h1>
-
           <section id="products" className="mt-5">
-            <div className="row">
+            <div class="row">
               {data?.products?.map((product) => (
-                <ProductItem
-                  key={product._id}
-                  product={product}
-                  columnSize={columnSize}
-                />
+                <div class="col-md-4 mb-4">
+                  <ProductItem key={product._id} product={product} />
+                </div>
               ))}
             </div>
           </section>

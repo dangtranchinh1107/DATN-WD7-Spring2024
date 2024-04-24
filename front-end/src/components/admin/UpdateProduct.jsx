@@ -147,9 +147,11 @@ const UpdateProduct = () => {
         .label("Tên sản phẩm"),
 
       price: Joi.number()
+        .min(0)
         .required()
         .messages({
           "number.base": "Giá sản phẩm phải là một số",
+          "number.min": "Giá sản phẩm phải là số dương",
           "any.required": "Giá sản phẩm không được để trống",
         })
         .label("Giá sản phẩm"),
@@ -176,9 +178,11 @@ const UpdateProduct = () => {
         .label("Trạng thái"),
 
       stock: Joi.number()
+        .min(0)
         .required()
         .messages({
           "number.base": "Số lượng sản phẩm phải là một số",
+          "number.min": "Số lượng sản phẩm phải là số dương",
           "any.required": "Số lượng phẩm không được để trống",
         })
         .label("Số lượng"),

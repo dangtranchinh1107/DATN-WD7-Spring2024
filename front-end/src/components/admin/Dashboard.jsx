@@ -9,6 +9,7 @@ import { useLazyGetDashboardSalesQuery } from "../../redux/api/orderApi";
 import { toast } from "react-hot-toast";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
+import { Button } from "antd";
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date().setDate(1));
@@ -66,12 +67,9 @@ const Dashboard = () => {
             className="form-control"
           />
         </div>
-        <button
-          className="btn fetch-btn ms-4 mt-3 px-5"
-          onClick={submitHandler}
-        >
+        <Button type="primary" onClick={submitHandler}>
           Tìm
-        </button>
+        </Button>
       </div>
 
       <div className="row pr-4 my-5">

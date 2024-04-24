@@ -1,3 +1,37 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+.item4:hover .buy-button {
+    bottom: 5;
+    margin-bottom: 10px;
+  }
+  .buy-button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: #fff;
+    padding: 10px 20px;
+    transition: bottom 0.3s ease-in-out;
+  }
+  .item4 {
+    margin-top: 20px;
+    background-color: #fafafa;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .item4:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Đổ bóng lớn hơn khi trỏ chuột vào */
+  }
+  .zoom {
+    padding: 5px;
+    transition: transform 0.2s; /* Animation */
+    margin: 0 auto;
+  }
+  .zoom:hover {
+    transform: scale(1.2);
+  }

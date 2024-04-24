@@ -3,6 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetHardDiskDetailsQuery } from "../../redux/api/hardDisk";
+import { Button } from "antd";
 
 const HardDiskView = () => {
   const params = useParams();
@@ -60,7 +61,7 @@ const HardDiskView = () => {
             </div>
 
             <Link to={`/admin/hardDisks`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>

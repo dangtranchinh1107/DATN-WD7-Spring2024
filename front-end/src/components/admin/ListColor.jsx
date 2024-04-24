@@ -75,7 +75,7 @@ const ListColor = () => {
     <AdminLayout>
       <MetaData title={"Tất cả Color"} />
       <Link to="/admin/color/new" className="btn btn-outline-success ms-2">
-        <i className="fa fa-plus me-2"></i>Thêm Color
+        <i className="fa fa-plus me-2"></i>Thêm Màu sắc
       </Link>
       <MDBDataTable
         data={setColors()}

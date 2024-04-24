@@ -26,8 +26,7 @@ const ConfirmOrder = () => {
           </p>
           <p className="mb-4">
             <b>Địa chỉ:</b> {shippingInfo.country},{shippingInfo.city},{" "}
-            {shippingInfo.district},{shippingInfo.address},
-            {shippingInfo.zipCode}.
+            {shippingInfo.district},{shippingInfo.address}.
           </p>
 
           <hr />

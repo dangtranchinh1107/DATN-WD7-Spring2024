@@ -103,10 +103,13 @@ const OrderDetails = () => {
                 <th scope="row">Phương thức</th>
                 <td>{order?.paymentMethod}</td>
               </tr>
-              <tr>
-                <th scope="row">Stripe ID</th>
-                <td>{paymentInfo?.id || "Nill"}</td>
-              </tr>
+              {paymentInfo?.status === "Đã thanh toán" && (
+                <tr>
+                  <th scope="row">Stripe ID</th>
+                  <td>{paymentInfo?.id || ""}</td>
+                </tr>
+              )}
+
               <tr>
                 <th scope="row">Phí vận chuyển</th>
                 <td>${shippingAmount}</td>

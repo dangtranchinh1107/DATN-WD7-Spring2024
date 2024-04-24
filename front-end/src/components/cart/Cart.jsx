@@ -1,8 +1,7 @@
 import React from "react";
-import MetaData from "../layout/MetaData";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+import MetaData from "../layout/MetaData";
 import { setCartItem, removeCartItem } from "../../redux/features/cartSlice";
 
 const Cart = () => {
@@ -10,30 +9,16 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
-  const increseQty = (item, quantity) => {
-    const newQty = quantity + 1;
-    if (newQty > item?.stock) return;
-
-    setItemToCart(item, newQty);
+  const increaseQty = (item) => {
+    const newQty = item.quantity + 1;
+    if (newQty > item.stock) return;
+    dispatch(setCartItem({ ...item, quantity: newQty }));
   };
-  const decreseQty = (item, quantity) => {
-    const newQty = quantity - 1;
+
+  const decreaseQty = (item) => {
+    const newQty = item.quantity - 1;
     if (newQty <= 0) return;
-
-    setItemToCart(item, newQty);
-  };
-
-  const setItemToCart = (item, newQty) => {
-    const cartItem = {
-      product: item?.product,
-      name: item?.name,
-      price: item?.price,
-      image: item?.image,
-      stock: item?.stock,
-      quantity: newQty,
-    };
-
-    dispatch(setCartItem(cartItem));
+    dispatch(setCartItem({ ...item, quantity: newQty }));
   };
 
   const removeCartItemHandler = (id) => {
@@ -41,20 +26,36 @@ const Cart = () => {
       dispatch(removeCartItem(id));
     }
   };
+
   const checkoutHandler = () => {
     navigate("/shipping");
   };
+
   return (
     <>
       <MetaData title={"Giỏ hàng của bạn"} />
-      {cartItems?.length === 0 ? (
-        <h2 className="mt-5">Bạn chưa có sản phẩm nào trong giỏ hàng!</h2>
+      {cartItems.length === 0 ? (
+        <div>
+          <img
+            className="w-50 d-flex"
+            src="https://fptshop.com.vn/estore-images/empty-cart.png"
+            alt=""
+          />
+          <h2 className="text-center text-danger fw-bold">
+            Chưa có sản phẩm nào trong giỏ hàng
+          </h2>
+          <div className="d-flex">
+            <Link className="btn btn-warning text-white " to={"/"}>
+              Mua ngay
+            </Link>
+          </div>
+        </div>
       ) : (
         <>
-          <h2 className="mt-5">
-            Giỏ hàng của bạn : <b>{cartItems?.length} sản phẩm</b>
+          <h2 className="mt-5 fs-4">
+            Giỏ hàng của bạn : <b>{cartItems.length} sản phẩm</b>
           </h2>
-          <div className="flex justify-between w-full gap-[120px] ">
+          <div className="d-flex justify-between w-full gap-[120px] ">
             <div className="col-12 col-lg-8">
               <table className="table">
                 <thead>
@@ -68,7 +69,7 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cartItems?.map((item) => (
+                  {cartItems.map((item) => (
                     <tr key={item.product}>
                       <td>
                         <img
@@ -88,7 +89,7 @@ const Cart = () => {
                         <div className="stockCounter">
                           <span
                             className="btn btn-danger minus"
-                            onClick={() => decreseQty(item, item.quantity)}
+                            onClick={() => decreaseQty(item)}
                           >
                             -
                           </span>
@@ -100,7 +101,7 @@ const Cart = () => {
                           />
                           <span
                             className="btn btn-primary plus"
-                            onClick={() => increseQty(item, item.quantity)}
+                            onClick={() => increaseQty(item)}
                           >
                             +
                           </span>
@@ -120,29 +121,26 @@ const Cart = () => {
               </table>
             </div>
 
-            <div className="w-1/2 flex justify-end">
-              <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px]">
-                <h2 className="text-xl font-normal mb-6">Tổng số sản phẩm</h2>
+            <div className="w-1/2 flex justify-end ">
+              <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px] p-5 pe-5 ps-5 shadow mb-5 bg-body-tertiary ">
+                <h2 className="text-xl font-normal mb-6">Tổng thanh toán</h2>
                 <div className="flex justify-between items-center mb-4 pb-4 border-b border-b-gray-400">
                   <p className="text-base">
-                    Số lượng:{""}
-                    <span className="font-bold text-base">
-                      {cartItems?.reduce(
-                        (acc, item) => acc + item?.quantity,
-                        0
-                      )}{" "}
+                    Số lượng:{" "}
+                    <span className="font-bold text-base fw-bolder">
+                      {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
                     </span>
                   </p>
                 </div>
 
                 <div className="flex justify-between items-center mb-4 pb-4">
-                  <p className="text-base">
-                    Tổng cộng:{""}
-                    <span className="text-base font-bold">
+                  <p className="text-base ">
+                    Tổng cộng:{" "}
+                    <span className="text-base font-bold fw-bolder">
                       $
                       {cartItems
-                        ?.reduce(
-                          (acc, item) => acc + item?.quantity * item.price,
+                        .reduce(
+                          (acc, item) => acc + item.quantity * item.price,
                           0
                         )
                         .toFixed(2)}

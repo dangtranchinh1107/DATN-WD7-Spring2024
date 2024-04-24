@@ -65,11 +65,11 @@ const NewColor = () => {
 
   return (
     <AdminLayout>
-      <MetaData title={"Thêm color mới"} />
+      <MetaData title={"Thêm màu sắc mới"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-10 mt-5 mt-lg-0">
           <form className="shadow rounded bg-body" onSubmit={handleSubmit}>
-            <h2 className="mb-4">Thêm Color</h2>
+            <h2 className="mb-4">Thêm Màu sắc</h2>
 
             {/* Tên danh mục */}
             <div className="mb-3">
@@ -95,7 +95,7 @@ const NewColor = () => {
               className="btn w-100 py-2"
               disabled={isLoadingSubmit}
             >
-              {isLoadingSubmit ? "Đang thêm..." : "Thêm color"}
+              {isLoadingSubmit ? "Đang thêm..." : "Thêm màu sắc"}
             </button>
           </form>
         </div>

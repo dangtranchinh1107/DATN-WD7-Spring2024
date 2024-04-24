@@ -42,6 +42,11 @@ const MyOrders = () => {
   };
 
   const setOrders = () => {
+    // Tạo một bản sao của mảng data?.order để không làm thay đổi mảng gốc
+    const sortedOrders = [...data?.order].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
     const orders = {
       columns: [
         {
@@ -67,7 +72,7 @@ const MyOrders = () => {
         {
           label: "Ngày đặt hàng",
           field: "orderDate",
-          sort: "asc",
+          sort: "desc",
         },
         {
           label: "Hành động",
@@ -78,7 +83,7 @@ const MyOrders = () => {
       rows: [],
     };
 
-    data?.order?.forEach((order) => {
+    sortedOrders?.forEach((order) => {
       orders.rows.push({
         id: order?._id,
         amount: `$${order?.totalAmount}`,
@@ -116,9 +121,22 @@ const MyOrders = () => {
   if (isLoading) return <Loader />;
   if (isError) return <p>Đã xảy ra lỗi khi tải dữ liệu đơn hàng.</p>;
 
+  // Kiểm tra nếu không có đơn hàng
+  if (data.order.length === 0)
+    return (
+      <div>
+        <p className="text-center fs-5 fw-bolder">Không có đơn hàng.</p>
+        <div className="d-flex">
+          <Link className="btn btn-warning text-white " to={"/"}>
+            Mua ngay
+          </Link>
+        </div>
+      </div>
+    );
+
   return (
     <div>
-      <h1 className="my-5">{data?.order?.length} Orders</h1>
+      <h1 className="my-5 fs-4">Đơn hàng: {data?.order?.length} </h1>
       <MDBDataTable
         data={setOrders()}
         className="px-3"

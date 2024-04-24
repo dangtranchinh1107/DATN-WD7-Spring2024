@@ -4,36 +4,13 @@ import { toast } from "react-hot-toast";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import AdminLayout from "../layout/AdminLayout";
-import {
-  useDeleteOrderMutation,
-  useGetAminOrdersQuery,
-} from "../../redux/api/orderApi";
+import { useGetAminOrdersQuery } from "../../redux/api/orderApi";
 
 const ListOrders = () => {
   const { data, isLoading, error } = useGetAminOrdersQuery();
-  const [
-    deleteOrder,
-    { error: deleteError, isLoading: isDeleteLoading, isSuccess },
-  ] = useDeleteOrderMutation();
 
   const [paymentFilter, setPaymentFilter] = useState("");
   const [orderStatusFilter, setOrderStatusFilter] = useState("");
-
-  //   useEffect(() => {
-  //     if (error) {
-  //       toast.error(error?.data?.message);
-  //     }
-  //     if (deleteError) {
-  //       toast.error(deleteError?.data?.message);
-  //     }
-  //     if (isSuccess) {
-  //       toast.success("Đã xóa đơn hàng!");
-  //     }
-  //   }, [error, deleteError, isSuccess]);
-
-  //   const deleteOrderHandler = (id) => {
-  //     deleteOrder(id);
-  //   };
 
   const handlePaymentFilterChange = (event) => {
     setPaymentFilter(event.target.value);
@@ -65,8 +42,15 @@ const ListOrders = () => {
     return filteredOrders;
   };
 
+  const sortOrdersByDate = (orders) => {
+    return orders
+      .slice()
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+
   const setOrders = () => {
-    const filteredOrders = filterOrders(data?.orders || []);
+    let filteredOrders = filterOrders(data?.orders || []);
+    filteredOrders = sortOrdersByDate(filteredOrders);
 
     const orders = {
       columns: [
@@ -113,17 +97,6 @@ const ListOrders = () => {
             >
               <i className="fa fa-pencil"></i>
             </Link>
-            {/* <button
-              className="btn btn-outline-danger ms-2"
-              onClick={() => {
-                if (window.confirm("Bạn có chắc muốn xoá không?")) {
-                  deleteOrderHandler(order?._id);
-                }
-              }}
-              disabled={isDeleteLoading}
-            >
-              <i className="fa fa-trash"></i>
-            </button> */}
           </>
         ),
       });
@@ -135,8 +108,8 @@ const ListOrders = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <AdminLayout>
-      <h1 className="my-5">{data?.orders?.length} Đơn hàng</h1>
+    <AdminLayout className="mt-0">
+      <h4 className="my-1 mt-0 pt-0">{data?.orders?.length} Đơn hàng</h4>
       <div className="mb-3 d-flex justify-content-between">
         <div>
           <label htmlFor="paymentFilter" className="form-label">

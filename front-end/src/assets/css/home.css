@@ -88,6 +88,7 @@ a {
 .bi-search {
   color: #000;
 }
+
 .tim {
   border: none;
   text-align: center;
@@ -315,7 +316,7 @@ a {
   display: flex;
 }
 .logo {
-  width: 50px;
+  width: 65px;
 }
 footer {
   margin-top: 50px;

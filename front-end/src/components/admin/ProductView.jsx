@@ -3,7 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../../redux/api/productsApi";
-
+import { Button } from "antd";
 const ProductView = () => {
   const params = useParams();
 
@@ -221,7 +221,7 @@ const ProductView = () => {
               </div>
             </div>
             <Link to={`/admin/products`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>

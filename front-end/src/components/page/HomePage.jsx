@@ -7,7 +7,7 @@ import CustomPagination from "../layout/CustomPagination";
 import { Link, useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
-import "../../assets/css/home.css";
+import "../../assets/css/styles.css";
 // import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
 
 const HomePage = () => {
@@ -30,7 +30,6 @@ const HomePage = () => {
   const { data, isLoading, error, isError } = useGetProductsQuery(params);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
   // console.log(data);
   //Danh mục và ảnh
   const categories = [
@@ -86,13 +85,14 @@ const HomePage = () => {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
   };
-  const columnSize = keyword ? 3 : 3;
+  const columnSize = keyword ? 4 : 3;
 
   if (isLoading) return <Loader />;
 
   return (
     <>
       <MetaData title="Mua sản phẩm tốt nhất trực tuyến" />
+
       <div className="right">
         <div className="image-slider">
           <div>
@@ -143,16 +143,12 @@ const HomePage = () => {
       {/* Hiển thị Danh mục và Ảnh */}
       <div className="row mt-4 mb-4 ">
         {categories.map((category) => (
-          <div key={category.id} className="col-md-2 ">
+          <div key={category.id} className="col-md-2">
             <Link to={`http://localhost:3000/?category=${category.id}`}>
               <img
                 src={category.image}
                 alt={category.name}
-                className="img-fluid border rounded-pill shadow"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
+                className="img-fluid zoom"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
                 title={category.name}
@@ -162,22 +158,20 @@ const HomePage = () => {
         ))}
       </div>
 
-      <div className="row">
-        <div className={keyword ? "col-6 col-md-9" : "col-6 col-md-12"}>
-          <h1 id="products_heading" className="text-secondary">
+      <div class="row">
+        <div class={keyword ? "col-6 col-md-12" : "col-6 col-md-12"}>
+          <h1 id="products_heading" className="text-secondary fs-3 mt-0 ">
             {keyword
               ? `${data?.products?.length} Sản phẩm được tìm thấy với từ khóa: ${keyword}`
               : "Sản phẩm mới nhất"}
           </h1>
 
           <section id="products" className="mt-5">
-            <div className="row">
+            <div class="row">
               {data?.products?.map((product) => (
-                <ProductItem
-                  key={product._id}
-                  product={product}
-                  columnSize={columnSize}
-                />
+                <div class="col-md-3 mb-4">
+                  <ProductItem key={product._id} product={product} />
+                </div>
               ))}
             </div>
           </section>

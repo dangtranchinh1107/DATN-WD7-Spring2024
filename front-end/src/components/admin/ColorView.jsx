@@ -3,6 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetColorDetailsQuery } from "../../redux/api/colorApi";
+import { Button } from "antd";
 
 const ColorView = () => {
   const params = useParams();
@@ -44,7 +45,7 @@ const ColorView = () => {
             </div>
 
             <Link to={`/admin/colors`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>

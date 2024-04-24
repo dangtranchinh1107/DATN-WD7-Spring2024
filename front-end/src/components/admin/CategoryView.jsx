@@ -3,6 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetCategoryDetailsQuery } from "../../redux/api/categoryApi";
+import { Button } from "antd";
 
 const CategoryView = () => {
   const params = useParams();
@@ -10,6 +11,7 @@ const CategoryView = () => {
   const [category, setCategory] = useState({
     name: "",
     slug: "",
+    products: [],
   });
   const { data } = useGetCategoryDetailsQuery(params?.id);
   //   console.log(data?.product);
@@ -20,11 +22,12 @@ const CategoryView = () => {
       setCategory({
         name: data?.category?.name,
         slug: data?.category?.slug,
+        products: data?.category?.products || [],
       });
     }
   }, [data]);
 
-  const { name, slug } = category;
+  const { name, slug, products } = category;
 
   return (
     <AdminLayout>
@@ -60,9 +63,20 @@ const CategoryView = () => {
                 disabled
               />
             </div>
+            {/* Hiển thị danh sách sản phẩm */}
+            <div className="mb-3">
+              <label className="form-label">Các sản phẩm:</label>
+              <ul className=" list-group-numbered">
+                {products.map((product) => (
+                  <li key={product._id} className="list-group-item">
+                    {product.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <Link to={`/admin/categories`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>

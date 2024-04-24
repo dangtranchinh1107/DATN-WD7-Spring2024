@@ -3,6 +3,7 @@ import MetaData from "../layout/MetaData";
 import AdminLayout from "../layout/AdminLayout";
 import { Link, useParams } from "react-router-dom";
 import { useGetGraphicCardDetailsQuery } from "../../redux/api/graphicCards";
+import { Button } from "antd";
 
 const GraphicCardView = () => {
   const params = useParams();
@@ -60,7 +61,7 @@ const GraphicCardView = () => {
             </div>
 
             <Link to={`/admin/graphicCards`}>
-              <button className="btn btn-outline-primary">Quay lại</button>
+              <Button type="primary">Quay lại</Button>
             </Link>
           </form>
         </div>
