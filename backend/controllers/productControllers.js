@@ -19,7 +19,7 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
   //   select: "-_id name",
   // });
 
-  const resPerPage = 8;
+  const resPerPage = 12;
 
   // Search Pro
   const apiFilters = new APIFilters(

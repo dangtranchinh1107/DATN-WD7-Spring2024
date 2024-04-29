@@ -49,12 +49,12 @@ const Cart = () => {
       <MetaData title={"Giỏ hàng của bạn"} />
       {cartItems?.length === 0 ? (
         <div>
-          
           <img
             className="w-50 d-flex"
             src="https://fptshop.com.vn/estore-images/empty-cart.png"
             alt=""
-          ></img><h2 className="text-center text-danger fw-bold">
+          ></img>
+          <h2 className="text-center text-danger fw-bold">
             Chưa có sản phẩm nào trong giỏ hàng
           </h2>
           <div className="d-flex">
@@ -65,7 +65,7 @@ const Cart = () => {
         </div>
       ) : (
         <>
-          <h2 className="mt-5">
+          <h2 className="mt-5 fs-4">
             Giỏ hàng của bạn : <b>{cartItems?.length} sản phẩm</b>
           </h2>
           <div className="d-flex justify-between w-full gap-[120px] ">

@@ -112,10 +112,12 @@ const ListProducts = () => {
   return (
     <AdminLayout>
       <MetaData title={"Tất cả sản phẩm"} />
-      <Link to="/admin/product/new" className="btn btn-outline-success ms-2">
-        <i className="fa fa-plus me-2"></i>Thêm sản phẩm
-      </Link>
-      <h1 className="my-5">{data?.products?.length} Sản phẩm</h1>
+      <div className="d-flex pt-0">
+        <Link to="/admin/product/new" className="btn btn-outline-success ms-2">
+          <i className="fa fa-plus me-2"></i>Thêm sản phẩm
+        </Link>
+        <h3 className="my-5">{data?.products?.length} Sản phẩm</h3>
+      </div>
 
       <MDBDataTable
         data={setProducts()}

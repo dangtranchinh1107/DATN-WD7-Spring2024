@@ -1,5 +1,6 @@
 .item4:hover .buy-button {
   bottom: 5;
+  margin-bottom: 10px;
 }
 .buy-button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -33,4 +34,39 @@
 }
 .zoom:hover {
   transform: scale(1.2);
+}
+
+.describe {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  padding: 20px;
+  border-radius: 5px;
+}
+.Promotion {
+  width: 1400px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+}
+.Promotion p {
+  width: 300px;
+  padding-top: 10px;
+}
+.Promotion span {
+  font-size: 20px;
+  font-weight: 700;
+  
+}
+.Promotion img {
+  width: 300px;
+  margin: 10px;
+}
+.heart{
+  position: absolute;
+  left: 310px;
+  top: 30px;
+  font-size: 20px;
+}
+.heart:hover{
+  color: red;
+  
 }

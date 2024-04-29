@@ -1,18 +1,47 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import "../css/admin.css";
+import {
+  DesktopOutlined,
+  FileOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+const { Header, Content, Footer, Sider } = Layout;
+function getItem(label, key, icon, children) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  };
+}
+const items = [
+  getItem("Option 1", "1", <PieChartOutlined />),
+  getItem("Option 2", "2", <DesktopOutlined />),
+  getItem("User", "sub1", <UserOutlined />, [
+    getItem("Tom", "3"),
+    getItem("Bill", "4"),
+    getItem("Alex", "5"),
+  ]),
+  getItem("Team", "sub2", <TeamOutlined />, [
+    getItem("Team 1", "6"),
+    getItem("Team 2", "8"),
+  ]),
+  getItem("Files", "9", <FileOutlined />),
+];
 const SideMenu = ({ menuItems }) => {
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const [activeMenuItem, setActiveMenuItem] = useState(location.pathname);
 
-  const handleSelectChange = (event) => {
-    const selectedUrl = event.target.value;
-    setActiveMenuItem(selectedUrl);
-    if (selectedUrl !== "/admin") {
-      navigate(selectedUrl);
-    }
+  const handleMenuItemClick = (url) => {
+    setActiveMenuItem(url);
+    navigate(url);
   };
 
   // Chỉ chọn các mục: "Quản lý sản phẩm", "Quản lý danh mục", "Quản lý GraphicCards",
@@ -20,7 +49,6 @@ const SideMenu = ({ menuItems }) => {
   const selectOptions = [
     {
       name: "Quản lý",
-      url: "/admin",
     },
     {
       name: "Quản lý Sản phẩm",
@@ -60,36 +88,43 @@ const SideMenu = ({ menuItems }) => {
   ];
 
   return (
-    <div className="mt-5 pl-4">
-      {/* List group */}
-      <div className="list-group">
-        {menuItems?.map((menuItem, index) => (
-          <Link
-            key={index}
-            to={menuItem.url}
-            className={`list-group-item list-group-item-action ${
-              activeMenuItem === menuItem.url ? "active" : ""
-            }`}
-            onClick={() => setActiveMenuItem(menuItem.url)}
-            aria-current={activeMenuItem === menuItem.url ? "true" : "false"}
-          >
-            <i className={`${menuItem.icon} fa-fw pe-2`}></i> {menuItem.name}
-          </Link>
-        ))}
+    <div className="">
+      <div className="content mt-5 pl-4 bg-warning-subtle ">
+        {/* List group */}
+        <div className="list-group">
+          {menuItems?.map((menuItem, index) => (
+            <Link
+              key={index}
+              to={menuItem.url}
+              className={`list-group-item list-group-item-action ${
+                activeMenuItem === menuItem.url ? "active" : "bg-warning-subtle"
+              }`}
+              onClick={() => setActiveMenuItem(menuItem.url)}
+              aria-current={activeMenuItem === menuItem.url ? "true" : "false"}
+            >
+              <i className={`${menuItem.icon} fa-fw pe-2`}></i> {menuItem.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Render các mục từ mảng selectOptions */}
+        <div className="list-group mt-3">
+          {selectOptions.map((menuItem, index) => (
+            <button
+              key={index}
+              className={`list-group-item list-group-item-action ${
+                activeMenuItem === menuItem.url
+                  ? "active"
+                  : "bg-warning-subtle "
+              }`}
+              onClick={() => handleMenuItemClick(menuItem.url)}
+              aria-current={activeMenuItem === menuItem.url ? "true" : "false"}
+            >
+              <i className={`${menuItem.icon} fa-fw pe-2`}></i> {menuItem.name}
+            </button>
+          ))}
+        </div>
       </div>
-      {/* Dropdown select option */}
-      <select
-        className="form-select mb-3"
-        aria-label="Chọn mục"
-        value={activeMenuItem}
-        onChange={handleSelectChange}
-      >
-        {selectOptions.map((menuItem, index) => (
-          <option key={index} value={menuItem.url}>
-            <i className={`${menuItem.icon} fa-fw pe-2`}></i> {menuItem.name}
-          </option>
-        ))}
-      </select>
     </div>
   );
 };

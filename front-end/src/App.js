@@ -26,7 +26,7 @@ function App() {
         <Toaster position="top-center" />
         <Header />
         <Snowfall />
-        <div className="container">
+        <div className="container-fluid">
           <Routes>
             <Route path="/password/forgot" element={<ForgotPassword />} />
             <Route path="/password/reset/:token" element={<ResetPassword />} />

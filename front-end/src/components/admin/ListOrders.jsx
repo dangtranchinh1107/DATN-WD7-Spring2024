@@ -135,8 +135,8 @@ const ListOrders = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <AdminLayout>
-      <h1 className="my-5">{data?.orders?.length} Đơn hàng</h1>
+    <AdminLayout className="mt-0">
+      <h4 className="my-5 mt-0 pt-0">{data?.orders?.length} Đơn hàng</h4>
       <div className="mb-3 d-flex justify-content-between">
         <div>
           <label htmlFor="paymentFilter" className="form-label">

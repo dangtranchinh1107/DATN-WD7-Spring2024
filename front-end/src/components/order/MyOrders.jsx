@@ -131,7 +131,7 @@ const MyOrders = () => {
 
   return (
     <div>
-      <h1 className="my-5">{data?.order?.length} Orders</h1>
+      <h1 className="my-5 fs-4">Đơn hàng: {data?.order?.length} </h1>
       <MDBDataTable
         data={setOrders()}
         className="px-3"

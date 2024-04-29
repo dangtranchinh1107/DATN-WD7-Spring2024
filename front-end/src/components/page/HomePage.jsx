@@ -8,6 +8,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import Filters from "../layout/Filters";
 import "../css/style.css";
+import { CaretDownOutlined } from "@ant-design/icons";
+
 // import { useGetCategoriesQuery } from "../../redux/api/categoryApi";
 
 const HomePage = () => {
@@ -158,27 +160,25 @@ const HomePage = () => {
         ))}
       </div>
 
-      <div className="row">
-        {keyword && (
-          <div className="col-6 col-md-3 mt-5">
-            <Filters />
-          </div>
-        )}
-        <div className={keyword ? "col-6 col-md-9" : "col-6 col-md-12"}>
-          <h1 id="products_heading" className="text-secondary">
+      <div class="row list-sp">
+        <div class={keyword ? "col-6 col-md-12" : "col-6 col-md-12"}>
+          <img
+            className="d-flex pt-5 pb-5"
+            alt=""
+            src="https://fptshop.com.vn/landing-laptop-gaming/Content/Desktop/images/bg-mn1.png?v=202404241541"
+          ></img>
+          <h1 id="products_heading" className="text-secondary fs-3 mt-0 ">
             {keyword
               ? `${data?.products?.length} Sản phẩm được tìm thấy với từ khóa: ${keyword}`
               : "Sản phẩm mới nhất"}
           </h1>
 
           <section id="products" className="mt-5">
-            <div className="row">
+            <div class="row">
               {data?.products?.map((product) => (
-                <ProductItem
-                  key={product._id}
-                  product={product}
-                  columnSize={columnSize}
-                />
+                <div class="col-md-3 mb-4">
+                  <ProductItem key={product._id} product={product} />
+                </div>
               ))}
             </div>
           </section>
@@ -188,7 +188,187 @@ const HomePage = () => {
             productsFiltersCount={data?.productsFiltersCount}
           />
         </div>
+        <div className="bg-light Promotion ">
+          <span className="mt-5">Tin khuyến mãi</span>
+          <div className=" d-flex mb-5 justify-content-center ">
+            <div>
+              <div>
+                <img
+                  className="img-responsive"
+                  src="https://images.fpt.shop/unsafe/fit-in/280x200/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/8/17/638279065301719767_laptop-choi-lien-minh-0.jpg"
+                  alt=""
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <p className="text-black text-break">
+                  Top 5 laptop chơi Liên Minh Huyền Thoại đáng mua nhất 2023
+                </p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <img
+                  src="https://images.fpt.shop/unsafe/fit-in/280x200/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2024/2/5/638427271432503146_laptop-gaming-2024.jpg"
+                  alt=""
+                ></img>
+              </div>
+              <div>
+                <p className="text-black ">
+                  Top 8 Laptop Gaming tốt nhất cuối năm 2023 tại TechLap: Hạ giá
+                  ngất ngây, thêm nhiều khuyến
+                </p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <img
+                  src="https://images.fpt.shop/unsafe/300x200/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/21/638309191162978607_laptop-choi-hogwarts-legacy-0-1-1.jpg"
+                  alt=""
+                ></img>
+              </div>
+              <div>
+                <p className="text-black">
+                  TOP 5 laptop chơi Hogwarts Legacy cực đỉnh 2023 dành cho tín
+                  đồ mê đắm thế giới phù thủy
+                </p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <img
+                  src="https://images.fpt.shop/unsafe/300x200/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/2/638292750758641411_laptop-gaming-lenovo-00.jpg"
+                  alt=""
+                ></img>
+              </div>
+              <div>
+                <p className="text-black">
+                  Top 5 laptop gaming Lenovo nên mua 2023
+                </p>
+              </div>
+            </div>
+          </div>
+          <details open className="pb-5">
+            <summary className="btn btn-secondary mb-5">
+              💻 Bảng thông số kỹ thuật của laptop <CaretDownOutlined />
+            </summary>
+            <h6>
+              Trước khi mua laptop, việc hiểu và xem xét các thông số kỹ thuật
+              trên mỗi máy là rất quan trọng để đảm bảo bạn chọn được chiếc
+              laptop phù hợp với nhu cầu sử dụng của mình. Dưới đây là một số
+              thông số quan trọng cần xem xét:
+            </h6>
+            <h4 className="fw-bolder">
+              CPU (Central Processing Unit - Bộ xử lý)
+            </h4>
+            <h6>
+              CPU là "bộ não" của laptop, quyết định tốc độ xử lý và hiệu suất
+              của máy. Trên thị trường hiện có nhiều dòng CPU đa dạng phân khúc
+              như Intel Core i3, i5, i7, i9 hoặc AMD Ryzen 3, AMD Ryzen 5, AMD
+              Ryzen 7, AMD Ryzen 9. CPU mạnh mẽ hơn sẽ cung cấp hiệu suất xử lý
+              nhanh hơn cho các tác vụ đa nhiệm và ứng dụng nặng.
+            </h6>
+            <img
+              src="https://fptshop.com.vn/Uploads/images/2015/Tin-Tuc/hongtt34/image16.png"
+              alt=""
+            ></img>
+            <h4 className="fw-bolder">
+              RAM (Random Access Memory - Bộ nhớ ngẫu nhiên)
+            </h4>
+            <h6>
+              RAM là bộ nhớ tạm thời mà laptop sử dụng để thực hiện các tác vụ.
+              Một lượng RAM lớn hơn giúp laptop xử lý nhanh hơn và đồng thời cho
+              phép chạy nhiều ứng dụng cùng một lúc mà không bị gián đoạn. RAM
+              8GB hoặc 16GB hiện nay là lựa chọn phổ biến cho người dùng thông
+              thường, trong khi phục vụ các tác vụ đòi hỏi hiệu suất cao như
+              chơi game hay đồ họa, dựng phim có thể yêu cầu 32GB RAM hoặc cao
+              hơn.
+            </h6>
+            <h4 className="fw-bolder">Ổ cứng</h4>
+            <h6>
+              Có hai loại ổ cứng chính được trang bị trên laptop hiện nay là HDD
+              và SSD. HDD (Hard Disk Drive): Cung cấp dung lượng lớn với giá
+              thành rẻ, nhưng tốc độ truy xuất dữ liệu chậm. SSD (Solid State
+              Drive): Tốc độ xử lý dữ liệu nhanh và ít tiêu tốn năng lượng hơn.
+              SSD đang là ổ cứng được cả người dùng và các chuyên gia ưu tiên
+              lựa chọn vì khả năng khởi động nhanh, tốc độ truy xuất dữ liệu
+              cao, giúp laptop hoạt động nhanh hơn. Đối với người dùng thông
+              thường, mức dung lượng từ 256GB đến 512GB SSD hoặc 1TB HDD đã đáp
+              ứng tốt nhu cầu hàng ngày.
+            </h6>
+            <img
+              src="https://fptshop.com.vn/Uploads/images/2015/Tin-Tuc/hongtt34/image8.png"
+              alt=""
+            ></img>
+            <h4 className="fw-bolder">Card đồ họa</h4>
+            <h6>
+              Card đồ họa sẽ quyết định khả năng xử lý đồ họa của laptop. Khi
+              xem xét thông số kỹ thuật, bạn cần quan tâm đến 2 loại card đồ họa
+              đó là:
+            </h6>
+            <ul>
+              <li>
+                Card đồ họa rời: Nếu bạn sử dụng phục vụ nhu cầu đồ họa, chơi
+                game hoặc xem phim, bạn nên xem xét laptop có trang bị card đồ
+                họa rời (dedicated GPU) từ NVIDIA hoặc AMD. Một số card đồ họa
+                nổi bật bao gồm:
+              </li>
+              <li>
+                NVIDIA GeForce GTX series (GTX 1650, GTX 1660, GTX 1660 Ti, GTX
+                2060, GTX 2070, GTX 2080, v.v.)
+              </li>
+              <li>
+                AMD Radeon RX series (RX 5500M, RX 5600M, RX 5700M, RX 6800M,
+                v.v.)
+              </li>
+              <li>
+                Card đồ họa tích hợp: Nếu bạn là người dùng thông thường, card
+                đồ họa tích hợp trong CPU cũng đủ để xem video và làm việc hàng
+                ngày. Một số card đồ họa tích hợp phổ biến bao gồm:
+              </li>
+              <li>Intel UHD Graphics</li>
+              <li>Intel Iris Xe Graphics</li>
+              <li>AMD Radeon Graphics (trong dòng CPU AMD Ryzen)</li>
+            </ul>
+            <img
+              src="https://fptshop.com.vn/Uploads/images/2015/Tin-Tuc/hongtt34/image15.png"
+              alt=""
+            ></img>
+            <h4 className="fw-bolder">Màn hình</h4>
+            <h6>
+              Kích thước và độ phân giải màn hình là yếu tố quan trọng trong
+              trải nghiệm sử dụng laptop hàng này của bạn. Kích thước màn hình
+              có thể từ 13 inch đến 17 inch hoặc hơn. Độ phân giải càng cao thì
+              hình ảnh càng sắc nét. Hơn nữa, công nghệ hiển thị như IPS hoặc
+              OLED cung cấp góc nhìn rộng và chất lượng màu sắc tốt hơn.
+            </h6>
+            <h4 className="fw-bolder">Pin và thời lượng sử dụng</h4>
+            <h6>
+              Thời lượng pin cũng là một thông số quan trọng cần xem xét, liên
+              quan đến khả năng sử dụng laptop khi không cắm sạc. Đa số các mẫu
+              laptop thông thường, pin kéo dài từ 4 đến 8 giờ tùy thuộc vào công
+              suất và cấu hình của laptop. Nếu bạn thường xuyên di chuyển hoặc
+              sử dụng laptop ngoài không gian làm việc, lựa chọn laptop với thời
+              lượng pin lâu và chế độ tiết kiệm năng lượng tốt là quan trọng. Và
+              Macbook là một trong những lựa chọn rất đáng cân nhắc, nếu bạn ưu
+              tiên pin đảm bảo thoải mái khi sử dụng mà không cần cắm sạc.
+            </h6>
+            <h4 className="fw-bolder">Hệ điều hành</h4>
+            <img
+              src="https://fptshop.com.vn/Uploads/images/2015/Tin-Tuc/hongtt34/image7.png"
+              alt=""
+            ></img>
+            <h6>
+              Hệ điều hành là phần mềm cơ bản quản lý và hoạt động trên laptop.
+              Windows và macOS là hai hệ điều hành phổ biến, mỗi loại có những
+              ưu điểm riêng. Lựa chọn hệ điều hành phụ thuộc vào sở thích và nhu
+              cầu sử dụng cá nhân của riêng bạn.
+            </h6>
+            
+          </details>
+        </div>
       </div>
+      
     </>
   );
 };

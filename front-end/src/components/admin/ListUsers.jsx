@@ -143,7 +143,7 @@ const ListUsers = () => {
 
   return (
     <AdminLayout>
-      <h1 className="my-5">{data?.users?.length} Users</h1>
+      <h4 className="my-5 mt-0 pt-0">{data?.users?.length} Users</h4>
 
       <MDBDataTable data={setUsers()} className="px-3" bordered striped hover />
     </AdminLayout>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { useUpdateProfileMutation } from "../../redux/api/userApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import UserLayout from "../layout/UserLayout";
+import { useNavigate } from "react-router";
 
 const UpdateProfile = () => {
   const [name, setName] = useState("");
