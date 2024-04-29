@@ -10,6 +10,7 @@ import ConfirmOrder from "../cart/ConfirmOrder";
 import PaymentMethod from "../cart/PaymentMethod";
 import HomePage from "../page/HomePage";
 import ProductsPage from "../page/ProductsPage";
+import Blogs from "../page/Blogs";
 const userRoutes = () => {
   return (
     <>
@@ -22,6 +23,7 @@ const userRoutes = () => {
       <Route path="/shipping" element={<Shipping />} />
       <Route path="/confirm_order" element={<ConfirmOrder />} />
       <Route path="/payment_method" element={<PaymentMethod />} />
+      <Route path="/blogs" element={<Blogs />} />
     </>
   );
 };

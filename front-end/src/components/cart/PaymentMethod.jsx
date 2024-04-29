@@ -62,7 +62,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: "Chưa thanh toán",
+          status: "NOT PAID",
         },
         paymentMethod: "COD",
       };
@@ -80,14 +80,14 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: "Đã thanh toán",
+          status: "PAID",
         },
       };
 
       stripeCheckoutSession(orderData);
     }
   };
-
+  const { totalPrice } = caluclateOrderCost(cartItems);
   return (
     <>
       <CheckoutSteps shipping confirmOrder payment />
@@ -97,33 +97,53 @@ const PaymentMethod = () => {
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
             <h2 className="mb-4">Chọn phương thức thanh toán</h2>
 
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="payment_mode"
-                id="codradio"
-                value="COD"
-                onChange={(e) => setMethod("COD")}
-              />
-              <label className="form-check-label" htmlFor="codradio">
-                Thanh toán khi nhận hàng
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="payment_mode"
-                id="cardradio"
-                value="Card"
-                onChange={(e) => setMethod("Card")}
-              />
-              <label className="form-check-label" htmlFor="cardradio">
-                Thanh toán online
-              </label>
-            </div>
-
+            {totalPrice >= 4000 ? (
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="payment_mode"
+                  id="cardradio"
+                  value="Card"
+                  onChange={(e) => setMethod("Card")}
+                  checked={method === "Card"}
+                />
+                <label className="form-check-label" htmlFor="cardradio">
+                  Thanh toán online
+                </label>
+              </div>
+            ) : (
+              <>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="payment_mode"
+                    id="cardradio"
+                    value="Card"
+                    onChange={(e) => setMethod("Card")}
+                    checked={method === "Card"}
+                  />
+                  <label className="form-check-label" htmlFor="cardradio">
+                    Thanh toán online
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="payment_mode"
+                    id="codradio"
+                    value="COD"
+                    onChange={(e) => setMethod("COD")}
+                    checked={method === "COD"}
+                  />
+                  <label className="form-check-label" htmlFor="codradio">
+                    Thanh toán khi nhận hàng
+                  </label>
+                </div>
+              </>
+            )}
             <button
               id="shipping_btn"
               type="submit"

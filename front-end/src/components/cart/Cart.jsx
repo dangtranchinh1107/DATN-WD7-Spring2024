@@ -121,43 +121,73 @@ const Cart = () => {
               </table>
             </div>
 
-            <div className="w-1/2 flex justify-end ">
-              <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px] p-5 pe-5 ps-5 shadow mb-5 bg-body-tertiary ">
-                <h2 className="text-xl font-normal mb-6">Tổng thanh toán</h2>
-                <div className="flex justify-between items-center mb-4 pb-4 border-b border-b-gray-400">
-                  <p className="text-base">
-                    Số lượng:{" "}
-                    <span className="font-bold text-base fw-bolder">
-                      {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
-                    </span>
-                  </p>
-                </div>
+            <div className="rounded-4 border border-gray-400 w-full max-w-[470px] p-5 pe-5 ps-5 shadow mb-5 bg-body-tertiary ">
+              <h4 className="text-lg">
+                <b>Tổng thanh toán</b>
+              </h4>
+              <hr />
+              <p className="text-base mt-4">
+                Số lượng:{" "}
+                <span className="font-bold text-base fw-bolder order-summary-values">
+                  {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
+                </span>
+              </p>
+              <p className="text-base ">
+                Tổng cộng:{" "}
+                <span className="text-base font-bold fw-bolde order-summary-values">
+                  $
+                  {cartItems
+                    .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                    .toFixed(2)}
+                </span>
+              </p>
 
-                <div className="flex justify-between items-center mb-4 pb-4">
-                  <p className="text-base ">
-                    Tổng cộng:{" "}
-                    <span className="text-base font-bold fw-bolder">
-                      $
-                      {cartItems
-                        .reduce(
-                          (acc, item) => acc + item.quantity * item.price,
-                          0
-                        )
-                        .toFixed(2)}
-                    </span>
-                  </p>
-                </div>
-
-                <button
-                  id="checkout_btn"
-                  className="btn bg-danger text-white w-100 font-medium text-base py-4 px-12 rounded w-fit mx-auto"
-                  onClick={checkoutHandler}
-                >
-                  Thanh toán
-                </button>
-              </div>
+              <hr />
+              <button
+                className="btn btn-primary text-white w-100 font-medium text-base py-6 rounded-5 w-fit mx-auto mt-4"
+                onClick={checkoutHandler}
+              >
+                Thanh toán
+              </button>
             </div>
           </div>
+
+          {/* <div className="w-1/2 flex justify-end ">
+            <div className="px-4 py-8 rounded border border-gray-400 w-full max-w-[470px] p-5 pe-5 ps-5 shadow mb-5 bg-body-tertiary ">
+              <h3 className="font-normal mb-6">Tổng thanh toán</h3>
+
+              <div className="flex justify-between items-center border-b border-b-gray-400">
+                <p className="text-base mt-5">
+                  Số lượng:{" "}
+                  <span className="font-bold text-base fw-bolder">
+                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <p className="text-base ">
+                  Tổng cộng:{" "}
+                  <span className="text-base font-bold fw-bolder">
+                    $
+                    {cartItems
+                      .reduce(
+                        (acc, item) => acc + item.quantity * item.price,
+                        0
+                      )
+                      .toFixed(2)}
+                  </span>
+                </p>
+              </div>
+
+              <button
+                className="btn btn-primary text-white w-100 font-medium text-base py-6 rounded-5 w-fit mx-auto mt-5"
+                onClick={checkoutHandler}
+              >
+                Thanh toán
+              </button>
+            </div>
+          </div> */}
         </>
       )}
     </>

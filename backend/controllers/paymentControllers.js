@@ -49,20 +49,20 @@ export const stripeCheckoutSession = catchAsyncErrors(
     });
 
     // Gửi email cho người đặt hàng
-    // const message = getOrderTemplates(
-    //   req.user.name,
-    //   body?.orderItems,
-    //   body?.itemsPrice,
-    //   body?.taxAmount,
-    //   body?.shippingAmount,
-    //   body?.totalAmount,
-    //   body?.shippingInfo
-    // );
-    // await sendEmail({
-    //   email: req.user.email,
-    //   subject: "Xác nhận đơn hàng",
-    //   message,
-    // });
+    const message = getOrderTemplates(
+      req.user.name,
+      body?.orderItems,
+      body?.itemsPrice,
+      body?.taxAmount,
+      body?.shippingAmount,
+      body?.totalAmount,
+      body?.shippingInfo
+    );
+    await sendEmail({
+      email: req.user.email,
+      subject: "Xác nhận đơn hàng",
+      message,
+    });
 
     res.status(200).json({
       url: session.url,

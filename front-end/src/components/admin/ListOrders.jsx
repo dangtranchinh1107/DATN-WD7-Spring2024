@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Loader from "../layout/Loader";
-import { toast } from "react-hot-toast";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import AdminLayout from "../layout/AdminLayout";
 import { useGetAminOrdersQuery } from "../../redux/api/orderApi";
 
 const ListOrders = () => {
-  const { data, isLoading, error } = useGetAminOrdersQuery();
+  const { data, isLoading } = useGetAminOrdersQuery();
 
   const [paymentFilter, setPaymentFilter] = useState("");
   const [orderStatusFilter, setOrderStatusFilter] = useState("");
@@ -25,11 +24,11 @@ const ListOrders = () => {
 
     if (paymentFilter === "paid") {
       filteredOrders = filteredOrders.filter(
-        (order) => order?.paymentInfo?.status === "Đã thanh toán"
+        (order) => order?.paymentInfo?.status === "paid"
       );
     } else if (paymentFilter === "unpaid") {
       filteredOrders = filteredOrders.filter(
-        (order) => order?.paymentInfo?.status !== "Đã thanh toán"
+        (order) => order?.paymentInfo?.status !== "paid"
       );
     }
 
@@ -122,8 +121,8 @@ const ListOrders = () => {
             onChange={handlePaymentFilterChange}
           >
             <option value="">Tất cả</option>
-            <option value="paid">Đã thanh toán</option>
-            <option value="unpaid">Chưa thanh toán</option>
+            <option value="paid">PAID</option>
+            <option value="unpaid">NOT PAID</option>
           </select>
         </div>
         <div>

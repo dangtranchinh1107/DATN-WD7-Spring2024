@@ -57,7 +57,7 @@ const Header = () => {
           <Link className="text-white pe-5 fw-bolder" to={"/products"}>
             Sản phẩm
           </Link>
-          <Link className="text-white pe-5 fw-bolder" to={"/"}>
+          <Link className="text-white pe-5 fw-bolder" to={"/blogs"}>
             Thông tin
           </Link>
         </div>

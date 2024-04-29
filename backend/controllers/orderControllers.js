@@ -33,20 +33,20 @@ export const newOrder = catchAsyncErrors(async (req, res, next) => {
   });
 
   // Gửi email cho người đặt hàng
-  // const message = getOrderTemplates(
-  //   req.user.name,
-  //   orderItems,
-  //   itemsPrice,
-  //   taxAmount,
-  //   shippingAmount,
-  //   totalAmount,
-  //   shippingInfo
-  // );
-  // await sendEmail({
-  //   email: req.user.email,
-  //   subject: "Xác nhận đơn hàng",
-  //   message,
-  // });
+  const message = getOrderTemplates(
+    req.user.name,
+    orderItems,
+    itemsPrice,
+    taxAmount,
+    shippingAmount,
+    totalAmount,
+    shippingInfo
+  );
+  await sendEmail({
+    email: req.user.email,
+    subject: "Xác nhận đơn hàng",
+    message,
+  });
 
   res.status(200).json({
     order,

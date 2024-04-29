@@ -71,7 +71,7 @@ const Filters = () => {
 
   return (
     <div className="border p-3 filter">
-      <h3>Tìm kiếm</h3>
+      <h3>Lọc sản phẩm</h3>
       <hr />
       <h5 className="filter-heading mb-3">Giá</h5>
       <form id="filter_form" className="px-2" onSubmit={handlerButtonClick}>
