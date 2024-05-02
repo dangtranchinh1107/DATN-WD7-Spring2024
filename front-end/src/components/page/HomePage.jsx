@@ -7,6 +7,7 @@ import ProductItem from "../product/Productitem.jsx";
 import "../../assets/css/home.css";
 
 const HomePage = () => {
+  
   const { data, isLoading, error, isError } = useGetProductsQuery([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -93,6 +94,7 @@ const HomePage = () => {
           </section>
         </div>
       </div>
+      
     </>
   );
 };

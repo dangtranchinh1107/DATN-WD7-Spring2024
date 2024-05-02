@@ -104,6 +104,7 @@ export const stripeWebhook = catchAsyncErrors(async (req, res, next) => {
       const shippingInfo = {
         address: session.metadata.address,
         city: session.metadata.city,
+        district: session.metadata.district,
         phoneNo: session.metadata.phoneNo,
         zipCode: session.metadata.zipCode,
         country: session.metadata.country,

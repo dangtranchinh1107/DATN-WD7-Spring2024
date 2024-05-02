@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CheckoutSteps from "./CheckoutSteps";
+import { caluclateOrderCost } from "../helpers/helpers";
 import {
   useCreateNewOrderMutation,
   useStripeCheckoutSessionMutation,
 } from "../../redux/api/orderApi";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { caluclateOrderCost } from "../helpers/helpers";
 
 const PaymentMethod = () => {
   const [method, setMethod] = useState("");
 
   const navigate = useNavigate();
 
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems, paymentInfo, orderItems } = useSelector(
+    (state) => state.cart
+  );
 
   const [createNewOrder, { error, isSuccess }] = useCreateNewOrderMutation();
 
@@ -39,9 +41,10 @@ const PaymentMethod = () => {
     }
 
     if (isSuccess) {
-      navigate("/");
+      toast.success("Bạn đã đặt hàng thành công");
+      navigate("/me/orders?order_success=true");
     }
-  }, [error, isSuccess]);
+  }, [error, isSuccess, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ const PaymentMethod = () => {
         taxAmount: taxPrice,
         totalAmount: totalPrice,
         paymentInfo: {
-          status: "Not Paid",
+          status: "Chưa thanh toán",
         },
         paymentMethod: "COD",
       };
@@ -76,6 +79,9 @@ const PaymentMethod = () => {
         shippingAmount: shippingPrice,
         taxAmount: taxPrice,
         totalAmount: totalPrice,
+        paymentInfo: {
+          status: "Đã thanh toán",
+        },
       };
 
       stripeCheckoutSession(orderData);
@@ -89,7 +95,7 @@ const PaymentMethod = () => {
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow rounded bg-body" onSubmit={submitHandler}>
-            <h2 className="mb-4">Select Payment Method</h2>
+            <h2 className="mb-4">Chọn phương thức thanh toán</h2>
 
             <div className="form-check">
               <input
@@ -101,8 +107,8 @@ const PaymentMethod = () => {
                 onChange={(e) => setMethod("COD")}
               />
               <label className="form-check-label" htmlFor="codradio">
-                Cash on Delivery
-              </label>
+                Thanh toán khi nhận hàng
+</label>
             </div>
             <div className="form-check">
               <input
@@ -114,7 +120,7 @@ const PaymentMethod = () => {
                 onChange={(e) => setMethod("Card")}
               />
               <label className="form-check-label" htmlFor="cardradio">
-                Card - VISA, MasterCard
+                Thanh toán online
               </label>
             </div>
 
@@ -124,7 +130,7 @@ const PaymentMethod = () => {
               className="btn py-2 w-100"
               disabled={isLoading}
             >
-              CONTINUE
+              Tiếp tục
             </button>
           </form>
         </div>
