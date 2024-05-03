@@ -5,14 +5,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Lấy tất cả cpu => /api/v1/cpus
 export const getCpu = catchAsyncErrors(async (req, res, next) => {
   // Get All Cate
-  const cpu = await Cpu.find().populate({
+  const cpus = await Cpu.find().populate({
     path: "products",
     select: "-_id name",
   });
 
   res.status(200).json({
     message: "Lấy tất cả Cpu thành công",
-    cpu,
+    cpus,
   });
 });
 

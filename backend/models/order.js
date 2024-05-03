@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    CheckOut: {
+    shippingInfo: {
       address: {
         type: String,
         required: true,
@@ -11,7 +11,19 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      district: {
+        type: String,
+        required: true,
+      },
       phoneNo: {
+        type: String,
+        required: true,
+      },
+      zipCode: {
+        type: String,
+        required: false,
+      },
+      country: {
         type: String,
         required: true,
       },
@@ -21,7 +33,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-    Cart: [
+    orderItems: [
       {
         name: {
           type: String,
@@ -33,7 +45,7 @@ const orderSchema = new mongoose.Schema(
         },
         image: {
           type: String,
-          required: true,
+          required: false,
         },
         price: {
           type: String,
@@ -54,12 +66,10 @@ const orderSchema = new mongoose.Schema(
         message: "Vui lòng chọn: COD or Card",
       },
     },
-    Bill: [
-      {
-        id: String,
-        status: String,
-      },
-    ],
+    paymentInfo: {
+      id: String,
+      status: String,
+    },
     itemsPrice: {
       type: Number,
       required: true,
@@ -79,11 +89,18 @@ const orderSchema = new mongoose.Schema(
     orderStatus: {
       type: String,
       enum: {
-        values: ["Đang xử lý", "Được vận chuyển", "Đã giao hàng"],
+        values: [
+          "Chờ xác nhận",
+          "Đã xác nhận",
+          "Đang giao hàng",
+          "Đã giao",
+          "Hoàn tất",
+          "Hủy",
+        ],
         message: "Vui lòng chọn chính xác tình trang đặt hàng!",
       },
 
-      default: "Đang xử lý",
+      default: "Chờ xác nhận",
     },
     deliveredAt: Date,
   },

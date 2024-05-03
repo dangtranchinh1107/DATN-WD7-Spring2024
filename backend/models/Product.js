@@ -19,6 +19,9 @@ const productSchema = new mongoose.Schema(
     status: {
       type: String,
       required: [true, "Vui lòng nhập trạng thái sản phẩm"],
+      enum: {
+        values: ["New 100%", "Like new 99%"],
+      },
     },
     stock: {
       type: Number,
@@ -36,7 +39,7 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-    rating: {
+    ratings: {
       type: Number,
       default: 0,
     },
@@ -106,7 +109,11 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
+    },
+    statusActive: {
+      type: String,
+      default: "active",
     },
   },
   {
